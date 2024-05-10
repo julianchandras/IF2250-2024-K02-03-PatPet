@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLa
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
-class DaftarMakananPage(QWidget):
+class MainFoodView(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -147,8 +147,3 @@ class DaftarMakananPage(QWidget):
     def deleteRow(self, row):
         self.food_table.removeRow(row)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    foodEntryPage = DaftarMakananPage()
-    foodEntryPage.show()
-    sys.exit(app.exec_())
