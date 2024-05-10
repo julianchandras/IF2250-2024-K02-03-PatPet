@@ -11,7 +11,7 @@ class ArticleModel(BaseModel):
             CREATE TABLE IF NOT EXISTS articles (
                 article_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
-                content TEXT NOT NULL,
+                content TEXT NOT NULL
             )
             """
         )
@@ -30,8 +30,4 @@ class ArticleModel(BaseModel):
             "INSERT INTO articles (title, content) VALUES (?, ?)",
             (title, content),
         )
-        self.commit()
-    
-    def delete_food(self, article_id):
-        self.cursor.execute("DELETE FROM articles WHERE article_id = ?", (article_id,))
         self.commit()
