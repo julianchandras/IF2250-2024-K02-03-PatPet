@@ -12,6 +12,7 @@ from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
 from controllers.petController import PetController
+from boundaries.activityViews.addActivityView import AddAcitivityView
 from models.petModel import PetModel
 from components.sidebar import Sidebar
 
@@ -46,12 +47,14 @@ class PetManagementApp(QMainWindow):
         self.add_pet_view = AddPetView()
         self.detail_pet_view = DetailPetView()
         self.edit_pet_view = EditPetView()
+        self.add_activity_view = AddAcitivityView()
 
         # Add views to QStackedWidget
         self.stacked_widget.addWidget(self.main_pet_view)  # Index 0
         self.stacked_widget.addWidget(self.add_pet_view)  # Index 1
         self.stacked_widget.addWidget(self.detail_pet_view)  # Index 2
         self.stacked_widget.addWidget(self.edit_pet_view)  # Index 3
+        self.stacked_widget.addWidget(self.add_activity_view)  # Index 4
 
         # Create the sidebar and pass the stacked widget
         self.sidebar = Sidebar(QApplication.desktop().availableGeometry().width() // 6)

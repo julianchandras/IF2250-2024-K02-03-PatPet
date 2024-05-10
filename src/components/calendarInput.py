@@ -2,8 +2,8 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLabel
 from PyQt5.QtGui import QIcon
-from customCalendar import CustomCalendar
-from customQLine import CustomLineEdit
+from components.customCalendar import CustomCalendar
+from components.customQLine import CustomLineEdit
 
 class CalendarInput(QWidget):
     def __init__(self):
@@ -20,7 +20,7 @@ class CalendarInput(QWidget):
         self.button = QPushButton()
         self.button.clicked.connect(self.show_calendar)
 
-        icon = QIcon("calendar.svg")
+        icon = QIcon("img/calendar.svg")
         self.button.setIcon(icon)
         self.button.setStyleSheet("""
             QPushButton {
