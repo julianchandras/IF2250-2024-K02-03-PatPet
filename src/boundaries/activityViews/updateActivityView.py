@@ -32,6 +32,7 @@ class UpdateActivityView(QWidget):
         title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
         title_label.setFixedHeight(70)
         main_content_layout.addWidget(title_label)
+        
         line_frame = QFrame(self)
         line_frame.setFrameShape(QFrame.HLine)
         line_frame.setFrameShadow(QFrame.Sunken)
