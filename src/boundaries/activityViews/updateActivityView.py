@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
+from PyQt5.QtWidgets import QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
 from PyQt5.QtCore import Qt
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
@@ -25,10 +25,17 @@ class UpdateActivityView(QWidget):
 
         title_label = QLabel('Jadwal', self)
         title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
-        title_label.setFixedHeight(100)
-        title_label.setContentsMargins(0, 0, 0, 28)
+        title_label.setFixedHeight(70)
         main_content_layout.addWidget(title_label)
+        line_frame = QFrame(self)
+        line_frame.setFrameShape(QFrame.HLine)
+        line_frame.setFrameShadow(QFrame.Sunken)
+        line_frame.setLineWidth(2)
+        line_frame.setMidLineWidth(4)
+        line_frame.setStyleSheet("border: 2px solid #1A646B;")
+        line_frame.setContentsMargins(0, 0, 0, 30)
 
+        main_content_layout.addWidget(line_frame)
 
         # Create a QGroupBox
         activity_entry_box = QGroupBox('', self)
@@ -204,16 +211,16 @@ class UpdateActivityView(QWidget):
         main_layout.addWidget(scroll_area) 
         self.setLayout(main_layout)
 
-    def set_activity_details(self, activity):
-        # Set pet details in labels
+    # def set_activity_details(self, activity):
+    #     # Set pet details in labels
 
 
-        self.pet_id = pet[0]
-        self.id_label.setText(f"Pet ID: {self.pet_id}")
-        self.name_label.setText(f"Pet Name: {pet[1]}")
-        self.species_label.setText(f"Species: {pet[2]}")
-        self.age_label.setText(f"Age: {pet[3]}")
-        self.medical_record_label.setText(f"Medical Record: {pet[4]}")
+    #     self.pet_id = pet[0]
+    #     self.id_label.setText(f"Pet ID: {self.pet_id}")
+    #     self.name_label.setText(f"Pet Name: {pet[1]}")
+    #     self.species_label.setText(f"Species: {pet[2]}")
+    #     self.age_label.setText(f"Age: {pet[3]}")
+    #     self.medical_record_label.setText(f"Medical Record: {pet[4]}")
         
         
             

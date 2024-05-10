@@ -22,10 +22,6 @@ class DetailPetView(QWidget):
 
     def initUI(self):
         screen_geometry = QApplication.desktop().availableGeometry()
-
-        self.setWindowTitle('Detail Hewan')
-        self.showFullScreen()
-
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
 

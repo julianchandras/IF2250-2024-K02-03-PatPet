@@ -11,9 +11,6 @@ class MainFoodView(QWidget):
     def initUI(self):
         screen_geometry = QApplication.desktop().availableGeometry()
 
-        self.setWindowTitle('Daftar Makanan')
-        self.showFullScreen()
-
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
 
