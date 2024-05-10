@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from boundaries.petViews.mainPetView import MainPetView
+from boundaries.mainView import MainPetView
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
