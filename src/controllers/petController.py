@@ -59,8 +59,12 @@ class PetController:
         self.edit_pet_view.set_pet_details(pet)
         self.stacked_widget.setCurrentIndex(4)  # Navigate to EditPetView
 
-    def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image):
+    def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image, food_list):
         self.pet_model.update_pet(pet_id, pet_name, species, age, medical_record, image)
+
+        for food in food_list:
+            self.pet_model.add_food(pet_id, food)
+
         self.load_pets()
         self.stacked_widget.setCurrentIndex(0)
     
