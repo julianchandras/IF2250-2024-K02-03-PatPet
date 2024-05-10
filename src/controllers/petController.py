@@ -1,31 +1,38 @@
 from PyQt5.QtWidgets import QStackedWidget
 from PyQt5.QtGui import QPixmap
-from boundaries.mainView import MainPetView
+
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
 from models.petModel import PetModel
 
 class PetController:
+    stacked_widget : QStackedWidget
+    pet_model : PetModel
+    add_pet_view : AddPetView
+    edit_pet_view : EditPetView
+    detail_pet_view : DetailPetView
+
     def __init__(self, stacked_widget : QStackedWidget, pet_model : PetModel):
     
         self.stacked_widget = stacked_widget
         self.pet_model = pet_model
 
         ## index 0 = main_pet_view
-        ## index 1 = add_pet_view
-        ## index 2 = detail_pet_view
-        ## index 3 = edit_pet_view
-        self.main_pet_view = self.stacked_widget.widget(0)  # Index 0: MainPetView
-        self.add_pet_view = self.stacked_widget.widget(1)  # Index 1: AddPetView
-        self.detail_pet_view = self.stacked_widget.widget(2)  # Index 2: DetailPetView
-        self.edit_pet_view = self.stacked_widget.widget(3)  # Index 3: EditPetView
-        
-        
-        # Signal di main pet page
-        self.main_pet_view.add_pet_signal.connect(self.show_add_pet_view)  # Ini untuk navigasi ke add_pet_view
-        self.main_pet_view.view_pet_signal.connect(self.show_detail_pet_view)  # Ini untuk navigasi ke detail_pet_view
-
+        ## index 1 = main article view
+        ## index 2 = detail_article_view
+        ## index 3 = add_pet_view
+        ## index 4 = update_pet_view
+        ## index 5 = detail_pet_view
+        ## index 6 = main_food_view
+        ## index 7 = add_activity_view
+        ## index 8 = update_activity_view
+ 
+        self.add_pet_view  = self.stacked_widget.widget(3) 
+        self.edit_pet_view = self.stacked_widget.widget(4)  
+        self.detail_pet_view = self.stacked_widget.widget(5)  
+    
+    
         # Signal buat di add page
         self.add_pet_view.save_pet_signal.connect(self.save_pet)  # Ini untuk add pet dan save serta balikin ke main page
 
@@ -36,28 +43,12 @@ class PetController:
         # Signal buat di edit page
         self.edit_pet_view.save_pet_signal.connect(self.save_pet_edits)  # Save pet edits and return to MainPetView
         
-        # Load the initial pet list
-        self.load_pets()  # Populate the main pet list
-
-    def load_pets(self):
-        pets = self.pet_model.get_all_pets()
-        self.main_pet_view.set_pets(pets)
-
-    def show_add_pet_view(self):
-        # Switch to the AddPetView
-        self.stacked_widget.setCurrentIndex(1)
 
     def save_pet(self, pet_name, species, age, medical_record, image):
         self.pet_model.add_pet(pet_name, species, age, medical_record, image)  # Save pet to the model
         self.load_pets()  # Refresh the pet list
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
 
-    def show_detail_pet_view(self, pet_id):
-        # Fetch pet details and switch to DetailPetView
-        pet = self.pet_model.get_specific_pet(pet_id)
-        self.detail_pet_view.set_pet_details(pet)
-        self.stacked_widget.setCurrentIndex(2)  # Navigate to DetailPetView
-    
     def show_edit_pet_view(self, pet_id):
         # Set the pet details in EditPetView and switch to it
         pet = self.pet_model.get_specific_pet(pet_id)
