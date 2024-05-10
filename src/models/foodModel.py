@@ -31,6 +31,14 @@ class FoodModel(BaseModel):
 
         self.commit()  # Commit table creation
 
+    def get_main_food(self):
+        self.cursor.execute("SELECT * FROM foods")
+        rows = self.cursor.fetchall()
+        food_list = []
+        for row in rows :
+            food_list.append((row[1], int(row[0])))
+        return food_list
+
     def get_all_food(self):
         query = """
         SELECT f.food_name, p.pet_name, f.food_id
@@ -98,13 +106,11 @@ class FoodModel(BaseModel):
         rows = self.cursor.fetchall()  # Fetch all matching rows
         return rows  # Return the results
 
-
     def add_pet_food(self, pet_id, food_id):
-        for food in food_id:
-            self.cursor.execute(
-                "INSERT INTO pet_food (pet_id, food_id) VALUES (?, ?)",
-                (str(pet_id), food),
-            )
+        self.cursor.execute(
+            "INSERT INTO pet_food (pet_id, food_id) VALUES (?, ?)",
+            (str(pet_id), food_id),
+        )
         self.commit()
     
     def get_pet_foods(self, pet_id):

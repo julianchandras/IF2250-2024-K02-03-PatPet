@@ -35,12 +35,12 @@ class ActivityController:
         self.update_activity_view.set_activity_details(activity)
         self.stacked_widget.setCurrentIndex(8)
     
-    def add_activity(self, activity_name, start_time, end_time, pet_id):
-        self.activity_model.add_activity(activity_name, start_time, end_time, pet_id)
+    def add_activity(self,activity_name, start_date, end_date,start_time,end_time, pet_id):
+        self.activity_model.add_activity(activity_name, start_date, end_date,start_time,end_time, pet_id)
         self.load_activities()
 
-    def update_activity(self, activity_id, activity_name, start_time, end_time, pet_id):
-        self.activity_model.update_activity(activity_id, activity_name, start_time, end_time, pet_id)
+    def update_activity(self, activity_name, start_date, end_date,start_time,end_time, pet_id):
+        self.activity_model.update_activity(activity_name, start_date, end_date,start_time,end_time, pet_id)
         self.load_activities()
 
     def delete_activity(self, activity_id):

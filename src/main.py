@@ -86,6 +86,7 @@ class PetManagementApp(QMainWindow):
         self.stacked_widget.addWidget(self.add_activity_view) # Index 7
         self.stacked_widget.addWidget(self.update_activity_view) # Index 8
 
+  
 
         # Create the sidebar and pass the stacked widget
         self.sidebar = Sidebar(QApplication.desktop().availableGeometry().width() // 6)
@@ -99,7 +100,7 @@ class PetManagementApp(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Create the controller and pass the stacked widget and model
-        self.pet_controller = PetController(self.stacked_widget, self.pet_model)
+        self.pet_controller = PetController(self.stacked_widget, self.pet_model, self.food_model)
         self.food_controller = FoodController(self.stacked_widget, self.food_model)
         self.article_controller = ArticleController(self.stacked_widget, self.article_model)
         self.activity_controller = ActivityController(self.stacked_widget, self.activity_model)
@@ -112,5 +113,5 @@ class PetManagementApp(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create the QApplication instance
     pet_management_app = PetManagementApp()  # Create the main application instance
-    pet_management_app.show()  # Show the main window
+    pet_management_app.showFullScreen()  # Show the main window
     sys.exit(app.exec_())  # Start the event loop

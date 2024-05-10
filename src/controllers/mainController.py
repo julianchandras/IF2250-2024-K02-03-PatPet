@@ -17,6 +17,7 @@ class MainController:
         self.activity_model : ActivityModel = activity_model
 
         self.main_view : MainView = self.stacked_widget.widget(0)  # Main view index 0
+        self.add_pet_view = self.stacked_widget.widget(3)  # Add pet view index 3
         self.detail_pet_view : DetailPetView= self.stacked_widget.widget(5)  # Detail pet view index 5
 
         # Signal di main pet page
@@ -48,4 +49,7 @@ class MainController:
 
     def show_add_pet_view(self):
         # Switch to the AddPetView
+        foods = self.food_model.get_main_food()
+        
+        self.add_pet_view.set_food_list(foods)
         self.stacked_widget.setCurrentIndex(3)

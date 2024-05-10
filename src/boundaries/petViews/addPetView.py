@@ -1,11 +1,12 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QLabel, QComboBox, QGridLayout, QApplication, QTextEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QLabel, QGridLayout, QApplication, QTextEdit
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPixmap
 from components.checkableCombobox import CheckableComboBox
 
 class AddPetView(QWidget):
     save_pet_signal = pyqtSignal(str, str, int, str, bytes, list)  # Signal to save a new pet
-    
+
+    refetch_foods_signal = pyqtSignal(str)  # Signal to refetch the food list
     def __init__(self):
         super().__init__()
         self.setup_ui()  # Initialize the user interface
@@ -100,7 +101,7 @@ class AddPetView(QWidget):
 
         # Using the CheckableComboBox for multi-selection
         self.food_list_input = CheckableComboBox()
-        self.food_list_input.addItems(["Tempe", "Tahu", "Susu", "Daging", "Ikan"])  # Add more items if needed
+       
         form_layout.addWidget(self.food_list_input, 5, 1)
 
 
@@ -153,7 +154,20 @@ class AddPetView(QWidget):
         image = getattr(self, 'selected_image_data', None)
 
         selected_foods = self.food_list_input.currentData()
-
-    
-        
         self.save_pet_signal.emit(pet_name, species, age, medical_record, image, selected_foods)  # Emit signal to save pet
+
+    def set_food_list(self, food_list):
+        self.food_list_input.clear()
+        self.food_list_input.addItems(food_list)
+
+    def clear_fields(self):
+        self.name_input.clear()
+        self.species_input.clear()
+        self.age_input.clear()
+        self.medical_record_input.clear()
+        self.image_label.clear()
+        self.food_list_input.clear()
+        self.selected_image_data = None
+
+    def refetch_food(self):
+        self.refetch_foods_signal.emit("add")

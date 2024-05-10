@@ -29,11 +29,17 @@ class PetModel(BaseModel):
 
 
     ## Nambahin pet, image dalam BYTE
-    def add_pet(self, pet_name, species, age, medical_record, image=None):
+    def add_pet(self, pet_name, species, age, medical_record, image=None, food_list=None):
         self.cursor.execute(
             "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
             (pet_name, species, age, medical_record, image),  # Corrected parameter names
         )
+
+        pet_id = self.cursor.lastrowid
+
+        if food_list is not None:
+            for food in food_list:
+                self.cursor.execute("INSERT INTO pet_food (pet_id, food_id) VALUES (?, ?)", (pet_id, food))
         self.commit()  # Commit after insertion
 
     ## Delete pet
@@ -44,11 +50,17 @@ class PetModel(BaseModel):
         self.commit()  # Commit after deletion
 
     ## Update pet , inget param harus dipake semua walaupun yang berubah cuma 1
-    def update_pet(self, pet_id, pet_name, species, age, medical_record, image=None):
+    def update_pet(self, pet_id, pet_name, species, age, medical_record, image=None, food_list=None):
         self.cursor.execute(
             "UPDATE pets SET pet_name = ?, species = ?, age = ?, medical_record = ?, image = ? WHERE pet_id = ?",
             (pet_name, species, age, medical_record, image, pet_id),  # Corrected parameter names
         )
+
+        self.cursor.execute("DELETE FROM pet_food WHERE pet_id = ?", (str(pet_id),))
+
+        for food in food_list:
+            self.cursor.execute("INSERT INTO pet_food (pet_id, food_id) VALUES (?, ?)", (pet_id, food))
+
         self.commit()  # Commit after update
 
     ## Get specific pet
