@@ -10,7 +10,7 @@ class ActivityModel(BaseModel):
             """
             CREATE TABLE IF NOT EXISTS activity (
                 activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                food_name TEXT,
+                food_name TEXT
             )
             """
         )

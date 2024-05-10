@@ -10,7 +10,7 @@ class FoodModel(BaseModel):
             """
             CREATE TABLE IF NOT EXISTS foods (
                 food_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                food_name TEXT NOT NULL,
+                food_name TEXT NOT NULL
             )
             """
         )
@@ -50,8 +50,8 @@ class FoodModel(BaseModel):
     def update_food(self, food_id, food_name):
         self.cursor.execute(
             "UPDATE foods SET food_name = ? WHERE food_id = ?",
-            (food_name),  # Corrected parameter names
-        )
+            (str(food_id),  # Corrected parameter names
+        ))
         self.commit()  # Commit after update
 
     def filter_pet_by_food(self, food_list):
@@ -83,7 +83,18 @@ class FoodModel(BaseModel):
         for food in food_id:
             self.cursor.execute(
                 "INSERT INTO pet_food (pet_id, food_id) VALUES (?, ?)",
-                (pet_id, food),
+                (str(pet_id), food),
             )
         self.commit()
     
+    def get_pet_foods(self, pet_id):
+        query = """
+        SELECT foods.food_name
+        FROM pet_food
+        INNER JOIN pets ON pet_food.pet_id = pets.pet_id
+        INNER JOIN foods ON pet_food.food_id = foods.food_id
+        WHERE pets.pet_id = ?
+        """
+        self.cursor.execute(query, (str(pet_id),))
+        rows = self.cursor.fetchall()
+        return rows

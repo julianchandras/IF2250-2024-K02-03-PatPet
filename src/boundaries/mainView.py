@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import pyqtSignal
 
-class MainPetView(QWidget):
+class MainView(QWidget):
     # Signals to navigate to other views
     add_pet_signal = pyqtSignal()  # Signal to switch to AddPetView
     view_pet_signal = pyqtSignal(int)  # Signal to switch to DetailPetView with pet ID
@@ -40,7 +40,7 @@ class MainPetView(QWidget):
         print("Ayam")
         self.add_pet_signal.emit()  # Emit signal to switch to AddPetView
 
-    def view_pet(self, row, column):
+    def view_pet(self, row):
         pet_id = int(self.pets_table.item(row, 0).text())  # Get pet ID from the table
         self.view_pet_signal.emit(pet_id)  # Emit signal to switch to DetailPetView
 
