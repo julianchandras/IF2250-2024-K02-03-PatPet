@@ -27,8 +27,4 @@ class TestWidget(QWidget):
         layout.addWidget(self.custom_line_edit)
         self.setLayout(layout)
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    widget = TestWidget()
-    widget.show()
-    sys.exit(app.exec_())
+

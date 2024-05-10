@@ -11,10 +11,6 @@ class AddAcitivityView(QWidget):
         self.initUI()
 
     def initUI(self):
-
-        self.setWindowTitle('Food Entry')
-        self.show()
-
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0,0,0,0)
         main_layout.setSpacing(0)
@@ -56,6 +52,10 @@ class AddAcitivityView(QWidget):
         
         # Pilih hewan
         self.pilihan_hewan = CustomComboBox()
+
+        # Masukin pilihan hewan
+        for i in range(3):
+            self.pilihan_hewan.addItems([f"{i}"])
 
         # Jenis Aktivtias
         self.jenis_aktivitas_input = CustomLineEdit()
@@ -128,7 +128,7 @@ class AddAcitivityView(QWidget):
 
         activities = {
             "2024-05-10": [("09:00", "Bella"), ("10:30", "Max")],
-            "2024-05-11": [("11:00", "Charlie"), ("14:00", "Luna")],
+            "2024-05-11": [("11:00", "Charlie"), ("14:00", "Luna mafhjdsakgkjvsduyhrelukjtygdgvjyhkjrdsv yhgksjquicldiwe4ksyh fgiewu"),("15:00", "NUNU"),("16:00", "NEOWOOF"), ("17:00", "Jultara"), ("18:00","macamaca")],
             "2024-05-12": [("09:30", "Rocky")],
             "2024-05-15": [("12:00", "Buddy"), ("16:00", "Lucy")]
         }
@@ -141,9 +141,10 @@ class AddAcitivityView(QWidget):
             background-color: white;
         """)
 
-        self.calendar = CustomSchedule(activities)
+        self.calendar = CustomSchedule()
+        self.calendar.set_activities(activities)
         self.activity_table_layout.addWidget(self.calendar)
-        self.activity_table.setContentsMargins(0, 0, 0, 28)
+        self.activity_table.setContentsMargins(0, 0, 0, 0)
         
         main_content_layout.addWidget(self.activity_table)
         # Wrap the main content widget with a QScrollArea

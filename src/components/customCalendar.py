@@ -81,14 +81,13 @@ class CustomCalendar(QWidget):
             #qt_calendar_nextmonth {
                 border: none;
                 qproperty-icon: none;
-
                 background-color: transparent;        
             }
                                     
             #qt_calendar_prevmonth{
                 padding-left: 15px;
                 margin-left: 5px;
-                image: url("icon_left.png");
+                image: url("img/icon_left.png");
                 width: 30px; 
                 height: 30px; 
             }
@@ -96,7 +95,7 @@ class CustomCalendar(QWidget):
             #qt_calendar_nextmonth {
                 padding-right: 15px;
                 margin-right: 5px;
-                image: url("icon_right.png");
+                image: url("img/icon_right.png");
                 width: 30px; 
                 height: 30px;
             }
@@ -110,15 +109,9 @@ class CustomCalendar(QWidget):
     def emit_clicked_signal(self, date):
         # Emit the custom clicked signal with the selected date
         self.clicked.emit(date)
+        print("Selected date:", date.toString("yyyy-MM-dd"))
 
     def selectedDate(self):
         # Return the selected date
         return self.calendar.selectedDate()
 
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    widget = CustomCalendar()
-    widget.show()
-    sys.exit(app.exec_())

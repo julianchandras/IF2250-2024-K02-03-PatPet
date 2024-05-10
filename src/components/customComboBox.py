@@ -13,7 +13,7 @@ class CustomComboBox(QWidget):
         self.combo_box = QComboBox()
         self.combo_box.setView(QListView())  # Set QListView as the dropdown view
     
-        self.combo_box.addItems(["Option 1", "Option 2", "Option 3"])
+        self.combo_box.addItems([])
         self.combo_box.setStyleSheet("""
             QComboBox {
                 padding: 5px;
@@ -53,9 +53,7 @@ class CustomComboBox(QWidget):
 
         self.setLayout(layout)
 
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     window = ComboBoxExample()
-#     window.setWindowTitle('Combo Box Example')
-#     window.show()
-#     sys.exit(app.exec_())
+
+    def addItems(self, items):
+        self.combo_box.addItems(items)
+
