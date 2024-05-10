@@ -22,23 +22,10 @@ class DetailPetView(QWidget):
 
     def initUI(self):
         screen_geometry = QApplication.desktop().availableGeometry()
+
+
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
-
-        # Sidebar
-        sidebar_widget = QWidget(self)
-        sidebar_widget.setFixedWidth(screen_geometry.width() // 6)
-
-        sidebar_layout = QVBoxLayout(sidebar_widget)
-        sidebar_layout.setContentsMargins(0, 0, 0, 0)
-
-        sidebar_label = QLabel('Sidebar', self)
-        sidebar_label.setStyleSheet('font-size: 48px; background-color: #F99035; font-weight: bold')
-        sidebar_label.setFont(QFont('Arial', 14))
-        sidebar_layout.addWidget(sidebar_label)
-
-        main_layout.addWidget(sidebar_widget)
-
         # Main content
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
@@ -53,6 +40,7 @@ class DetailPetView(QWidget):
 
         # Labels for pet details
         animal_image_label = QLabel(self)
+        animal_image_label.setObjectName("animalImageLabel")  # Set object name
         animal_image_label.setPixmap(
             QPixmap('img/meng.png').scaled(
                 int(screen_geometry.width() * 0.33),
@@ -70,10 +58,12 @@ class DetailPetView(QWidget):
         animal_general_layout = QVBoxLayout(animal_general_box)
 
         title_label = QLabel('Neo Woof', self)
+        title_label.setObjectName('Neo Woof')
         title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
         animal_general_layout.addWidget(title_label)
 
         description_label = QLabel('Anjing | Umur : 2 bulan', self)
+        description_label.setObjectName('Anjing | Umur : 2 bulan')
         description_label.setStyleSheet('font-size: 32px; color: #1A646B;')
         animal_general_layout.addWidget(description_label)
 
@@ -86,10 +76,12 @@ class DetailPetView(QWidget):
         medical_history_layout = QVBoxLayout(medical_history_box)
 
         mh_title_label = QLabel('Riwayat Penyakit', self)
+        mh_title_label.setObjectName('Riwayat Penyakit')
         mh_title_label.setStyleSheet('font-size: 24px; font-weight: bold; color: #1A646B;')
         medical_history_layout.addWidget(mh_title_label)
 
         mh_label = QLabel('Kanker, kaki patah, patah hati', self)
+        mh_label.setObjectName('Kanker, kaki patah, patah hati')
         mh_label.setStyleSheet('font-size: 24px; color: #1A646B;')
         medical_history_layout.addWidget(mh_label)
 
@@ -108,6 +100,15 @@ class DetailPetView(QWidget):
         fl_label = QLabel(self)
         fl_label.setText(
             "<ul>"
+            "<li>Tempe</li>"
+            "<li>Telur</li>"
+            "<li>Tahu</li>"
+            "<li>Tempe</li>"
+            "<li>Telur</li>"
+            "<li>Tahu</li>"
+            "<li>Tempe</li>"
+            "<li>Telur</li>"
+            "<li>Tahu</li>"
             "<li>Tempe</li>"
             "<li>Telur</li>"
             "<li>Tahu</li>"
@@ -186,6 +187,7 @@ class DetailPetView(QWidget):
         self.pet_id = pet[0]
         # Set general information
         title_label = self.findChild(QLabel, 'Neo Woof')
+        print (title_label)
         description_label = self.findChild(QLabel, 'Anjing | Umur : 2 bulan')
 
         if title_label:
@@ -200,7 +202,7 @@ class DetailPetView(QWidget):
             mh_label.setText(pet[4])
 
         # Set pet image
-        animal_image_label = self.findChild(QLabel, 'Meng.png')  # Update the image label
+        animal_image_label = self.findChild(QLabel, "animalImageLabel")  # Find the label by object name
         if pet[5]:
             pixmap = QPixmap()
             pixmap.loadFromData(pet[5])

@@ -1,11 +1,16 @@
 from PyQt5.QtWidgets import QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,pyqtSignal
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
+from datetime import datetime
 
 class UpdateActivityView(QWidget):
+
+    update_activity_signal = pyqtSignal(int, str, datetime, datetime, int)
+    delete_activity_signal = pyqtSignal(int)
+
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -211,16 +216,8 @@ class UpdateActivityView(QWidget):
         main_layout.addWidget(scroll_area) 
         self.setLayout(main_layout)
 
-    # def set_activity_details(self, activity):
-    #     # Set pet details in labels
-
-
-    #     self.pet_id = pet[0]
-    #     self.id_label.setText(f"Pet ID: {self.pet_id}")
-    #     self.name_label.setText(f"Pet Name: {pet[1]}")
-    #     self.species_label.setText(f"Species: {pet[2]}")
-    #     self.age_label.setText(f"Age: {pet[3]}")
-    #     self.medical_record_label.setText(f"Medical Record: {pet[4]}")
+    def set_activity(self,activity):
+        pass
         
         
             

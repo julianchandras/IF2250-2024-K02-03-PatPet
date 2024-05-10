@@ -1,16 +1,22 @@
 from PyQt5.QtWidgets import QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,pyqtSignal
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
+from datetime import datetime
+
 
 class AddActivityView(QWidget):
+    add_activity_signal = pyqtSignal(str, datetime, datetime, int)
+    navigate_to_update = pyqtSignal(int)
+
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
+        # self.activites = {}
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0,0,0,0)
         main_layout.setSpacing(0)
@@ -210,6 +216,11 @@ class AddActivityView(QWidget):
 
         main_layout.addWidget(scroll_area) 
         self.setLayout(main_layout)
+
+    def set_activities(self,activities):
+        pass
+
+        
 
         
     

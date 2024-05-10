@@ -38,8 +38,7 @@ class Sidebar(QWidget):
         add_button = QPushButton("Add Pet")
         detail_button = QPushButton("Detail View")
         edit_button = QPushButton("Edit View")
-        add_activity_button = QPushButton("Add activity")
-        update_activity_button = QPushButton("Update activity")
+        test_button = QPushButton("Test View")
         
         # Set styles for buttons for better visibility on the orange background
         button_style = "font-weight: bold; border: none; color: white;"
@@ -49,10 +48,9 @@ class Sidebar(QWidget):
         # Connect buttons to change views in QStackedWidget
         main_button.clicked.connect(lambda: self.change_view(0))
         add_button.clicked.connect(lambda: self.change_view(1))
-        detail_button.clicked.connect(lambda: self.change_view(2))
+        detail_button.clicked.connect(lambda: self.change_view(5))
         edit_button.clicked.connect(lambda: self.change_view(3))
-        add_activity_button.clicked.connect(lambda: self.change_view(4))
-        update_activity_button.clicked.connect(lambda: self.change_view(5))
+        test_button.clicked.connect(lambda: self.change_view(4))
         
         # Add widgets to the layout
         main_content_layout.addWidget(logo_label)  # Add the logo at the top
@@ -63,8 +61,7 @@ class Sidebar(QWidget):
         main_content_layout.addWidget(add_button)
         main_content_layout.addWidget(detail_button)
         main_content_layout.addWidget(edit_button)
-        main_content_layout.addWidget(add_activity_button)
-        main_content_layout.addWidget(update_activity_button)
+        main_content_layout.addWidget(test_button)
         main_content_layout.setAlignment(Qt.AlignTop)  # Align the content to the top
         
         layout.addWidget(main_content_widget)  # Add the main content widget to the sidebar layout
