@@ -1,4 +1,3 @@
-from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QStackedWidget
 from PyQt5.QtWidgets import QMessageBox
 from models.foodModel import FoodModel  # Import the PetModel
@@ -21,9 +20,12 @@ class FoodController:
     def load_foods(self):
         # Get all foods from the model and set them in the view
         foods = self.model.get_all_food()
-        self.view.set_food(foods)
+
+
+        return self.view.set_food(foods)
 
     def add_food(self, food_name):
+        
         self.model.add_food(food_name)
         self.load_foods()  # Refresh the view after adding
 

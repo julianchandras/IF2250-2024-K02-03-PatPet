@@ -202,11 +202,17 @@ class DetailPetView(QWidget):
             mh_label.setText(pet[4])
 
         # Set pet image
+        screen_geometry = QApplication.desktop().availableGeometry()
+        
         animal_image_label = self.findChild(QLabel, "animalImageLabel")  # Find the label by object name
         if pet[5]:
             pixmap = QPixmap()
             pixmap.loadFromData(pet[5])
-            animal_image_label.setPixmap(pixmap.scaled(200, 200, Qt.KeepAspectRatio))
+            animal_image_label.setPixmap(pixmap.scaled(
+                int(screen_geometry.width() * 0.33),
+                int(screen_geometry.height()),
+                Qt.KeepAspectRatio,
+            ))
         else:
             animal_image_label.setText("No Image")
 

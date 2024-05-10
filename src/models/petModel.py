@@ -39,6 +39,8 @@ class PetModel(BaseModel):
     ## Delete pet
     def delete_pet(self, pet_id):
         self.cursor.execute("DELETE FROM pets WHERE pet_id = ?", (str(pet_id),))  # Corrected parameter
+        ## delete all pet_food that related to this pet
+        self.cursor.execute("DELETE FROM pet_food WHERE pet_id = ?", (str(pet_id),))
         self.commit()  # Commit after deletion
 
     ## Update pet , inget param harus dipake semua walaupun yang berubah cuma 1

@@ -32,26 +32,46 @@ class FoodModel(BaseModel):
         self.commit()  # Commit table creation
 
     def get_all_food(self):
-        self.cursor.execute("SELECT * FROM foods")
-        rows = self.cursor.fetchall()  # Use self.cursor
+        query = """
+        SELECT f.food_name, p.pet_name, f.food_id
+        FROM foods f
+        LEFT JOIN pet_food pf ON f.food_id = pf.food_id
+        LEFT JOIN pets p ON pf.pet_id = p.pet_id
+        ORDER BY f.food_name, p.pet_name
+        """
+        self.cursor.execute(query)
+        
+        food_animals_dict = {}
+        
+        res = self.cursor.fetchall()
+        # Process the results and build the dictionary
+        for food_name, pet_name, food_id in res:
+            
+            if food_name not in food_animals_dict:
+                food_animals_dict[food_name] = (food_id, [])
+            if (pet_name is not None):
+
+                food_animals_dict[food_name][1].append(pet_name)
+        
+        rows = food_animals_dict# Use self.cursor
         return rows
 
     def add_food(self, food_name):
         self.cursor.execute(
             "INSERT INTO foods (food_name) VALUES (?)",
-            (food_name),  # Corrected parameter names
+            (food_name,),  # Corrected parameter names
         )
         self.commit()  # Commit after insertion
 
     def delete_food(self, food_id):
-        self.cursor.execute("DELETE FROM foods WHERE food_id = ?", (food_id))  # Corrected parameter
+        self.cursor.execute("DELETE FROM foods WHERE food_id = ?", (str(food_id),))  # Corrected parameter
+
         self.commit()  # Commit after deletion
 
     def update_food(self, food_id, food_name):
         self.cursor.execute(
             "UPDATE foods SET food_name = ? WHERE food_id = ?",
-            (str(food_id),  # Corrected parameter names
-        ))
+            (food_name, str(food_id)),)
         self.commit()  # Commit after update
 
     def filter_pet_by_food(self, food_list):
@@ -98,3 +118,13 @@ class FoodModel(BaseModel):
         self.cursor.execute(query, (str(pet_id),))
         rows = self.cursor.fetchall()
         return rows
+    
+    def update_pet_food(self, pet_id, food_id):
+        self.cursor.execute(
+            "DELETE FROM pet_food WHERE pet_id = ?", (str(pet_id),)
+        )
+        for (food_id) in food_id:
+            self.add_pet_food(pet_id, food_id)
+        self.commit()
+    
+    
