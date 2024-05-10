@@ -74,6 +74,8 @@ class PetManagementApp(QMainWindow):
         self.main_food_view = MainFoodView()
         self.add_activity_view = AddActivityView()
         self.update_activity_view = UpdateActivityView()
+        self.main_article_view = MainArticleView()
+        self.detail_article_view = DetailArticleView()
 
         # Add views to QStackedWidget
         self.stacked_widget.addWidget(self.main_pet_view) # Index 0
@@ -86,6 +88,7 @@ class PetManagementApp(QMainWindow):
         self.stacked_widget.addWidget(self.add_activity_view) # Index 7
         self.stacked_widget.addWidget(self.update_activity_view) # Index 8
 
+  
 
         # Create the sidebar and pass the stacked widget
         self.sidebar = Sidebar(QApplication.desktop().availableGeometry().width() // 6)
