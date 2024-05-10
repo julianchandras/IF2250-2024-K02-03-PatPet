@@ -56,16 +56,7 @@ class PetController:
     def show_edit_pet_view(self, pet_id):
         # Set the pet details in EditPetView and switch to it
         pet = self.pet_model.get_specific_pet(pet_id)
-        self.edit_pet_view.name_input.setText(pet[1])
-        self.edit_pet_view.species_input.setText(pet[2])
-        self.edit_pet_view.age_input.setText(str(pet[3]))
-        self.edit_pet_view.medical_record_input.setPlainText(pet[4])
-
-        pixmap = QPixmap()
-        pixmap.loadFromData(pet[5])
-        self.edit_pet_view.image_label.setPixmap(pixmap.scaled(800, 600))
-        self.edit_pet_view.pet_id = pet_id  # Pass the pet ID for saving changes
-        self.edit_pet_view.selected_image_data = pet[5]
+        self.edit_pet_view.set_pet_details(pet)
         self.stacked_widget.setCurrentIndex(4)  # Navigate to EditPetView
 
     def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image):

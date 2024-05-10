@@ -10,6 +10,10 @@ class FoodController:
         self.model = food_model
 
         self.view : MainFoodView = self.stacked_widget.widget(6)  # Main food view index 6
+        
+        self.view.add_food_signal.connect(self.add_food)
+        self.view.update_food_signal.connect(self.update_food)
+        self.view.delete_food_signal.connect(self.delete_food)
     
         # Load all pets initially
         self.load_foods()
