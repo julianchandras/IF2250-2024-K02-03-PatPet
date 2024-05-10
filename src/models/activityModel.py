@@ -10,7 +10,7 @@ class ActivityModel(BaseModel):
             """
             CREATE TABLE IF NOT EXISTS activity (
                 activity_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                activity_name TEXT
+                activity_name TEXT,
                 start_datetime DATE,
                 end_datetime DATE,
                 pet_id INTEGER,
@@ -30,7 +30,7 @@ class ActivityModel(BaseModel):
         self.cursor.execute(
             "INSERT INTO activity (activity_name, start_datetime, end_datetime, pet_id) VALUES (?, ?, ?, ?)",
             (activity_name, start_datetime, end_datetime, pet_id),
-            
+
         )
         self.commit()  # Commit after insertion
 
