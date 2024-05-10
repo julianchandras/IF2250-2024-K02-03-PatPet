@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QWidget,
 )
-# Import the necessary views and controllers
+
 from boundaries.petViews.mainPetView import MainPetView
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
@@ -19,12 +19,21 @@ from components.sidebar import Sidebar
 class PetManagementApp(QMainWindow):
     def __init__(self):
         super().__init__()
-
         self.setWindowTitle("Pet Management App")
-        main_layout = QHBoxLayout()
 
+        # Create the main layout and central widget
+        main_layout = QHBoxLayout()
         central_widget = QWidget()
+
+        ## Set the layout and spacing of the main layout
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+        
+        ## Set the layout and spacing of the central widget
         central_widget.setLayout(main_layout)
+        central_widget.setContentsMargins(0, 0, 0, 0)
+        
+  
 
         # Create a QStackedWidget to manage multiple views
         self.stacked_widget = QStackedWidget()
@@ -45,10 +54,14 @@ class PetManagementApp(QMainWindow):
         self.stacked_widget.addWidget(self.edit_pet_view)  # Index 3
 
         # Create the sidebar and pass the stacked widget
-        self.sidebar = Sidebar()
+        self.sidebar = Sidebar(QApplication.desktop().availableGeometry().width() // 6)
+       
         self.sidebar.stacked_widget = self.stacked_widget
 
+    
         # Add the sidebar and QStackedWidget to the main layout
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
         main_layout.addWidget(self.sidebar)
         main_layout.addWidget(self.stacked_widget)
 
@@ -65,6 +78,8 @@ class PetManagementApp(QMainWindow):
 # Main application entry point
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create the QApplication instance
+    
     pet_management_app = PetManagementApp()  # Create the main application instance
+    
     pet_management_app.show()  # Show the main window
     sys.exit(app.exec_())  # Start the event loop

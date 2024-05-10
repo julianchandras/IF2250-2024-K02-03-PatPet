@@ -18,6 +18,8 @@ class MainPetView(QWidget):
     
     def setup_ui(self):
         layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
 
         # Button to add a new pet
         self.add_pet_button = QPushButton("Add Pet")

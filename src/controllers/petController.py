@@ -7,7 +7,7 @@ from boundaries.petViews.editPetView import EditPetView
 from models.petModel import PetModel
 
 class PetController:
-    def __init__(self, stacked_widget, pet_model):
+    def __init__(self, stacked_widget : QStackedWidget, pet_model : PetModel):
     
         self.stacked_widget = stacked_widget
         self.pet_model = pet_model
@@ -64,11 +64,11 @@ class PetController:
         self.edit_pet_view.name_input.setText(pet[1])
         self.edit_pet_view.species_input.setText(pet[2])
         self.edit_pet_view.age_input.setText(str(pet[3]))
-        self.edit_pet_view.medical_record_input.setText(pet[4])
+        self.edit_pet_view.medical_record_input.setPlainText(pet[4])
 
         pixmap = QPixmap()
         pixmap.loadFromData(pet[5])
-        self.edit_pet_view.image_label.setPixmap(pixmap.scaled(100, 100))
+        self.edit_pet_view.image_label.setPixmap(pixmap.scaled(800, 600))
         self.edit_pet_view.pet_id = pet_id  # Pass the pet ID for saving changes
         self.edit_pet_view.selected_image_data = pet[5]
         self.stacked_widget.setCurrentIndex(3)  # Navigate to EditPetView
