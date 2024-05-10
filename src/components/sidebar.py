@@ -35,22 +35,22 @@ class Sidebar(QWidget):
 
         # Navigation buttons
         main_button = QPushButton("Main View")
-        add_button = QPushButton("Add Pet")
-        detail_button = QPushButton("Detail View")
-        edit_button = QPushButton("Edit View")
-        test_button = QPushButton("Test View")
+        jadwal_button = QPushButton("Jadwal")
+        article_button = QPushButton("Artikel")
+        food_button = QPushButton("Makanan")
+        exit_button = QPushButton("Exit")
         
         # Set styles for buttons for better visibility on the orange background
         button_style = "font-weight: bold; border: none; color: white;"
-        for button in (main_button, add_button, detail_button, edit_button):
+        for button in (main_button, jadwal_button, article_button, food_button, exit_button):
             button.setStyleSheet(button_style)  # Apply style to all buttons
         
         # Connect buttons to change views in QStackedWidget
         main_button.clicked.connect(lambda: self.change_view(0))
-        add_button.clicked.connect(lambda: self.change_view(1))
-        detail_button.clicked.connect(lambda: self.change_view(5))
-        edit_button.clicked.connect(lambda: self.change_view(3))
-        test_button.clicked.connect(lambda: self.change_view(4))
+        jadwal_button.clicked.connect(lambda: self.change_view(7))
+        article_button.clicked.connect(lambda: self.change_view(1))
+        food_button.clicked.connect(lambda: self.change_view(6))
+        exit_button.clicked.connect(lambda: exit())
         
         # Add widgets to the layout
         main_content_layout.addWidget(logo_label)  # Add the logo at the top
@@ -58,10 +58,10 @@ class Sidebar(QWidget):
         main_content_layout.addSpacing(20)
         # Add navigation buttons
         main_content_layout.addWidget(main_button)
-        main_content_layout.addWidget(add_button)
-        main_content_layout.addWidget(detail_button)
-        main_content_layout.addWidget(edit_button)
-        main_content_layout.addWidget(test_button)
+        main_content_layout.addWidget(jadwal_button)
+        main_content_layout.addWidget(article_button)
+        main_content_layout.addWidget(food_button)
+        main_content_layout.addWidget(exit_button)
         main_content_layout.setAlignment(Qt.AlignTop)  # Align the content to the top
         
         layout.addWidget(main_content_widget)  # Add the main content widget to the sidebar layout

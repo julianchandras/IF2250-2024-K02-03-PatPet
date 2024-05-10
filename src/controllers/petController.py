@@ -32,10 +32,13 @@ class PetController:
         self.add_pet_view  = self.stacked_widget.widget(3) 
         self.edit_pet_view = self.stacked_widget.widget(4)  
         self.detail_pet_view = self.stacked_widget.widget(5)  
+
+        
     
         # Signal buat di add page
         self.add_pet_view.save_pet_signal.connect(self.save_pet)  # Ini untuk add pet dan save serta balikin ke main page
 
+        
         # Signal buat di detail page
         self.detail_pet_view.edit_pet_signal.connect(self.show_edit_pet_view)  # Ini untuk navigasi ke edit_pet_view
         self.detail_pet_view.delete_pet_signal.connect(self.delete_pet)  # Delete the pet
