@@ -48,7 +48,7 @@ class Sidebar(QWidget):
         # Connect buttons to change views in QStackedWidget
         main_button.clicked.connect(lambda: self.change_view(0))
         add_button.clicked.connect(lambda: self.change_view(1))
-        detail_button.clicked.connect(lambda: self.change_view(2))
+        detail_button.clicked.connect(lambda: self.change_view(5))
         edit_button.clicked.connect(lambda: self.change_view(3))
         test_button.clicked.connect(lambda: self.change_view(4))
         

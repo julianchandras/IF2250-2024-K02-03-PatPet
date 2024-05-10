@@ -7,6 +7,7 @@ class MainFoodView(QWidget):
     add_food_signal = pyqtSignal(str)
     update_food_signal = pyqtSignal(int, str)
     delete_food_signal = pyqtSignal(int)
+
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -14,8 +15,6 @@ class MainFoodView(QWidget):
     def initUI(self):
         screen_geometry = QApplication.desktop().availableGeometry()
 
-        self.setWindowTitle('Daftar Makanan')
-        self.showFullScreen()
 
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
@@ -149,4 +148,16 @@ class MainFoodView(QWidget):
     # Add a method to delete a row
     def deleteRow(self, row):
         self.food_table.removeRow(row)
+
+    def set_food(self, food):
+        self.food_table.setRowCount(len(food))
+        for i, food_item in enumerate(food):
+            self.food_table.setItem(i, 0, QTableWidgetItem(food_item['name']))
+            self.food_table.setItem(i, 1, QTableWidgetItem(food_item['animals']))
+            delete_button = QPushButton('Delete', self)
+            delete_button.setStyleSheet('background-color: #F24E1E; font-size: 18px; color: white; padding: 10px; border-radius: 10px; margin: 150px;')
+            delete_button.clicked.connect(lambda checked, id=food_item['id']: self.delete_food_signal.emit(id))
+            self.food_table.setCellWidget(i, 2, delete_button)
+            item = self.food_table.item(i, 1)
+            item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 

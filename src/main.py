@@ -112,5 +112,5 @@ class PetManagementApp(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create the QApplication instance
     pet_management_app = PetManagementApp()  # Create the main application instance
-    pet_management_app.show()  # Show the main window
+    pet_management_app.showFullScreen()  # Show the main window
     sys.exit(app.exec_())  # Start the event loop
