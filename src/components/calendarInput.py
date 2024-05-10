@@ -69,7 +69,21 @@ class CalendarInput(QWidget):
         self.button.clicked.connect(self.show_calendar)
 
     def show_calendar(self, event=None):
+        # Get the geometry of the line edit and button
+        line_edit_rect = self.line_edit.geometry()
+        button_rect = self.button.geometry()
+
+        # Calculate the position for the calendar
+        calendar_x = self.line_edit.mapToGlobal(line_edit_rect.bottomLeft()).x() - 20 # Align with the left of the line edit
+        calendar_y = self.line_edit.mapToGlobal(line_edit_rect.bottomLeft()).y() + self.line_edit.height() - 45 # Below the line edit, at its bottom
+        calendar_width = line_edit_rect.width() + button_rect.width()  # Match the width of the line edit and button
+
+        # Set the geometry of the calendar
+        self.calendar.setGeometry(calendar_x, calendar_y, calendar_width, self.calendar.height())
+
+        # Show the calendar
         self.calendar.show()
+
 
     def update_date(self):
         selected_date = self.calendar.selectedDate()

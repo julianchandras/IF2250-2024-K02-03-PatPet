@@ -5,7 +5,7 @@ from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
 
-class AddAcitivityView(QWidget):
+class AddActivityView(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -42,7 +42,7 @@ class AddAcitivityView(QWidget):
         # Create labels
         pilihan_hewan_label = QLabel('Pilihan Hewan')
         jenis_aktivitas_hewan_label = QLabel('Jenis Aktivitas Hewan: ')
-        tanggal_mulai_label = QLabel('Tangaal Mulai:')
+        tanggal_mulai_label = QLabel('Tanggal Mulai:')
         tanggal_akhir_label = QLabel('Tanggal Selesai:')
         tanggal_mulai_pengulangan_label = QLabel("Tanggal Mulai Pengulangan")
         tanggal_akhir_pengulangan_label = QLabel("Tanggal Akhir Pengulangan")
@@ -201,8 +201,6 @@ class AddAcitivityView(QWidget):
 
 
         main_layout.addWidget(scroll_area) 
-        # main_layout.addWidget(main_content_widget)  # Add the main content widget to the main layout
-
         self.setLayout(main_layout)
 
         

@@ -20,9 +20,7 @@ class CustomCalendar(QWidget):
         self.calendar = QCalendarWidget()
 
         # Apply stylesheets for customization
-        self.calendar.setStyleSheet("""  
-
-              
+        self.calendar.setStyleSheet(""" 
             QCalendarWidget QToolButton {
                 height: 60px;
                 width: 150px;
