@@ -27,11 +27,11 @@ class PetController:
         ## index 6 = main_food_view
         ## index 7 = add_activity_view
         ## index 8 = update_activity_view
- 
+
+        self.main_pet_view = self.stacked_widget.widget(0)  # Main pet view index 0
         self.add_pet_view  = self.stacked_widget.widget(3) 
         self.edit_pet_view = self.stacked_widget.widget(4)  
         self.detail_pet_view = self.stacked_widget.widget(5)  
-    
     
         # Signal buat di add page
         self.add_pet_view.save_pet_signal.connect(self.save_pet)  # Ini untuk add pet dan save serta balikin ke main page
@@ -43,10 +43,14 @@ class PetController:
         # Signal buat di edit page
         self.edit_pet_view.save_pet_signal.connect(self.save_pet_edits)  # Save pet edits and return to MainPetView
         
+    def load_pets(self):
+        pets = self.pet_model.get_all_pets()
+        self.main_pet_view.set_pets(pets)
 
     def save_pet(self, pet_name, species, age, medical_record, image):
         self.pet_model.add_pet(pet_name, species, age, medical_record, image)  # Save pet to the model
-        self.load_pets()  # Refresh the pet list
+        # Refresh the pet list
+        self.load_pets()
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
 
     def show_edit_pet_view(self, pet_id):
@@ -62,7 +66,7 @@ class PetController:
         self.edit_pet_view.image_label.setPixmap(pixmap.scaled(800, 600))
         self.edit_pet_view.pet_id = pet_id  # Pass the pet ID for saving changes
         self.edit_pet_view.selected_image_data = pet[5]
-        self.stacked_widget.setCurrentIndex(3)  # Navigate to EditPetView
+        self.stacked_widget.setCurrentIndex(4)  # Navigate to EditPetView
 
     def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image):
         self.pet_model.update_pet(pet_id, pet_name, species, age, medical_record, image)
@@ -73,3 +77,7 @@ class PetController:
         self.pet_model.delete_pet(pet_id)  # Delete pet from the model
         self.load_pets()  # Refresh the pet list
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
+
+
+
+    

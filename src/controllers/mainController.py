@@ -1,13 +1,14 @@
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QStackedWidget
 from boundaries.mainView import MainView
+from boundaries.petViews.detailPetView import DetailPetView
 
 from models.petModel import PetModel
 from models.foodModel import FoodModel
 from models.activityModel import ActivityModel
 
-class MainController:
 
+class MainController:
     def __init__(self, stacked_widget: QStackedWidget, food_model : FoodModel, pet_model : PetModel, activity_model : ActivityModel):
         
         self.stacked_widget : QStackedWidget  = stacked_widget
@@ -16,16 +17,19 @@ class MainController:
         self.activity_model : ActivityModel = activity_model
 
         self.main_view : MainView = self.stacked_widget.widget(0)  # Main view index 0
+        self.detail_pet_view : DetailPetView= self.stacked_widget.widget(5)  # Detail pet view index 5
 
         # Signal di main pet page
         self.main_view.add_pet_signal.connect(self.show_add_pet_view)  # Ini untuk navigasi ke add_pet_view
         self.main_view.view_pet_signal.connect(self.navigate_to_detail)  # Ini untuk navigasi ke detail_pet_view
-        self.main_view.filter_signal.connect(self.handle_filter)
+        self.main_view.filter_pet_signal.connect(self.handle_filter)
 
         self.load_pets()
     
     def load_pets(self):
+        
         pets = self.pet_model.get_all_pets()
+       
         self.main_view.set_pets(pets)
 
     def show_activity_today(self):

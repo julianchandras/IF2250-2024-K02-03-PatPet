@@ -29,7 +29,7 @@ from models.petModel import PetModel
 from models.foodModel import FoodModel
 from models.articleModel import ArticleModel
 from models.activityModel import ActivityModel
-
+from controllers.mainController import MainController
 ## Components
 from components.sidebar import Sidebar
 
@@ -101,6 +101,7 @@ class PetManagementApp(QMainWindow):
         self.food_controller = FoodController(self.stacked_widget, self.food_model)
         self.article_controller = ArticleController(self.stacked_widget, self.article_model)
         self.activity_controller = ActivityController(self.stacked_widget, self.activity_model)
+        self.main_controller = MainController(self.stacked_widget, self.food_model, self.pet_model, self.activity_model)
         
         # Show the main view initially
         self.stacked_widget.setCurrentIndex(0)  # Start with MainPetView
