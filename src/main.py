@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from boundaries.mainView import MainPetView
+from boundaries.mainView import MainView
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
@@ -20,6 +20,7 @@ class PetManagementApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Pet Management App")
+        self.showFullScreen()
 
         # Create the main layout and central widget
         main_layout = QHBoxLayout()
@@ -42,7 +43,7 @@ class PetManagementApp(QMainWindow):
         self.pet_model = PetModel("database/pet_management.db")
 
         # Create views
-        self.main_pet_view = MainPetView()
+        self.main_pet_view = MainView()
         self.add_pet_view = AddPetView()
         self.detail_pet_view = DetailPetView()
         self.edit_pet_view = EditPetView()

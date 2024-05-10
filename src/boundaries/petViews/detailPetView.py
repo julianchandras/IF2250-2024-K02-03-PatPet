@@ -29,20 +29,6 @@ class DetailPetView(QWidget):
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Sidebar
-        sidebar_widget = QWidget(self)
-        sidebar_widget.setFixedWidth(screen_geometry.width() // 6)
-
-        sidebar_layout = QVBoxLayout(sidebar_widget)
-        sidebar_layout.setContentsMargins(0, 0, 0, 0)
-
-        sidebar_label = QLabel('Sidebar', self)
-        sidebar_label.setStyleSheet('font-size: 48px; background-color: #F99035; font-weight: bold')
-        sidebar_label.setFont(QFont('Arial', 14))
-        sidebar_layout.addWidget(sidebar_label)
-
-        main_layout.addWidget(sidebar_widget)
-
         # Main content
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)

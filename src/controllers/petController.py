@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QStackedWidget
 from PyQt5.QtGui import QPixmap
-from boundaries.mainView import MainPetView
+from boundaries.mainView import MainView
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
