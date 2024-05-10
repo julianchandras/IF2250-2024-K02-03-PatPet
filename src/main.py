@@ -42,6 +42,7 @@ class PetManagementApp(QMainWindow):
 
         # Set the window title
         self.setWindowTitle("Pet Management App")
+        self.showFullScreen()
 
         # Create the main layout and central widget
         main_layout = QHBoxLayout()
