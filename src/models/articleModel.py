@@ -31,7 +31,3 @@ class ArticleModel(BaseModel):
             (title, content),
         )
         self.commit()
-    
-    def delete_food(self, article_id):
-        self.cursor.execute("DELETE FROM articles WHERE article_id = ?", (article_id,))
-        self.commit()

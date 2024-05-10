@@ -134,6 +134,19 @@ class EditPetView(QWidget):
         # Set the main layout for AddPetView
         self.setLayout(main_layout)
 
+    def set_pet_details(self, pet):
+        # Set the pet details in the input fields
+        self.pet_id = pet[0]
+        self.name_input.setText(pet[1])
+        self.species_input.setText(pet[2])
+        self.age_input.setText(str(pet[3]))
+        self.medical_record_input.setPlainText(pet[4])
+        
+        # Load the image data into a QPixmap and display it
+        pixmap = QPixmap()
+        pixmap.loadFromData(pet[5])
+        self.image_label.setPixmap(pixmap.scaled(800, 600))
+
     def upload_image(self):
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getOpenFileName(

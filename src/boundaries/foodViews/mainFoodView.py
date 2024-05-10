@@ -2,8 +2,11 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
-
+from PyQt5.QtCore import pyqtSignal
 class MainFoodView(QWidget):
+    add_food_signal = pyqtSignal(str)
+    update_food_signal = pyqtSignal(int, str)
+    delete_food_signal = pyqtSignal(int)
     def __init__(self):
         super().__init__()
         self.initUI()
