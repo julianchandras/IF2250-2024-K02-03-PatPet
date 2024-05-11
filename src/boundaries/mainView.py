@@ -9,9 +9,11 @@ from PyQt5.QtWidgets import (
     QLabel,
     QFrame,
     QComboBox,
+    QGridLayout
 
 )
 from PyQt5.QtCore import pyqtSignal, Qt
+from components.animalCard import AnimalCard
 
 
 class MainView(QWidget):
@@ -33,6 +35,7 @@ class MainView(QWidget):
 
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
         # Main content
         main_content_widget = QWidget(self)
@@ -44,7 +47,8 @@ class MainView(QWidget):
             0,
         )
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
-        main_content_widget.setFixedHeight(screen_geometry.height())
+        main_content_widget.setFixedHeight(int(screen_geometry.height() + 100) )
+        main_content_layout.setAlignment(Qt.AlignTop)
 
         header_box = QGroupBox(self)
         header_box.setStyleSheet('border: none')
@@ -73,19 +77,23 @@ class MainView(QWidget):
         content_box = QGroupBox(self)
         content_box.setStyleSheet('border: none;')
         content_layout = QHBoxLayout(content_box)
+        content_box.setFixedHeight(int(screen_geometry.height()))
 
         pet_list_box = QGroupBox(self)
         pet_list_box.setStyleSheet('border: none;')
-        pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.45))
+        pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.5))
         pet_list_layout = QVBoxLayout(pet_list_box)
+        pet_list_layout.setAlignment(Qt.AlignTop)
 
         pet_header_box = QGroupBox(self)
         pet_header_box.setStyleSheet('border: none;')
         pet_header_box.setFixedHeight(100)
         pet_header_layout = QHBoxLayout(pet_header_box)
+        pet_header_layout.setAlignment(Qt.AlignLeft)
+
 
         pet_title_label = QLabel('Daftar Hewanmu', self)
-        pet_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B')
+        pet_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
         pet_header_layout.addWidget(pet_title_label)
 
         self.filter_button = QPushButton('Filter', self)
@@ -95,7 +103,7 @@ class MainView(QWidget):
         pet_header_layout.addWidget(self.filter_button)
 
         self.filter_combo_box = QComboBox(self)
-        self.filter_combo_box.setStyleSheet('font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 5px;')
+        self.filter_combo_box.setStyleSheet('font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 10px;')
         self.filter_combo_box.addItems(["Tahu", "Tempe", "Telur"])
         self.filter_combo_box.hide()
         self.filter_combo_box.activated[str].connect(self.on_filter)
@@ -103,16 +111,38 @@ class MainView(QWidget):
     
         pet_list_layout.addWidget(pet_header_box)
 
+
+        pet_content_list = QGroupBox(self)
+        pet_content_list_layout = QGridLayout(pet_content_list)
+        pet_content_list_layout.setAlignment(Qt.AlignTop)
+
+        card_data = [
+        {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+        {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+        {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"}
+    ]
+    
+        i = 0
+        for data in card_data:
+            print("make")
+            card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
+            pet_content_list_layout.addWidget(card,0,i)
+            i += 1
+        pet_list_layout.addWidget(pet_content_list)
+
+
         content_layout.addWidget(pet_list_box)
 
+        # Container utama aktivitas
         activity_box = QGroupBox(self)
         activity_box.setStyleSheet('border: none;')
         activity_box.setFixedWidth(int(screen_geometry.width() * 0.2))
         activity_layout = QVBoxLayout(activity_box)
+        activity_layout.setAlignment(Qt.AlignTop)
 
+        # Container aktivitas hari ini text
         activity_header_box = QGroupBox(self)
         activity_header_box.setStyleSheet('border: none;')
-        activity_header_box.setFixedHeight(50)
         activity_header_layout = QHBoxLayout(activity_header_box)
 
         activity_title_label = QLabel('Aktivitas Hari Ini', self)
@@ -121,9 +151,12 @@ class MainView(QWidget):
 
         activity_layout.addWidget(activity_header_box)
 
+        # Container untuk tiap aktivitas
         activity_content_box = QGroupBox(self)
-        activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 8px;')
+        activity_content_box.setFixedHeight(int(screen_geometry.width() * 0.45))
+        activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 10px;')
         activity_content_layout = QVBoxLayout(activity_content_box)
+        activity_content_layout.setAlignment(Qt.AlignTop)
 
         for i in range(3):
             activity_entry_box = QGroupBox(self)
