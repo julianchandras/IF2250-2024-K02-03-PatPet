@@ -9,7 +9,8 @@ from PyQt5.QtWidgets import (
     QLabel,
     QFrame,
     QComboBox,
-    QGridLayout
+    QGridLayout,
+    QScrollArea
 
 )
 from PyQt5.QtCore import pyqtSignal, Qt
@@ -47,7 +48,7 @@ class MainView(QWidget):
             0,
         )
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
-        main_content_widget.setFixedHeight(int(screen_geometry.height() + 100) )
+        # main_content_widget.setFixedHeight(int(screen_geometry.height() + 100) )
         main_content_layout.setAlignment(Qt.AlignTop)
 
         header_box = QGroupBox(self)
@@ -77,12 +78,12 @@ class MainView(QWidget):
         content_box = QWidget(self)
         content_box.setStyleSheet('border: none;')
         content_layout = QHBoxLayout(content_box)
-        content_box.setFixedHeight(int(screen_geometry.height()))
+        # content_box.setFixedHeight(int(screen_geometry.height() * 0.80))
         content_layout.setAlignment(Qt.AlignTop)
 
         pet_list_box = QWidget(self)
         pet_list_box.setStyleSheet('border:none;')
-        pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.4))
+        # pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.4))
         pet_list_layout = QVBoxLayout(pet_list_box)
         pet_list_layout.setAlignment(Qt.AlignTop)
         pet_list_layout.setContentsMargins(0,0,0,0)
@@ -114,15 +115,32 @@ class MainView(QWidget):
     
         pet_list_layout.addWidget(pet_header_box)
 
+        # Create the scroll area
+        scroll_area_pet = QScrollArea()
+        scroll_area_pet.setWidgetResizable(True)
+        scroll_area_pet.setContentsMargins(0,0,0,0)
+        scroll_area_pet.setFixedHeight(int(screen_geometry.width() * 0.45))
 
-        pet_content_list = QWidget(self)
+        pet_content_list = QWidget()
+        pet_content_list.setFixedWidth(int(screen_geometry.width() * 0.4))
+        
+
         pet_content_list_layout = QGridLayout(pet_content_list)
-        pet_content_list_layout.setAlignment(Qt.AlignLeft)
-        pet_content_list_layout.setContentsMargins(0,0,0,0)
         pet_content_list_layout.setSpacing(0)
+        pet_content_list_layout.setContentsMargins(0,0,0,0)
+        pet_content_list_layout.setAlignment(Qt.AlignTop)
 
         
         card_data = [
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
             {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
             {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
             {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
@@ -137,20 +155,68 @@ class MainView(QWidget):
         row = 0
         col = 0
         for data in card_data:
-            print("make")
             card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
             pet_content_list_layout.addWidget(card, row, col)
             col += 1
             if col >= 3:  # After reaching the second column
                 col = 0  # Reset column index
-                row += 1  # Move to the next row
-        pet_list_layout.addWidget(pet_content_list)
+                row += 1  # Move to the next row//6
+
+        pet_content_list.setLayout(pet_content_list_layout)
+
+        scroll_area_pet.setWidget(pet_content_list)
+        scroll_area_pet.setStyleSheet('''
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #c0c0c0;
+                min-height: 20px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #c0c0c0;
+                min-width: 20px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: none;
+            }
+        ''')
+        pet_list_layout.addWidget(scroll_area_pet)
+        # pet_list_layout.addWidget(pet_content_list)
 
 
         content_layout.addWidget(pet_list_box)
 
         # Container utama aktivitas
-        activity_box = QGroupBox(self)
+        activity_box = QWidget(self)
         activity_box.setStyleSheet('border: none;')
         activity_box.setFixedWidth(int(screen_geometry.width() * 0.2))
         activity_layout = QVBoxLayout(activity_box)
@@ -159,22 +225,27 @@ class MainView(QWidget):
         # Container aktivitas hari ini text
         activity_header_box = QGroupBox(self)
         activity_header_box.setStyleSheet('border: none;')
+        activity_header_box.setFixedHeight(100)
         activity_header_layout = QHBoxLayout(activity_header_box)
 
         activity_title_label = QLabel('Aktivitas Hari Ini', self)
-        activity_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B')
+        activity_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B; margin-top:0px;')
         activity_header_layout.addWidget(activity_title_label)
 
         activity_layout.addWidget(activity_header_box)
 
+        scroll_area_activity = QScrollArea()
+        scroll_area_activity.setWidgetResizable(True)
+        scroll_area_activity.setContentsMargins(0,0,0,0)
+        scroll_area_activity.setFixedHeight(int(screen_geometry.width() * 0.45))
+
         # Container untuk tiap aktivitas
-        activity_content_box = QGroupBox(self)
-        activity_content_box.setFixedHeight(int(screen_geometry.width() * 0.45))
+        activity_content_box = QWidget(self)
         activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 10px;')
         activity_content_layout = QVBoxLayout(activity_content_box)
         activity_content_layout.setAlignment(Qt.AlignTop)
 
-        for i in range(3):
+        for i in range(1):
             activity_entry_box = QGroupBox(self)
             activity_entry_box.setStyleSheet('border: none; background: white; border-radius: 8px;')
             activity_entry_box.setFixedHeight(120)
@@ -194,7 +265,53 @@ class MainView(QWidget):
 
             activity_content_layout.addWidget(activity_entry_box)
 
-        activity_layout.addWidget(activity_content_box)
+        activity_content_box.setLayout(activity_content_layout)
+        scroll_area_activity.setWidget(activity_content_box)
+        scroll_area_activity.setStyleSheet('''
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #c0c0c0;
+                min-height: 20px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #c0c0c0;
+                min-width: 20px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: none;
+            }
+        ''')
+        activity_layout.addWidget(scroll_area_activity)
 
         content_layout.addWidget(activity_box)
 
