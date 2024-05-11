@@ -29,7 +29,7 @@ class AddPetView(QWidget):
 
         screen_height = QApplication.desktop().availableGeometry().height()
         title_widget.setFixedHeight(int(1/6 * screen_height))  # Adjust as needed
-        title_widget.setStyleSheet("QWidget {background-color: white; border-bottom: 15px solid #F277AD;}")
+        title_widget.setStyleSheet("QWidget {background-color: white; border-bottom: 8px solid #F277AD;}")
 
         # Create the title label with specified styles
         title_label = QLabel("Tambah Hewan")
