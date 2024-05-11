@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QPushButton,
-    QTableWidgetItem,
     QApplication,
     QGroupBox,
     QLabel,
@@ -15,6 +14,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import pyqtSignal, Qt
 from components.animalCard import AnimalCard
+from components.activityCard import ActivityCard
 
 
 class MainView(QWidget):
@@ -225,7 +225,7 @@ class MainView(QWidget):
         # Container aktivitas hari ini text
         activity_header_box = QGroupBox(self)
         activity_header_box.setStyleSheet('border: none;')
-        activity_header_box.setFixedHeight(100)
+        activity_header_box.setFixedHeight(95)
         activity_header_layout = QHBoxLayout(activity_header_box)
 
         activity_title_label = QLabel('Aktivitas Hari Ini', self)
@@ -244,26 +244,46 @@ class MainView(QWidget):
         activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 10px;')
         activity_content_layout = QVBoxLayout(activity_content_box)
         activity_content_layout.setAlignment(Qt.AlignTop)
+        activity_content_layout.setSpacing(20)
+        activity_data_list = [
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+        ]
 
-        for i in range(1):
-            activity_entry_box = QGroupBox(self)
-            activity_entry_box.setStyleSheet('border: none; background: white; border-radius: 8px;')
-            activity_entry_box.setFixedHeight(120)
-            activity_entry_layout = QVBoxLayout(activity_entry_box)
+        for activity in activity_data_list:
+            
+            activity_entry_card = ActivityCard(**activity)
+            activity_content_layout.addWidget(activity_entry_card)
+            
 
-            activity_name_label = QLabel('Jalan ke Taman Oink', self)
-            activity_name_label.setStyleSheet('font-size: 18px; font-weight: bold;')
-            activity_entry_layout.addWidget(activity_name_label)
-
-            activity_time_label = QLabel('16.00-17.00', self)
-            activity_time_label.setStyleSheet('font-size: 16px;')
-            activity_entry_layout.addWidget(activity_time_label)
-
-            activity_pet_label = QLabel('Neo Woof', self)
-            activity_pet_label.setStyleSheet('font-size: 16px; background: #FFD66C')
-            activity_entry_layout.addWidget(activity_pet_label)
-
-            activity_content_layout.addWidget(activity_entry_box)
 
         activity_content_box.setLayout(activity_content_layout)
         scroll_area_activity.setWidget(activity_content_box)
