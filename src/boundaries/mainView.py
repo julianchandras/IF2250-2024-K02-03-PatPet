@@ -74,19 +74,22 @@ class MainView(QWidget):
         line.setFixedWidth(int(screen_geometry.width() * 0.65))
         main_content_layout.addWidget(line)
 
-        content_box = QGroupBox(self)
+        content_box = QWidget(self)
         content_box.setStyleSheet('border: none;')
         content_layout = QHBoxLayout(content_box)
         content_box.setFixedHeight(int(screen_geometry.height()))
+        content_layout.setAlignment(Qt.AlignTop)
 
-        pet_list_box = QGroupBox(self)
-        pet_list_box.setStyleSheet('border: none;')
-        pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.5))
+        pet_list_box = QWidget(self)
+        pet_list_box.setStyleSheet('border:none;')
+        pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.4))
         pet_list_layout = QVBoxLayout(pet_list_box)
         pet_list_layout.setAlignment(Qt.AlignTop)
+        pet_list_layout.setContentsMargins(0,0,0,0)
+        pet_list_layout.setSpacing(0)
 
         pet_header_box = QGroupBox(self)
-        pet_header_box.setStyleSheet('border: none;')
+        pet_header_box.setStyleSheet('border:none;')
         pet_header_box.setFixedHeight(100)
         pet_header_layout = QHBoxLayout(pet_header_box)
         pet_header_layout.setAlignment(Qt.AlignLeft)
@@ -112,22 +115,35 @@ class MainView(QWidget):
         pet_list_layout.addWidget(pet_header_box)
 
 
-        pet_content_list = QGroupBox(self)
+        pet_content_list = QWidget(self)
         pet_content_list_layout = QGridLayout(pet_content_list)
-        pet_content_list_layout.setAlignment(Qt.AlignTop)
+        pet_content_list_layout.setAlignment(Qt.AlignLeft)
+        pet_content_list_layout.setContentsMargins(0,0,0,0)
+        pet_content_list_layout.setSpacing(0)
 
+        
         card_data = [
-        {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-        {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-        {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"}
-    ]
-    
-        i = 0
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"}
+        ]
+
+        row = 0
+        col = 0
         for data in card_data:
             print("make")
             card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
-            pet_content_list_layout.addWidget(card,0,i)
-            i += 1
+            pet_content_list_layout.addWidget(card, row, col)
+            col += 1
+            if col >= 3:  # After reaching the second column
+                col = 0  # Reset column index
+                row += 1  # Move to the next row
         pet_list_layout.addWidget(pet_content_list)
 
 
