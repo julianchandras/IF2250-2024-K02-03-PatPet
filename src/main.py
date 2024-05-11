@@ -42,7 +42,6 @@ class PetManagementApp(QMainWindow):
 
         # Set the window title
         self.setWindowTitle("Pet Management App")
-        self.showFullScreen()
 
         # Create the main layout and central widget
         main_layout = QHBoxLayout()
@@ -75,8 +74,6 @@ class PetManagementApp(QMainWindow):
         self.main_food_view = MainFoodView()
         self.add_activity_view = AddActivityView()
         self.update_activity_view = UpdateActivityView()
-        self.main_article_view = MainArticleView()
-        self.detail_article_view = DetailArticleView()
 
         # Add views to QStackedWidget
         self.stacked_widget.addWidget(self.main_pet_view) # Index 0
@@ -103,7 +100,7 @@ class PetManagementApp(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Create the controller and pass the stacked widget and model
-        self.pet_controller = PetController(self.stacked_widget, self.pet_model)
+        self.pet_controller = PetController(self.stacked_widget, self.pet_model, self.food_model)
         self.food_controller = FoodController(self.stacked_widget, self.food_model)
         self.article_controller = ArticleController(self.stacked_widget, self.article_model)
         self.activity_controller = ActivityController(self.stacked_widget, self.activity_model)

@@ -5,6 +5,7 @@ from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
 from models.petModel import PetModel
+from models.foodModel import FoodModel
 
 class PetController:
     stacked_widget : QStackedWidget
@@ -13,10 +14,11 @@ class PetController:
     edit_pet_view : EditPetView
     detail_pet_view : DetailPetView
 
-    def __init__(self, stacked_widget : QStackedWidget, pet_model : PetModel):
+    def __init__(self, stacked_widget : QStackedWidget, pet_model : PetModel, food_model : FoodModel):
     
         self.stacked_widget = stacked_widget
         self.pet_model = pet_model
+        self.food_model = food_model
 
         ## index 0 = main_pet_view
         ## index 1 = main article view
@@ -31,12 +33,14 @@ class PetController:
         self.main_pet_view = self.stacked_widget.widget(0)  # Main pet view index 0
         self.add_pet_view  = self.stacked_widget.widget(3) 
         self.edit_pet_view = self.stacked_widget.widget(4)  
-        self.detail_pet_view = self.stacked_widget.widget(5)  
+        self.detail_pet_view = self.stacked_widget.widget(5)
+        self.main_food_view = self.stacked_widget.widget(6)  
 
         
     
         # Signal buat di add page
         self.add_pet_view.save_pet_signal.connect(self.save_pet)  # Ini untuk add pet dan save serta balikin ke main page
+        self.add_pet_view.refetch_foods_signal.connect(self.load_foods)  # Ini untuk refetch food list
 
         
         # Signal buat di detail page
@@ -45,15 +49,20 @@ class PetController:
 
         # Signal buat di edit page
         self.edit_pet_view.save_pet_signal.connect(self.save_pet_edits)  # Save pet edits and return to MainPetView
-        
-    def load_pets(self):
-        pets = self.pet_model.get_all_pets()
-        self.main_pet_view.set_pets(pets)
+        self.edit_pet_view.refetch_foods_signal.connect(self.load_foods)  # Refetch the food list
 
-    def save_pet(self, pet_name, species, age, medical_record, image):
-        self.pet_model.add_pet(pet_name, species, age, medical_record, image)  # Save pet to the model
+    def load_foods(self, type):
+        if (type == "add"):
+            self.add_pet_view.set_food_list(self.food_model.get_main_food())
+
+        elif (type == "edit"):
+            self.edit_pet_view.set_food_list(self.food_model.get_main_food())
+        
+    def save_pet(self, pet_name, species, age, medical_record, image, food_list):
+        self.pet_model.add_pet(pet_name, species, age, medical_record, image,food_list)  # Save pet to the model
         # Refresh the pet list
-        self.load_pets()
+        self.stacked_widget.widget(6).refetch_food()
+        
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
 
     def show_edit_pet_view(self, pet_id):
@@ -62,14 +71,14 @@ class PetController:
         self.edit_pet_view.set_pet_details(pet)
         self.stacked_widget.setCurrentIndex(4)  # Navigate to EditPetView
 
-    def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image):
-        self.pet_model.update_pet(pet_id, pet_name, species, age, medical_record, image)
-        self.load_pets()
+    def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image, food_list):
+        self.pet_model.update_pet(str(pet_id), pet_name, species, age, medical_record, image, food_list)
+        self.stacked_widget.widget(6).refetch_food()
         self.stacked_widget.setCurrentIndex(0)
     
     def delete_pet(self, pet_id):
         self.pet_model.delete_pet(pet_id)  # Delete pet from the model
-        self.load_pets()  # Refresh the pet list
+        self.stacked_widget.widget(6).refetch_food()
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
 
 

@@ -3,20 +3,16 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QPushButton,
-    QTableWidget,
     QTableWidgetItem,
     QApplication,
     QGroupBox,
     QLabel,
     QFrame,
     QComboBox,
-    QListWidget,
-    QStyledItemDelegate,
-    QStyle,
-    QAbstractItemView
+
 )
 from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtGui import QFont
+
 
 class MainView(QWidget):
     # Signals to navigate to other views
@@ -33,7 +29,7 @@ class MainView(QWidget):
         screen_geometry = QApplication.desktop().availableGeometry()
 
         self.setWindowTitle('Detail Hewan')
-        self.showFullScreen()
+
 
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
@@ -61,6 +57,7 @@ class MainView(QWidget):
 
         add_pet_button = QPushButton('Tambah Hewan', self)
         add_pet_button.setStyleSheet('background-color: #F277AD; font-size: 18px; color: white; padding: 17px 13px; border: none; border-radius: 5px;')
+        add_pet_button.clicked.connect(self.add_pet)
         add_pet_button.setFixedSize(160, 60)
         header_layout.addWidget(add_pet_button)
 
@@ -207,20 +204,23 @@ class MainView(QWidget):
         self.view_pet_signal.emit(pet_id)  # Emit signal to switch to DetailPetView
 
     def filter_pet(self):
-        pets = []
+        pass
+        # pets = []
         
-        self.filter_pet_signal.emit(pets)
+        # self.filter_pet_signal.emit(pets)
 
     def set_pets(self, pets):
-        self.pets_table.setRowCount(len(pets))
-        for row, pet in enumerate(pets):
-            for col, field in enumerate(pet):
-                item = QTableWidgetItem(str(field))
-                self.pets_table.setItem(row, col, item)
+        pass
+        # self.pets_table.setRowCount(len(pets))
+        # for row, pet in enumerate(pets):
+        #     for col, field in enumerate(pet):
+        #         item = QTableWidgetItem(str(field))
+        #         self.pets_table.setItem(row, col, item)
 
     def set_activity(self, activities):
-        self.activities_table.setRowCount(len(activities))
-        for row, activity in enumerate(activities):
-            for col, field in enumerate(activity):
-                item = QTableWidgetItem(str(field))
-                self.activities_table.setItem(row, col, item)
+        pass
+        # self.activities_table.setRowCount(len(activities))
+        # for row, activity in enumerate(activities):
+        #     for col, field in enumerate(activity):
+        #         item = QTableWidgetItem(str(field))
+        #         self.activities_table.setItem(row, col, item)

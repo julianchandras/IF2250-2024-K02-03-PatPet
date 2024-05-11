@@ -25,6 +25,9 @@ class Sidebar(QWidget):
         main_content_widget = QWidget(self)
         main_content_widget.setStyleSheet("background-color: #F99035;")
         main_content_layout = QVBoxLayout(main_content_widget)
+        main_content_layout.setSpacing(50)
+        main_content_widget.setContentsMargins(0,200,0,0)
+
         
         # Add a logo at the top
         logo_label = QLabel()  # Create a label to display the logo
@@ -41,7 +44,7 @@ class Sidebar(QWidget):
         exit_button = QPushButton("Exit")
         
         # Set styles for buttons for better visibility on the orange background
-        button_style = "font-weight: bold; border: none; color: white;"
+        button_style = "font-weight: bold; border: none; color: white; font-size: 40px"
         for button in (main_button, jadwal_button, article_button, food_button, exit_button):
             button.setStyleSheet(button_style)  # Apply style to all buttons
         
@@ -55,7 +58,7 @@ class Sidebar(QWidget):
         # Add widgets to the layout
         main_content_layout.addWidget(logo_label)  # Add the logo at the top
         # Optional: add a bit of spacing after the logo
-        main_content_layout.addSpacing(20)
+        main_content_layout.addSpacing(200)
         # Add navigation buttons
         main_content_layout.addWidget(main_button)
         main_content_layout.addWidget(jadwal_button)

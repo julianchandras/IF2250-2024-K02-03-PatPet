@@ -1,10 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QFileDialog, QApplication,QGridLayout, QComboBox, QTextEdit
 from PyQt5.QtCore import pyqtSignal,Qt
 from PyQt5.QtGui import QPixmap
-
+from components.checkableCombobox import CheckableComboBox
 class EditPetView(QWidget):
     # Signal to save the edited pet with additional image data
     save_pet_signal = pyqtSignal(int, str, str, int, str, bytes)  
+    refetch_foods_signal = pyqtSignal(str)  # Signal to refetch the food list
     
     def __init__(self):
         super().__init__()
@@ -99,10 +100,9 @@ class EditPetView(QWidget):
         makanan_label.setStyleSheet(label_style)
         form_layout.addWidget(makanan_label, 4, 1)
 
-        self.food_list_input = QComboBox()
-        self.food_list_input.addItems(["Tempe", "Tahu", "Susu", "Daging", "Ikan"])
+        self.food_list_input = CheckableComboBox()
+       
         form_layout.addWidget(self.food_list_input, 5, 1)
-
 
         # Add image label and upload button
         image_label = QLabel("Image:")
@@ -174,3 +174,15 @@ class EditPetView(QWidget):
             medical_record,
             self.selected_image_data  # Include the selected image data, if any
         )
+
+    def set_food_list(self, food_list):
+        self.food_list_input.clear()
+        # Set the food list in the combo box
+        
+        self.food_list_input.addItems(food_list)
+
+    def refetch_food(self):
+        self.refetch_foods_signal.emit("edit")
+    
+   
+
