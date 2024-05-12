@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox, QScrollArea
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
@@ -22,7 +22,7 @@ class MainFoodView(QWidget):
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
         main_content_layout.setContentsMargins(115, 42, 115, 0)
-        main_content_widget.setStyleSheet('background-color: #FFEAB4;')
+        main_content_widget.setStyleSheet('background-color: #FFEAB4; border:1px solid red;')
 
         title_label = QLabel('Daftar Makanan', self)
         title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
@@ -35,7 +35,7 @@ class MainFoodView(QWidget):
         main_content_layout.addWidget(add_food_label)
 
         food_entry_box = QGroupBox('', self)
-        food_entry_box.setStyleSheet("background-color: white; border-radius: 8px;")
+        food_entry_box.setStyleSheet("background-color: white; border-radius: 8px; border:1px solid blue;")
         food_entry_box_layout = QVBoxLayout(food_entry_box)
         food_entry_box_layout.setContentsMargins(24, 30, 24, 20)
 
@@ -63,6 +63,11 @@ class MainFoodView(QWidget):
         food_list_label.setContentsMargins(0, 18, 0, 6)
         main_content_layout.addWidget(food_list_label)
 
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setContentsMargins(0,0,0,0)
+        scroll_area.setFixedHeight(int(screen_geometry.width() * 0.4))
+
         self.food_table = QTableWidget(self)
         self.food_table.setColumnCount(3)
         self.food_table.setHorizontalHeaderLabels(['Nama Makanan', 'Daftar Hewan', 'Options'])
@@ -89,12 +94,14 @@ class MainFoodView(QWidget):
                 margin: 5px 0px 0px 0px;
             }
         ''')
-        self.food_table.setFixedWidth(int((screen_geometry.width() * 0.7)))
-        self.food_table.verticalHeader().setDefaultSectionSize(74) 
+        self.food_table.setFixedWidth(int((screen_geometry.width() * 0.755)))
+        self.food_table.verticalHeader().setDefaultSectionSize(80) 
+        self.food_table.horizontalHeader().setDefaultSectionSize(int((screen_geometry.width() * 0.755) // 3))
         self.food_table.verticalHeader().setVisible(False)
 
-        self.food_table.resizeColumnsToContents()
-        main_content_layout.addWidget(self.food_table)
+        scroll_area.setWidget(self.food_table)
+        # self.food_table.resizeColumnsToContents()
+        main_content_layout.addWidget(scroll_area)
     
         main_layout.addWidget(main_content_widget)
 
@@ -124,6 +131,7 @@ class MainFoodView(QWidget):
             option_layout = QHBoxLayout(option_widget)  # Create a horizontal layout
             option_layout.setContentsMargins(0, 0, 0, 0)  # Optional: Reduce margins
             option_layout.setSpacing(10)  # Optional: Set spacing between buttons
+            option_widget.setStyleSheet("background-color :#D9D9D9; ")
 
             # Create the buttons and connect them to the signals
             update_button = QPushButton("Update", self)
