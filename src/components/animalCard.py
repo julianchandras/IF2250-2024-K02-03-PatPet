@@ -3,9 +3,10 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal
 
 class AnimalCard(QWidget):
-    clicked = pyqtSignal()
-    def __init__(self, name, species, age, riwayat_penyakit, image_path, parent=None):
+    clicked = pyqtSignal(int)
+    def __init__(self, pet_id, name, species, age, riwayat_penyakit, image_path, parent=None):
         super().__init__(parent)
+        self.pet_id = pet_id
         self.name = name
         self.species = species
         self.age = age
@@ -39,7 +40,8 @@ class AnimalCard(QWidget):
 
         # Create QLabel for image
         self.image_label = QLabel()
-        pixmap = QPixmap(self.image_path)
+        pixmap = QPixmap()
+        pixmap.loadFromData(self.image_path)
         if not pixmap.isNull():  # Check if pixmap is valid
             pixmap = pixmap.scaledToWidth(350)  # Adjust the width to match the card content width
             self.image_label.setPixmap(pixmap)
@@ -105,4 +107,4 @@ class AnimalCard(QWidget):
         self.setLayout(layout)
         
     def mousePressEvent(self, event):
-        self.clicked.emit()
+        self.clicked.emit(self.pet_id)

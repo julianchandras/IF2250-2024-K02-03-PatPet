@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import (
     QGroupBox,
     QLabel,
     QFrame,
-    QComboBox,
     QGridLayout,
     QScrollArea
 
@@ -15,6 +14,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import pyqtSignal, Qt
 from components.animalCard import AnimalCard
 from components.activityCard import ActivityCard
+from components.checkableCombobox import CheckableComboBox
 
 
 class MainView(QWidget):
@@ -22,7 +22,6 @@ class MainView(QWidget):
     add_pet_signal = pyqtSignal()  # Signal to switch to AddPetView
     view_pet_signal = pyqtSignal(int)  # Signal to switch to DetailPetView with pet ID
     filter_pet_signal = pyqtSignal(list)  # Signal to filter pets by food
-    filter_by = []
 
     def __init__(self):
         super().__init__()
@@ -106,11 +105,26 @@ class MainView(QWidget):
         self.filter_button.clicked.connect(self.show_filter_menu)
         pet_header_layout.addWidget(self.filter_button)
 
-        self.filter_combo_box = QComboBox(self)
-        self.filter_combo_box.setStyleSheet('font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 10px;')
-        self.filter_combo_box.addItems(["Tahu", "Tempe", "Telur"])
+        self.filter_combo_box = CheckableComboBox()
+        self.filter_combo_box.setStyleSheet("""QComboBox {font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 10px;}
+                                            QComboBox::drop-down {
+                                            border: 0px;
+                                            }
+                                            QComboBox::down-arrow {
+                                                image: url(img/chevron-down.png);
+                                                width: 30px;
+                                                height: 30px;
+                                                margin-right: 20px;
+                                            }
+                                            QLineEdit {
+                                                background-color: #F8F8F8;
+
+                                            }
+                                            """)
         self.filter_combo_box.hide()
-        self.filter_combo_box.activated[str].connect(self.on_filter)
+        self.filter_combo_box.setFixedSize(400, 50)
+        self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
+        
         pet_header_layout.addWidget(self.filter_combo_box)
     
         pet_list_layout.addWidget(pet_header_box)
@@ -125,45 +139,12 @@ class MainView(QWidget):
         pet_content_list.setFixedWidth(int(screen_geometry.width() * 0.4))
         
 
-        pet_content_list_layout = QGridLayout(pet_content_list)
-        pet_content_list_layout.setSpacing(0)
-        pet_content_list_layout.setContentsMargins(0,0,0,0)
-        pet_content_list_layout.setAlignment(Qt.AlignTop)
+        self.pet_content_list_layout = QGridLayout(pet_content_list)
+        self.pet_content_list_layout.setSpacing(0)
+        self.pet_content_list_layout.setContentsMargins(0,0,0,0)
+        self.pet_content_list_layout.setAlignment(Qt.AlignTop)
 
-        
-        card_data = [
-            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
-            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
-            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
-            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
-            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
-            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"}
-        ]
-
-        row = 0
-        col = 0
-        for data in card_data:
-            card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
-            pet_content_list_layout.addWidget(card, row, col)
-            col += 1
-            if col >= 3:  # After reaching the second column
-                col = 0  # Reset column index
-                row += 1  # Move to the next row//6
-            card.clicked.connect(self.onAnimalCardClicked)
-
-        pet_content_list.setLayout(pet_content_list_layout)
+        pet_content_list.setLayout(self.pet_content_list_layout)
 
         scroll_area_pet.setWidget(pet_content_list)
         scroll_area_pet.setStyleSheet('''
@@ -243,51 +224,11 @@ class MainView(QWidget):
         # Container untuk tiap aktivitas
         activity_content_box = QWidget(self)
         activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 10px;')
-        activity_content_layout = QVBoxLayout(activity_content_box)
-        activity_content_layout.setAlignment(Qt.AlignTop)
-        activity_content_layout.setSpacing(20)
-        activity_data_list = [
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
-            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
-        ]
-
-        for activity in activity_data_list:
+        self.activity_content_layout = QVBoxLayout(activity_content_box)
+        self.activity_content_layout.setAlignment(Qt.AlignTop)
+        self.activity_content_layout.setSpacing(20)
             
-            activity_entry_card = ActivityCard(**activity)
-            activity_content_layout.addWidget(activity_entry_card)
-            activity_entry_card.clicked.connect(self.onActivityCardClicked)
-            
-
-
-        activity_content_box.setLayout(activity_content_layout)
+        activity_content_box.setLayout(self.activity_content_layout)
         scroll_area_activity.setWidget(activity_content_box)
         scroll_area_activity.setStyleSheet('''
             QScrollBar:vertical {
@@ -347,89 +288,70 @@ class MainView(QWidget):
         # Show the filter dropdown menu
         self.filter_combo_box.show()
 
-    def on_filter(self, text):
-        if text in self.filter_by:
-            self.filter_by.remove(text)
-        else:
-            self.filter_by.append(text)
+    def hide_filter_menu(self):
+        # Hide the filter dropdown menu
+        self.filter_combo_box.hide()
 
-        self.update_combo_box()
-
-    def update_combo_box(self):
-        font = self.filter_combo_box.font()
-        font.setBold(False)
-        for i in range(self.filter_combo_box.count()):
-            if self.filter_combo_box.itemText(i) in self.filter_by:
-                font.setBold(True)
-                self.filter_combo_box.setItemData(i, font, Qt.FontRole)
-            else:
-                font.setBold(False)
-                self.filter_combo_box.setItemData(i, font, Qt.FontRole)
-
-
-
-
-        # # Button to add a new pet
-        # self.add_pet_button = QPushButton("Add Pet")
-        # self.add_pet_button.clicked.connect(self.add_pet)
-        
-        # # Table to display pets
-        # self.pets_table = QTableWidget(0, 2)  # 2 columns: ID and Name
-        # self.pets_table.setHorizontalHeaderLabels(["ID", "Name"])
-        # self.pets_table.cellClicked.connect(self.view_pet)
-        
-        # # Add widgets to layout
-        # layout.addWidget(self.add_pet_button)  # Button to add a new pet
-        # layout.addWidget(self.pets_table)  # Table to list pets
-        
-        # self.setLayout(layout)
 
     def add_pet(self):
         self.add_pet_signal.emit()  # Emit signal to switch to AddPetView
 
-    def view_pet(self, row):
-        pet_id = int(self.pets_table.item(row, 0).text())  # Get pet ID from the table
-        self.view_pet_signal.emit(pet_id)  # Emit signal to switch to DetailPetView
-
     def filter_pet(self):
-        pass
-        # pets = []
         
-        # self.filter_pet_signal.emit(pets)
+        self.filter_pet_signal.emit(self.filter_combo_box.currentData())
 
     def set_pets(self, pets):
-        pass
-        # self.pets_table.setRowCount(len(pets))
-        # for row, pet in enumerate(pets):
-        #     for col, field in enumerate(pet):
-        #         item = QTableWidgetItem(str(field))
-        #         self.pets_table.setItem(row, col, item)
+        layout = self.pet_content_list_layout
+        self.clear_layout(layout)
+        row = 0
+        col = 0
+        for data in pets:
+            card = AnimalCard(pet_id = data[0], name=data[1], age=data[3], species=data[2], riwayat_penyakit=data[4], image_path=data[5])  # Create a CardWidget instance with the provided data
+            self.pet_content_list_layout.addWidget(card, row, col)
+            col += 1
+            if col >= 3:  # After reaching the second column
+                col = 0  # Reset column index
+                row += 1  # Move to the next row//6
+           
+            card.clicked.connect(self.onAnimalCardClicked)
 
     def set_food(self,food):
-        pass
-
-    def set_activities(self, activities):
-        pass
-        # self.activities_table.setRowCount(len(activities))
-        # for row, activity in enumerate(activities):
-        #     for col, field in enumerate(activity):
-        #         item = QTableWidgetItem(str(field))
-        #         self.activities_table.setItem(row, col, item)
-    # Assuming you have an instance of ActivityCard called activity_card
-
-    def onAnimalCardClicked(self):
-        clicked_card = self.sender()  # Get the instance of the card that emitted the signal
+        self.filter_combo_box.clear()
+        self.filter_combo_box.addItems(food)
         
-        # Access the properties of the clicked card and print them
-        print("Name:", clicked_card.name)
-        print("Species:", clicked_card.species)
-        print("Age:", clicked_card.age)
-        print("Riwayat Penyakit:", clicked_card.riwayat_penyakit)
+    def set_activities(self, activities):
+        
+        layout = self.activity_content_layout
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+            else:
+                sublayout = item.layout()
+                if sublayout:
+                    self.clear_layout(sublayout)
+
+        for activity in activities:
+            activity_card = ActivityCard(activity_name=activity[1], time=activity[3]+"-"+activity[4], pet=activity[6])
+            self.activity_content_layout.addWidget(activity_card)
+
+    def onAnimalCardClicked(self, pet_id):
+        # Get the instance of the card that emitted the signal
+        self.view_pet_signal.emit(pet_id)
 
     def onActivityCardClicked(self):
         clicked_card = self.sender()  # Get the instance of the card that emitted the signal
-        
         # Access the properties of the clicked card and print them
         print("Activity Name:", clicked_card.activity_name)
         print("Time:", clicked_card.time)
         print("Pet:", clicked_card.pet)
+
+    def clear_layout(self, layout):
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+            else:
+                self.clear_layout(item.layout())

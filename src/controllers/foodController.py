@@ -5,6 +5,7 @@ from boundaries.foodViews.mainFoodView import MainFoodView  # Import the MainFoo
 from boundaries.mainView import MainView
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.editPetView import EditPetView
+from boundaries.petViews.detailPetView import DetailPetView
 
 class FoodController:
     def __init__(self, stacked_widget : QStackedWidget, food_model : FoodModel):
@@ -15,6 +16,7 @@ class FoodController:
         self.main_food_view : MainFoodView = self.stacked_widget.widget(6)  # Main food view index 6
         self.add_hewan_view : AddPetView = self.stacked_widget.widget(3)  # Add hewan view index 3
         self.edit_hewan_view : EditPetView = self.stacked_widget.widget(4)
+        self.detail_hewan_view : DetailPetView = self.stacked_widget.widget(5)
 
         self.main_food_view.add_food_signal.connect(self.add_food)
         self.main_food_view.update_food_signal.connect(self.update_food)
@@ -30,7 +32,7 @@ class FoodController:
         self.add_hewan_view.set_food(foods)
         self.main_view.set_food(foods)
         self.edit_hewan_view.set_food(foods)
-
+        
     def add_food(self, food_name):
         self.food_model.add_food(food_name)
         self.load_foods()  # Refresh the view after adding

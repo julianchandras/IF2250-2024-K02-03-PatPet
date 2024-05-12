@@ -3,9 +3,6 @@ from PyQt5.QtGui import QStandardItem
 from PyQt5.QtWidgets import (
     QComboBox,
     QStyledItemDelegate,
-    QCheckBox,
-    QStyleOptionViewItem,
-    QStyle,
 )
 
 class CheckableComboBox(QComboBox):
@@ -17,8 +14,6 @@ class CheckableComboBox(QComboBox):
             
             return size
             
-        
-       
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setMinimumHeight(60)
@@ -43,7 +38,7 @@ class CheckableComboBox(QComboBox):
         self.setEditable(True)
         self.lineEdit().setReadOnly(True)
         self.lineEdit().setStyleSheet(
-            "background-color: white; padding: 5px; height: 40px; font-size: 16px; color: black;"
+            " padding: 5px; height: 40px; font-size: 16px; color: black;"
         )
 
         self.setItemDelegate(CheckableComboBox.Delegate())
@@ -93,8 +88,6 @@ class CheckableComboBox(QComboBox):
         self.closeOnLineEditClick = False
 
     def updateText(self):
-      
-
         texts = []
         for i in range(self.model().rowCount()):
             if self.model().item(i).checkState() == Qt.Checked:
@@ -131,4 +124,11 @@ class CheckableComboBox(QComboBox):
             if item.checkState() == Qt.Checked:
                 checked_data.append(item.data(Qt.UserRole))  # Get data from UserRole
         return checked_data
+    
+    def setCheckState(self, index, state):
+        item = self.model().item(index)
+        item.setCheckState(Qt.Checked if state else Qt.Unchecked)
+        self.updateText()
+    
+
 
