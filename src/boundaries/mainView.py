@@ -3,15 +3,18 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QPushButton,
-    QTableWidgetItem,
     QApplication,
     QGroupBox,
     QLabel,
     QFrame,
     QComboBox,
+    QGridLayout,
+    QScrollArea
 
 )
 from PyQt5.QtCore import pyqtSignal, Qt
+from components.animalCard import AnimalCard
+from components.activityCard import ActivityCard
 
 
 class MainView(QWidget):
@@ -33,6 +36,7 @@ class MainView(QWidget):
 
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
         # Main content
         main_content_widget = QWidget(self)
@@ -44,7 +48,8 @@ class MainView(QWidget):
             0,
         )
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
-        main_content_widget.setFixedHeight(screen_geometry.height())
+        # main_content_widget.setFixedHeight(int(screen_geometry.height() + 100) )
+        main_content_layout.setAlignment(Qt.AlignTop)
 
         header_box = QGroupBox(self)
         header_box.setStyleSheet('border: none')
@@ -70,22 +75,29 @@ class MainView(QWidget):
         line.setFixedWidth(int(screen_geometry.width() * 0.65))
         main_content_layout.addWidget(line)
 
-        content_box = QGroupBox(self)
+        content_box = QWidget(self)
         content_box.setStyleSheet('border: none;')
         content_layout = QHBoxLayout(content_box)
+        # content_box.setFixedHeight(int(screen_geometry.height() * 0.80))
+        content_layout.setAlignment(Qt.AlignTop)
 
-        pet_list_box = QGroupBox(self)
-        pet_list_box.setStyleSheet('border: none;')
-        pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.45))
+        pet_list_box = QWidget(self)
+        pet_list_box.setStyleSheet('border:none;')
+        # pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.4))
         pet_list_layout = QVBoxLayout(pet_list_box)
+        pet_list_layout.setAlignment(Qt.AlignTop)
+        pet_list_layout.setContentsMargins(0,0,0,0)
+        pet_list_layout.setSpacing(0)
 
         pet_header_box = QGroupBox(self)
-        pet_header_box.setStyleSheet('border: none;')
+        pet_header_box.setStyleSheet('border:none;')
         pet_header_box.setFixedHeight(100)
         pet_header_layout = QHBoxLayout(pet_header_box)
+        pet_header_layout.setAlignment(Qt.AlignLeft)
+
 
         pet_title_label = QLabel('Daftar Hewanmu', self)
-        pet_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B')
+        pet_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
         pet_header_layout.addWidget(pet_title_label)
 
         self.filter_button = QPushButton('Filter', self)
@@ -95,7 +107,7 @@ class MainView(QWidget):
         pet_header_layout.addWidget(self.filter_button)
 
         self.filter_combo_box = QComboBox(self)
-        self.filter_combo_box.setStyleSheet('font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 5px;')
+        self.filter_combo_box.setStyleSheet('font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 10px;')
         self.filter_combo_box.addItems(["Tahu", "Tempe", "Telur"])
         self.filter_combo_box.hide()
         self.filter_combo_box.activated[str].connect(self.on_filter)
@@ -103,49 +115,223 @@ class MainView(QWidget):
     
         pet_list_layout.addWidget(pet_header_box)
 
+        # Create the scroll area
+        scroll_area_pet = QScrollArea()
+        scroll_area_pet.setWidgetResizable(True)
+        scroll_area_pet.setContentsMargins(0,0,0,0)
+        scroll_area_pet.setFixedHeight(int(screen_geometry.width() * 0.45))
+
+        pet_content_list = QWidget()
+        pet_content_list.setFixedWidth(int(screen_geometry.width() * 0.4))
+        
+
+        pet_content_list_layout = QGridLayout(pet_content_list)
+        pet_content_list_layout.setSpacing(0)
+        pet_content_list_layout.setContentsMargins(0,0,0,0)
+        pet_content_list_layout.setAlignment(Qt.AlignTop)
+
+        
+        card_data = [
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"},
+            {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
+            {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
+            {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"}
+        ]
+
+        row = 0
+        col = 0
+        for data in card_data:
+            card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
+            pet_content_list_layout.addWidget(card, row, col)
+            col += 1
+            if col >= 3:  # After reaching the second column
+                col = 0  # Reset column index
+                row += 1  # Move to the next row//6
+
+        pet_content_list.setLayout(pet_content_list_layout)
+
+        scroll_area_pet.setWidget(pet_content_list)
+        scroll_area_pet.setStyleSheet('''
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #c0c0c0;
+                min-height: 20px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #c0c0c0;
+                min-width: 20px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: none;
+            }
+        ''')
+        pet_list_layout.addWidget(scroll_area_pet)
+        # pet_list_layout.addWidget(pet_content_list)
+
+
         content_layout.addWidget(pet_list_box)
 
-        activity_box = QGroupBox(self)
+        # Container utama aktivitas
+        activity_box = QWidget(self)
         activity_box.setStyleSheet('border: none;')
         activity_box.setFixedWidth(int(screen_geometry.width() * 0.2))
         activity_layout = QVBoxLayout(activity_box)
+        activity_layout.setAlignment(Qt.AlignTop)
 
+        # Container aktivitas hari ini text
         activity_header_box = QGroupBox(self)
         activity_header_box.setStyleSheet('border: none;')
-        activity_header_box.setFixedHeight(50)
+        activity_header_box.setFixedHeight(95)
         activity_header_layout = QHBoxLayout(activity_header_box)
 
         activity_title_label = QLabel('Aktivitas Hari Ini', self)
-        activity_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B')
+        activity_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B; margin-top:0px;')
         activity_header_layout.addWidget(activity_title_label)
 
         activity_layout.addWidget(activity_header_box)
 
-        activity_content_box = QGroupBox(self)
-        activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 8px;')
+        scroll_area_activity = QScrollArea()
+        scroll_area_activity.setWidgetResizable(True)
+        scroll_area_activity.setContentsMargins(0,0,0,0)
+        scroll_area_activity.setFixedHeight(int(screen_geometry.width() * 0.45))
+
+        # Container untuk tiap aktivitas
+        activity_content_box = QWidget(self)
+        activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 10px;')
         activity_content_layout = QVBoxLayout(activity_content_box)
+        activity_content_layout.setAlignment(Qt.AlignTop)
+        activity_content_layout.setSpacing(20)
+        activity_data_list = [
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+            {"activity_name": "Jalan ke Taman Oink", "time": "16.00-17.00", "pet": "Neo Woof"},
+            {"activity_name": "Play fetch", "time": "17.30-18.30", "pet": "Buddy"},
+        ]
 
-        for i in range(3):
-            activity_entry_box = QGroupBox(self)
-            activity_entry_box.setStyleSheet('border: none; background: white; border-radius: 8px;')
-            activity_entry_box.setFixedHeight(120)
-            activity_entry_layout = QVBoxLayout(activity_entry_box)
+        for activity in activity_data_list:
+            
+            activity_entry_card = ActivityCard(**activity)
+            activity_content_layout.addWidget(activity_entry_card)
+            
 
-            activity_name_label = QLabel('Jalan ke Taman Oink', self)
-            activity_name_label.setStyleSheet('font-size: 18px; font-weight: bold;')
-            activity_entry_layout.addWidget(activity_name_label)
 
-            activity_time_label = QLabel('16.00-17.00', self)
-            activity_time_label.setStyleSheet('font-size: 16px;')
-            activity_entry_layout.addWidget(activity_time_label)
-
-            activity_pet_label = QLabel('Neo Woof', self)
-            activity_pet_label.setStyleSheet('font-size: 16px; background: #FFD66C')
-            activity_entry_layout.addWidget(activity_pet_label)
-
-            activity_content_layout.addWidget(activity_entry_box)
-
-        activity_layout.addWidget(activity_content_box)
+        activity_content_box.setLayout(activity_content_layout)
+        scroll_area_activity.setWidget(activity_content_box)
+        scroll_area_activity.setStyleSheet('''
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #c0c0c0;
+                min-height: 20px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #c0c0c0;
+                min-width: 20px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: none;
+            }
+        ''')
+        activity_layout.addWidget(scroll_area_activity)
 
         content_layout.addWidget(activity_box)
 

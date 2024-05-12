@@ -1,9 +1,8 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy,QFrame
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy,QFrame
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 
-class CardWidget(QWidget):
+class AnimalCard(QWidget):
     def __init__(self, name, species, age, riwayat_penyakit, image_path, parent=None):
         super().__init__(parent)
         self.name = name
@@ -123,7 +122,7 @@ class CardWidget(QWidget):
 #     ]
     
 #     for data in card_data:
-#         card = CardWidget(**data)  # Create a CardWidget instance with the provided data
+#         card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
 #         layout.addWidget(card)  # Add the card to the layout
     
 #     # Set the layout of the main window
