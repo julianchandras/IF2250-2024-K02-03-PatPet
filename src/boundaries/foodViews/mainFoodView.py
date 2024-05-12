@@ -1,13 +1,12 @@
-import sys
+
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox
-from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 class MainFoodView(QWidget):
+    
     add_food_signal = pyqtSignal(str)
     update_food_signal = pyqtSignal(int, str)
     delete_food_signal = pyqtSignal(int)
-    refetch_foods_signal = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -158,5 +157,3 @@ class MainFoodView(QWidget):
             self.update_food_signal.emit(id, food_name)
             self.food_name_input.clear()
 
-    def refetch_food(self):
-        self.refetch_foods_signal.emit()
