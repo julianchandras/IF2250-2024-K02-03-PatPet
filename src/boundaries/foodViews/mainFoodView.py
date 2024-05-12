@@ -21,8 +21,8 @@ class MainFoodView(QWidget):
 
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
-        main_content_layout.setContentsMargins(115, 42, 115, 0)
-        main_content_widget.setStyleSheet('background-color: #FFEAB4; border:1px solid red;')
+        main_content_layout.setContentsMargins(115, 42, 115, 42)
+        main_content_widget.setStyleSheet('background-color: #FFEAB4; border:none;')
 
         title_label = QLabel('Daftar Makanan', self)
         title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
@@ -35,7 +35,7 @@ class MainFoodView(QWidget):
         main_content_layout.addWidget(add_food_label)
 
         food_entry_box = QGroupBox('', self)
-        food_entry_box.setStyleSheet("background-color: white; border-radius: 8px; border:1px solid blue;")
+        food_entry_box.setStyleSheet("background-color: white; border-radius: 8px; border:none;")
         food_entry_box_layout = QVBoxLayout(food_entry_box)
         food_entry_box_layout.setContentsMargins(24, 30, 24, 20)
 
@@ -60,13 +60,9 @@ class MainFoodView(QWidget):
 
         food_list_label = QLabel('Daftar Makanan', self)
         food_list_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B;')
-        food_list_label.setContentsMargins(0, 18, 0, 6)
+        food_list_label.setContentsMargins(0, 18, 0, 18)
         main_content_layout.addWidget(food_list_label)
 
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setContentsMargins(0,0,0,0)
-        scroll_area.setFixedHeight(int(screen_geometry.width() * 0.4))
 
         self.food_table = QTableWidget(self)
         self.food_table.setColumnCount(3)
@@ -93,15 +89,55 @@ class MainFoodView(QWidget):
                 padding: 16px; 
                 margin: 5px 0px 0px 0px;
             }
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #c0c0c0;
+                min-height: 20px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #c0c0c0;
+                min-width: 20px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: none;
+            }
         ''')
         self.food_table.setFixedWidth(int((screen_geometry.width() * 0.755)))
+        self.food_table.setFixedHeight(int((screen_geometry.width() * 0.45)))
         self.food_table.verticalHeader().setDefaultSectionSize(80) 
         self.food_table.horizontalHeader().setDefaultSectionSize(int((screen_geometry.width() * 0.755) // 3))
         self.food_table.verticalHeader().setVisible(False)
-
-        scroll_area.setWidget(self.food_table)
-        # self.food_table.resizeColumnsToContents()
-        main_content_layout.addWidget(scroll_area)
+        main_content_layout.addWidget(self.food_table)
     
         main_layout.addWidget(main_content_widget)
 
