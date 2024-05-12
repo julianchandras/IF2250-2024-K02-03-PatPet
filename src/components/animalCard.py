@@ -1,8 +1,9 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy,QFrame
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 
 class AnimalCard(QWidget):
+    clicked = pyqtSignal()
     def __init__(self, name, species, age, riwayat_penyakit, image_path, parent=None):
         super().__init__(parent)
         self.name = name
@@ -102,33 +103,6 @@ class AnimalCard(QWidget):
         # Add the card content to the main layout
         layout.addWidget(self.card_content)
         self.setLayout(layout)
-
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-    
-#     # Create a main window
-#     window = QWidget()
-#     window.setWindowTitle("Multiple Cards Example")
-    
-#     # Create a vertical layout to hold the cards
-#     layout = QVBoxLayout()
-    
-#     # Create and add multiple card widgets
-#     card_data = [
-#         {"name": "John Doe","species":"angjing" , "age": 30, "riwayat_penyakit": "Lorem ipsum dolor sit amet", "image_path": "img/meng.png"},
-#         {"name": "Jane Smith","species":"angjing" , "age": 25, "riwayat_penyakit": "Consectetur adipiscing elit", "image_path": "img/meng.png"},
-#         {"name": "Alice Johnson","species":"angjing" , "age": 35, "riwayat_penyakit": "Sed do eiusmod tempor incididunt", "image_path": "img/meng.png"}
-#     ]
-    
-#     for data in card_data:
-#         card = AnimalCard(**data)  # Create a CardWidget instance with the provided data
-#         layout.addWidget(card)  # Add the card to the layout
-    
-#     # Set the layout of the main window
-#     window.setLayout(layout)
-    
-#     # Display the main window
-#     window.show()
-    
-#     sys.exit(app.exec_())
+        
+    def mousePressEvent(self, event):
+        self.clicked.emit()

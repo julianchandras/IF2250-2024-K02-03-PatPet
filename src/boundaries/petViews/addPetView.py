@@ -3,6 +3,7 @@ from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPixmap
 from components.checkableCombobox import CheckableComboBox
 
+
 class AddPetView(QWidget):
     save_pet_signal = pyqtSignal(str, str, int, str, bytes, list)  # Signal to save a new pet
 
@@ -12,6 +13,9 @@ class AddPetView(QWidget):
         self.setup_ui()  # Initialize the user interface
 
     def setup_ui(self):
+        self.screen_geometry = QApplication.desktop().availableGeometry()
+
+        
         # Main layout with no margins and spacing
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
@@ -27,8 +31,7 @@ class AddPetView(QWidget):
         title_widget = QWidget()
         title_layout = QVBoxLayout(title_widget)
 
-        screen_height = QApplication.desktop().availableGeometry().height()
-        title_widget.setFixedHeight(int(1/6 * screen_height))  # Adjust as needed
+        title_widget.setFixedHeight(int(1/6 * self.screen_geometry.height()))  # Adjust as needed
         title_widget.setStyleSheet("QWidget {background-color: white; border-bottom: 8px solid #F277AD;}")
 
         # Create the title label with specified styles
@@ -140,9 +143,11 @@ class AddPetView(QWidget):
         file_path, _ = QFileDialog.getOpenFileName(
             self, "Select Image", "", "Image Files (*.png *.jpg *.jpeg)", options=options
         )
+
+        
         if file_path:
             self.image_label.setText(f"Selected: {file_path}")
-            self.image_label.setPixmap(QPixmap(file_path).scaled(800, 600))
+            self.image_label.setPixmap(QPixmap(file_path).scaled(int(self.screen_geometry.width() * 0.3), int(self.screen_geometry.width() * 0.175)))
             with open(file_path, "rb") as image_file:
                 self.selected_image_data = image_file.read()
 
