@@ -27,7 +27,6 @@ class MainArticleView(QWidget):
         cards_widget.setLayout(self.article_cards_layout)
 
         scroll_area = QScrollArea(self)
-        # scroll_area.setStyleSheet("border: none;")
 
         scroll_area.setStyleSheet("""
             QScrollArea {
