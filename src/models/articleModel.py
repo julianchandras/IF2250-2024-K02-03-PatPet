@@ -1,9 +1,10 @@
 from models.baseModel import BaseModel
-
+from seeds.article_seeds import DEFAULT_ARTICLES
 class ArticleModel(BaseModel):
     def __init__(self, db_name):
         super().__init__(db_name)  # Call the BaseModel constructor
         self.create_tables()  # Ensure tables are created
+        self.insert_default_articles()  # Insert default articles if there are none
 
     def create_tables(self):
         self.cursor.execute(
@@ -33,3 +34,12 @@ class ArticleModel(BaseModel):
             (title, content),
         )
         self.commit()
+
+    def insert_default_articles(self):
+        current_articles = self.get_all_articles()
+        if not current_articles:  # If there are no articles, insert default ones
+            for article in DEFAULT_ARTICLES:
+                self.add_article(
+                    article["title"],
+                    article["content"]
+                )

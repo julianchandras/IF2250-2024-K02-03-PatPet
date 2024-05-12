@@ -1,6 +1,7 @@
 from models.baseModel import BaseModel
 from datetime import date
 
+
 class ActivityModel(BaseModel):
     def __init__(self, db_name):
         super().__init__(db_name)  # Call the BaseModel constructor

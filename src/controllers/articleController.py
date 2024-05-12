@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QStackedWidget
 from models.articleModel import ArticleModel
 from boundaries.articleViews.mainArticleView import MainArticleView
 from boundaries.articleViews.detailArticleView import DetailArticleView
+
+
 class ArticleController:
     def __init__(self, stacked_widget : QStackedWidget, article_model : ArticleModel) :
         self.stacked_widget = stacked_widget
