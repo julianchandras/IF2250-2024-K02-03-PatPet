@@ -4,8 +4,8 @@ import pytest
 root_dir = os.path.abspath(os.path.join(os.getcwd()))
 sys.path.append(root_dir + '/src')
 from datetime import date, timedelta
-from models.activityModel import ActivityModel
-from models.petModel import PetModel
+from src.models.activityModel import ActivityModel
+from src.models.petModel import PetModel
 
 class TestActivityModel:
     @pytest.fixture
