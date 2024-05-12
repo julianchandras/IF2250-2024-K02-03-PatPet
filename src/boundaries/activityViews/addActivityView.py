@@ -1,15 +1,15 @@
 from PyQt5.QtWidgets import QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
-from PyQt5.QtCore import Qt,pyqtSignal
+from PyQt5.QtCore import Qt,pyqtSignal, QTime
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
-from datetime import datetime
-
+from datetime import date
 
 class AddActivityView(QWidget):
-    add_activity_signal = pyqtSignal(str, datetime, datetime, int)
+    add_activity_signal = pyqtSignal(str, date,  str, str, date, int, int)
     navigate_to_update = pyqtSignal(int)
+    
 
     def __init__(self):
         super().__init__()
@@ -56,9 +56,7 @@ class AddActivityView(QWidget):
         # Create labels
         pilihan_hewan_label = QLabel('Pilihan Hewan')
         jenis_aktivitas_hewan_label = QLabel('Jenis Aktivitas Hewan: ')
-        tanggal_mulai_label = QLabel('Tanggal Mulai:')
-        tanggal_akhir_label = QLabel('Tanggal Selesai:')
-        tanggal_mulai_pengulangan_label = QLabel("Tanggal Mulai Pengulangan")
+        tanggal_aktivitas_label = QLabel('Tanggal Aktivitas:')
         tanggal_akhir_pengulangan_label = QLabel("Tanggal Akhir Pengulangan")
         jam_mulai_label = QLabel("Jam Mulai")
         jam_akhir_label = QLabel("Jam Selesai")
@@ -68,8 +66,7 @@ class AddActivityView(QWidget):
         self.pilihan_hewan = CustomComboBox()
 
         # Masukin pilihan hewan
-        for i in range(3):
-            self.pilihan_hewan.addItems([f"{i}"])
+        
 
         # Jenis Aktivtias
         self.jenis_aktivitas_input = CustomLineEdit()
@@ -77,16 +74,15 @@ class AddActivityView(QWidget):
         # Jam Mulai
         self.jam_mulai_input = QTimeEdit()
         self.jam_mulai_input.setDisplayFormat("HH:mm")
-        self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; }")
+        self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
 
         # Jam akhir
         self.jam_akhir_input = QTimeEdit()
         self.jam_akhir_input.setDisplayFormat("HH:mm")
-        self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; }")
+        self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
 
         # Tanggal
-        self.tanggal_mulai_input = CalendarInput()
-        self.tanggal_akhir_input = CalendarInput()
+        self.tanggal_aktivitas = CalendarInput()
         self.tanggal_mulai_ulang_input = CalendarInput()
         self.tanggal_akhir_ulang_input = CalendarInput()
 
@@ -109,43 +105,36 @@ class AddActivityView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
+        self.tambah_button.clicked.connect(self.add_activity)
 
         # Create grid layout
-        activity_entry_box_layout.addWidget(pilihan_hewan_label, 0, 0, 1, 2)
+        activity_entry_box_layout.addWidget(pilihan_hewan_label, 0, 0, 1,2)
         activity_entry_box_layout.addWidget(jenis_aktivitas_hewan_label, 0, 2, 1, 2)
-        activity_entry_box_layout.addWidget(self.pilihan_hewan,1,0)
-        activity_entry_box_layout.addWidget(self.jenis_aktivitas_input,1,2)
+        activity_entry_box_layout.addWidget(banyak_pengulangan_label,0,4, 1,2 )
 
-        activity_entry_box_layout.addWidget(tanggal_mulai_label,2,0)
-        activity_entry_box_layout.addWidget(jam_mulai_label,2,1)
-        activity_entry_box_layout.addWidget(tanggal_mulai_pengulangan_label,2,2)
-        activity_entry_box_layout.addWidget(banyak_pengulangan_label,2,3)
+        activity_entry_box_layout.addWidget(self.pilihan_hewan, 1, 0, 1,2)
+        activity_entry_box_layout.addWidget(self.jenis_aktivitas_input, 1, 2, 1, 2)
+        activity_entry_box_layout.addWidget(self.banyak_pengulangan_input,1,4, 1,2)
+
+        activity_entry_box_layout.addWidget(tanggal_aktivitas_label,2,0,1,2)
+        activity_entry_box_layout.addWidget(jam_mulai_label,2,2)
+        activity_entry_box_layout.addWidget(jam_akhir_label,2,3)
+        activity_entry_box_layout.addWidget(tanggal_akhir_pengulangan_label,2,4,1,2)
+
         
-        activity_entry_box_layout.addWidget(self.tanggal_mulai_input,3,0)
-        activity_entry_box_layout.addWidget(self.jam_mulai_input,3,1)
-        activity_entry_box_layout.addWidget(self.tanggal_mulai_ulang_input,3,2)
-        activity_entry_box_layout.addWidget(self.banyak_pengulangan_input,3,3)
+        activity_entry_box_layout.addWidget(self.tanggal_aktivitas,3,0,1,2)
+        activity_entry_box_layout.addWidget(self.jam_mulai_input,3,2)
+        activity_entry_box_layout.addWidget(self.jam_akhir_input,3,3 )
+        activity_entry_box_layout.addWidget(self.tanggal_akhir_ulang_input,3,4,1,2)
 
-        activity_entry_box_layout.addWidget(tanggal_akhir_label,4,0)
-        activity_entry_box_layout.addWidget(jam_akhir_label,4,1)
-        activity_entry_box_layout.addWidget(tanggal_akhir_pengulangan_label,4,2)
-
-        activity_entry_box_layout.addWidget(self.tanggal_akhir_input,5,0)
-        activity_entry_box_layout.addWidget(self.jam_akhir_input,5,1)
-        activity_entry_box_layout.addWidget(self.tanggal_akhir_ulang_input,5,2)
         
-        activity_entry_box_layout.addWidget(self.tambah_button,6,3)
+        activity_entry_box_layout.addWidget(self.tambah_button,4,4,1,2)
         
 
         main_content_layout.addWidget(activity_entry_box)
 
 
-        activities = {
-            "2024-05-10": [("09:00", "Bella"), ("10:30", "Max")],
-            "2024-05-11": [("11:00", "Charlie"), ("14:00", "Luna mafhjdsakgkjvsduyhrelukjtygdgvjyhkjrdsv yhgksjquicldiwe4ksyh fgiewu"),("15:00", "NUNU"),("16:00", "NEOWOOF"), ("17:00", "Jultara"), ("18:00","macamaca")],
-            "2024-05-12": [("09:30", "Rocky")],
-            "2024-05-15": [("12:00", "Buddy"), ("16:00", "Lucy")]
-        }
+        
         self.activity_table = QWidget()
         self.activity_table_layout = QVBoxLayout(self.activity_table)
         self.activity_table.setStyleSheet("""
@@ -156,7 +145,7 @@ class AddActivityView(QWidget):
         """)
 
         self.calendar = CustomSchedule()
-        self.calendar.set_activities(activities)
+        
         self.activity_table_layout.addWidget(self.calendar)
         self.activity_table.setContentsMargins(0, 0, 0, 0)
         
@@ -218,9 +207,40 @@ class AddActivityView(QWidget):
         self.setLayout(main_layout)
 
     def set_activities(self,activities):
-        pass
-
-        
-
-        
+        # Example of needed data structure
+        # activities = {
+        #     "2024-05-10": [("09:00", "Bella"), ("10:30", "Max")],
+        #     "2024-05-11": [("11:00", "Charlie"), ("14:00", "Luna"),("15:00", "NUNU"),("16:00", "NEOWOOF"), ("17:00", "Jultara"), ("18:00","macamaca")],
+        #     "2024-05-12": [("09:30", "Rocky")],
+        #     "2024-05-15": [("12:00", "Buddy"), ("16:00", "Lucy")]
+        # }
+        # Given data structure = (1, 'Jalan-jalan', '2024-05-11', '2024-05-11', '00:00:00', '00:00:00', 2)
+        self.calendar.set_activities(activities)
     
+    def set_pets(self, pets):
+        self.pilihan_hewan.addItems(pets)
+
+    def navigate_to_update_activity(self, activity_id):
+        self.navigate_to_update.emit(activity_id)
+
+    def add_activity(self):
+        pet_id = self.pilihan_hewan.combo_box.currentData()
+        activity_name = self.jenis_aktivitas_input.text()
+        activity_date = self.tanggal_aktivitas.calendar.selectedDate().toPyDate()
+        start_time = self.jam_mulai_input.time().toString()
+        end_time = self.jam_akhir_input.time().toString()
+        repetition_end = self.tanggal_akhir_ulang_input.calendar.selectedDate()
+        if repetition_end.isNull():
+            repetition_end = None
+        else:
+            repetition_end = repetition_end.toPyDate()
+
+        repetition_hop_str = self.banyak_pengulangan_input.text()
+        if repetition_hop_str:
+            repetition_hop = int(repetition_hop_str)
+        else:
+            repetition_hop = None
+
+
+        self.add_activity_signal.emit(activity_name, activity_date,start_time, end_time, repetition_end, repetition_hop, pet_id)
+

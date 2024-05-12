@@ -31,7 +31,7 @@ class FoodModel(BaseModel):
 
         self.commit()  # Commit table creation
 
-    def get_main_food(self):
+    def get_all_food(self):
         self.cursor.execute("SELECT * FROM foods")
         rows = self.cursor.fetchall()
         food_list = []
@@ -39,7 +39,7 @@ class FoodModel(BaseModel):
             food_list.append((row[1], int(row[0])))
         return food_list
 
-    def get_all_food(self):
+    def get_food_eater(self):
         query = """
         SELECT f.food_name, p.pet_name, f.food_id
         FROM foods f

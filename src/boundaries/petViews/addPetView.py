@@ -7,7 +7,6 @@ from components.checkableCombobox import CheckableComboBox
 class AddPetView(QWidget):
     save_pet_signal = pyqtSignal(str, str, int, str, bytes, list)  # Signal to save a new pet
 
-    refetch_foods_signal = pyqtSignal(str)  # Signal to refetch the food list
     def __init__(self):
         super().__init__()
         self.setup_ui()  # Initialize the user interface
@@ -161,7 +160,7 @@ class AddPetView(QWidget):
         selected_foods = self.food_list_input.currentData()
         self.save_pet_signal.emit(pet_name, species, age, medical_record, image, selected_foods)  # Emit signal to save pet
 
-    def set_food_list(self, food_list):
+    def set_food(self, food_list):
         self.food_list_input.clear()
         self.food_list_input.addItems(food_list)
 
@@ -174,5 +173,3 @@ class AddPetView(QWidget):
         self.food_list_input.clear()
         self.selected_image_data = None
 
-    def refetch_food(self):
-        self.refetch_foods_signal.emit("add")

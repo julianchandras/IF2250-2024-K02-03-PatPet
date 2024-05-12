@@ -5,7 +5,6 @@ from components.checkableCombobox import CheckableComboBox
 class EditPetView(QWidget):
     # Signal to save the edited pet with additional image data
     save_pet_signal = pyqtSignal(int, str, str, int, str, bytes)  
-    refetch_foods_signal = pyqtSignal(str)  # Signal to refetch the food list
     
     def __init__(self):
         super().__init__()
@@ -175,14 +174,12 @@ class EditPetView(QWidget):
             self.selected_image_data  # Include the selected image data, if any
         )
 
-    def set_food_list(self, food_list):
+    def set_food(self, food_list):
         self.food_list_input.clear()
         # Set the food list in the combo box
         
         self.food_list_input.addItems(food_list)
 
-    def refetch_food(self):
-        self.refetch_foods_signal.emit("edit")
     
    
 
