@@ -145,7 +145,7 @@ class EditPetView(QWidget):
         # Load the image data into a QPixmap and display it
         pixmap = QPixmap()
         pixmap.loadFromData(pet[5])
-        self.image_label.setPixmap(pixmap.scaled(800, 600))
+        self.image_label.setPixmap(pixmap.scaled(700, 500))
 
     def upload_image(self):
         options = QFileDialog.Options()
