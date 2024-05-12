@@ -17,6 +17,7 @@ class MainController:
         self.activity_model : ActivityModel = activity_model
 
         self.main_view : MainView = self.stacked_widget.widget(0)  # Main view index 0
+    
         self.add_pet_view = self.stacked_widget.widget(3)  # Add pet view index 3
         self.detail_pet_view : DetailPetView= self.stacked_widget.widget(5)  # Detail pet view index 5
 
@@ -25,13 +26,6 @@ class MainController:
         self.main_view.view_pet_signal.connect(self.navigate_to_detail)  # Ini untuk navigasi ke detail_pet_view
         self.main_view.filter_pet_signal.connect(self.handle_filter)
 
-        self.load_pets()
-    
-    def load_pets(self):
-        
-        pets = self.pet_model.get_all_pets()
-       
-        self.main_view.set_pets(pets)
 
     def show_activity_today(self):
         activities = self.activity_model.get_all_activities()
@@ -49,7 +43,4 @@ class MainController:
 
     def show_add_pet_view(self):
         # Switch to the AddPetView
-        foods = self.food_model.get_main_food()
-        
-        self.add_pet_view.set_food_list(foods)
         self.stacked_widget.setCurrentIndex(3)

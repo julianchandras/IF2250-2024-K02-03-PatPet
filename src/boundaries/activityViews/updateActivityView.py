@@ -4,11 +4,11 @@ from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
-from datetime import datetime
+from datetime import datetime,date
 
 class UpdateActivityView(QWidget):
 
-    update_activity_signal = pyqtSignal(int, str, datetime, datetime, int)
+    update_activity_signal = pyqtSignal(int, str, date,  str,str, int)
     delete_activity_signal = pyqtSignal(int)
 
     def __init__(self):
@@ -64,11 +64,11 @@ class UpdateActivityView(QWidget):
         self.pilihan_hewan = CustomComboBox()
 
         # Masukin pilihan hewan
-        for i in range(3):
-            self.pilihan_hewan.addItems([f"{i}"])
+        
 
         # Jenis Aktivtias
         self.jenis_aktivitas_input = CustomLineEdit()
+        
 
         # Jam Mulai
         self.jam_mulai_input = QTimeEdit()
@@ -216,9 +216,32 @@ class UpdateActivityView(QWidget):
 
         main_layout.addWidget(scroll_area) 
         self.setLayout(main_layout)
+    
+    def set_pets(self,pets):
+        self.pilihan_hewan.addItems(pets)
+
+
+    def set_activities(self,activities):
+        self.calendar.set_activities(activities)
 
     def set_activity(self,activity):
-        pass
+        self.activity_id = activity[0]
+        self.jenis_aktivitas_input.setText(activity[1])
+      
+
+    def update_activity(self):
+        activity_id = self.activity_id
+        pet_id = self.pilihan_hewan.combo_box.currentData()
+        activity_name = self.jenis_aktivitas_input.text()
+        start_date = self.tanggal_mulai_input.calendar.selectedDate().toPyDate()
+        end_date = self.tanggal_akhir_input.calendar.selectedDate().toPyDate()
+        start_time = self.jam_mulai_input.time().toString()
+        end_time = self.jam_akhir_input.time().toString()
+       
+        self.update_activity_signal.emit(activity_id, activity_name, start_date, end_date,start_time, end_time,pet_id)
+
+    def delete_activity(self):
+        self.delete_activity_signal.emit(self.activity_id)
         
         
             

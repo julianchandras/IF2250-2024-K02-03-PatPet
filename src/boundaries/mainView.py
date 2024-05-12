@@ -48,8 +48,8 @@ class MainView(QWidget):
             0,
         )
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
-        # main_content_widget.setFixedHeight(int(screen_geometry.height() + 100) )
-        main_content_layout.setAlignment(Qt.AlignTop)
+        
+       
 
         header_box = QGroupBox(self)
         header_box.setStyleSheet('border: none')
@@ -405,7 +405,10 @@ class MainView(QWidget):
         #         item = QTableWidgetItem(str(field))
         #         self.pets_table.setItem(row, col, item)
 
-    def set_activity(self, activities):
+    def set_food(self,food):
+        pass
+
+    def set_activities(self, activities):
         pass
         # self.activities_table.setRowCount(len(activities))
         # for row, activity in enumerate(activities):
