@@ -161,6 +161,7 @@ class MainView(QWidget):
             if col >= 3:  # After reaching the second column
                 col = 0  # Reset column index
                 row += 1  # Move to the next row//6
+            card.clicked.connect(self.onAnimalCardClicked)
 
         pet_content_list.setLayout(pet_content_list_layout)
 
@@ -282,6 +283,7 @@ class MainView(QWidget):
             
             activity_entry_card = ActivityCard(**activity)
             activity_content_layout.addWidget(activity_entry_card)
+            activity_entry_card.clicked.connect(self.onActivityCardClicked)
             
 
 
@@ -410,3 +412,21 @@ class MainView(QWidget):
         #     for col, field in enumerate(activity):
         #         item = QTableWidgetItem(str(field))
         #         self.activities_table.setItem(row, col, item)
+    # Assuming you have an instance of ActivityCard called activity_card
+
+    def onAnimalCardClicked(self):
+        clicked_card = self.sender()  # Get the instance of the card that emitted the signal
+        
+        # Access the properties of the clicked card and print them
+        print("Name:", clicked_card.name)
+        print("Species:", clicked_card.species)
+        print("Age:", clicked_card.age)
+        print("Riwayat Penyakit:", clicked_card.riwayat_penyakit)
+
+    def onActivityCardClicked(self):
+        clicked_card = self.sender()  # Get the instance of the card that emitted the signal
+        
+        # Access the properties of the clicked card and print them
+        print("Activity Name:", clicked_card.activity_name)
+        print("Time:", clicked_card.time)
+        print("Pet:", clicked_card.pet)

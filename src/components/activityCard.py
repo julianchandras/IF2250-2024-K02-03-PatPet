@@ -1,24 +1,26 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 
 class ActivityCard(QWidget):
-    def __init__(self, activity_name,time,pet,parent=None):
+    clicked = pyqtSignal()
+
+    def __init__(self, activity_name, time, pet, parent=None):
         super().__init__(parent)
         self.activity_name = activity_name
         self.time = time
         self.pet = pet
         self.initUI()
-        
+
     def initUI(self):
         layout = QHBoxLayout()
-        layout.setContentsMargins(0,0,0,0)
+        layout.setContentsMargins(0, 0, 0, 0)
 
         self.card_content = QWidget(self)
         self.card_content_layout = QVBoxLayout(self.card_content)
         self.card_content.setFixedHeight(120)
         self.card_content_layout.setSpacing(5)
         self.card_content_layout.setAlignment(Qt.AlignTop)
-        
+
         # Set style sheet for the card
         self.card_content.setStyleSheet('''
             QWidget {
@@ -28,14 +30,7 @@ class ActivityCard(QWidget):
                 color : #1A646B;
                 border: none;
             }
-                                        
-            
         ''')
-
-        # activity_entry_box = QGroupBox(self)
-        # activity_entry_box.setStyleSheet('border: none; background: white; border-radius: 8px;')
-        # activity_entry_box.setFixedHeight(120)
-        # activity_entry_layout = QVBoxLayout(activity_entry_box)
 
         activity_activity_name_label = QLabel(f"{self.activity_name}")
         activity_activity_name_label.setStyleSheet('font-size: 18px; font-weight: bold;')
@@ -52,4 +47,5 @@ class ActivityCard(QWidget):
         layout.addWidget(self.card_content)
         self.setLayout(layout)
 
-
+    def mousePressEvent(self, event):
+        self.clicked.emit()

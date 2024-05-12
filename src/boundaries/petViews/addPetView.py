@@ -142,7 +142,7 @@ class AddPetView(QWidget):
         )
         if file_path:
             self.image_label.setText(f"Selected: {file_path}")
-            self.image_label.setPixmap(QPixmap(file_path).scaled(800, 600))
+            self.image_label.setPixmap(QPixmap(file_path).scaled(700, 500))
             with open(file_path, "rb") as image_file:
                 self.selected_image_data = image_file.read()
 
