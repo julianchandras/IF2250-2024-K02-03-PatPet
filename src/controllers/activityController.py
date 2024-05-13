@@ -41,7 +41,6 @@ class ActivityController:
         
 
     def navigate_to_update(self, activity_id):
-        print(activity_id)
         activity = self.activity_model.get_specific_activity(activity_id)
         self.update_activity_view.set_activity_details(activity)
         self.stacked_widget.setCurrentIndex(8)

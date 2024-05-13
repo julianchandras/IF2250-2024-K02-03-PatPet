@@ -212,12 +212,13 @@ class AddPetView(QWidget):
         self.food_list_input.clear()
         self.food_list_input.addItems(food_list)
 
-    def clear_fields(self):
+    def clear_input(self):
         self.name_input.clear()
         self.species_input.clear()
         self.age_input.clear()
         self.medical_record_input.clear()
-        self.image_label.clear()
-        self.food_list_input.clear()
+        self.image_label.setText("No Image Selected")
         self.selected_image_data = None
+        for index in range(self.food_list_input.count()):
+            self.food_list_input.setCheckState(index, Qt.Unchecked)
 

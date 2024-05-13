@@ -91,7 +91,8 @@ class PetManagementApp(QMainWindow):
         self.stacked_widget.addWidget(self.add_activity_view) # Index 7
         self.stacked_widget.addWidget(self.update_activity_view) # Index 8
 
-  
+        ## Clear input when changing views
+        self.stacked_widget.currentChanged.connect(self.clear_input)
 
         # Create the sidebar and pass the stacked widget
         self.sidebar = Sidebar(QApplication.desktop().availableGeometry().width() // 6)
@@ -113,6 +114,16 @@ class PetManagementApp(QMainWindow):
 
         # Show the main view initially
         self.stacked_widget.setCurrentIndex(0)  # Start with MainPetView
+    
+    # Handle the window close event
+    def clear_input(self, index):
+        needed_clear = [0,3,6,7]
+        if index in needed_clear:
+            self.stacked_widget.currentWidget().clear_input()
+            if (index == 6):
+                self.stacked_widget.currentWidget().revert_food()
+            
+        
 
 # Main application entry point
 if __name__ == "__main__":

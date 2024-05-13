@@ -10,7 +10,9 @@ class MainFoodView(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.original_food_data = {}
         self.initUI()
+
 
     def initUI(self):
         screen_geometry = QApplication.desktop().availableGeometry()
@@ -151,6 +153,8 @@ class MainFoodView(QWidget):
         # Set row count based on the number of items in the dictionary
         self.food_table.setRowCount(len(food))
 
+        self.original_food_data = food.copy()
+
         # Loop through the food dictionary and populate the table
         for i, (food_name, food_data) in enumerate(food.items()):
             # Set the food name and food ID
@@ -189,15 +193,16 @@ class MainFoodView(QWidget):
             if item:
                 item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
+    def revert_food(self):
+        self.set_food(self.original_food_data)
+
     def add_food(self):
         food_name = self.food_name_input.text()
         if food_name:
             self.add_food_signal.emit(food_name)
             self.food_name_input.clear()
     
-    def update_food(self, id):
-        food_name = self.food_name_input.text()
-        if food_name:
-            self.update_food_signal.emit(id, food_name)
-            self.food_name_input.clear()
+    def clear_input(self):
+        self.food_name_input.clear()
+
 
