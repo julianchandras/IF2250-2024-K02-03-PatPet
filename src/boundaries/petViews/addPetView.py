@@ -114,6 +114,7 @@ class AddPetView(QWidget):
 
         # Using the CheckableComboBox for multi-selection
         self.food_list_input = CheckableComboBox()
+        self.food_list_input.setFont(get_font("regular"))
        
         form_layout.addWidget(self.food_list_input, 5, 1)
 

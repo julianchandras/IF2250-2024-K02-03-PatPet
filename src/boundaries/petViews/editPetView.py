@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QFileDialog, QApplication,QGridLayout, QComboBox, QTextEdit
 from PyQt5.QtCore import pyqtSignal,Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QCursor
 from components.checkableCombobox import CheckableComboBox
+from utils.font import get_font
+
 class EditPetView(QWidget):
     # Signal to save the edited pet with additional image data
     save_pet_signal = pyqtSignal(int, str, str, int, str, bytes,list)  
@@ -36,6 +38,7 @@ class EditPetView(QWidget):
         # Create the title label with specified styles
         title_label = QLabel("Edit Hewan")
         title_style = "border:none; color: #1A646B; font-size: 80px; font-weight: bold; padding-left: 30px"
+        title_label.setFont(get_font("bold"))
         title_label.setStyleSheet(title_style)
         title_layout.addWidget(title_label)
 
@@ -59,67 +62,112 @@ class EditPetView(QWidget):
         # Apply label style to all QLabel instances
         nama_label = QLabel("Nama")
         nama_label.setStyleSheet(label_style)
+        nama_label.setFont(get_font("bold"))
         form_layout.addWidget(nama_label, 0, 0, 1, 2)  # Span 2 columns
 
         # Apply input style to all QLineEdit instances
         self.name_input = QLineEdit()
         self.name_input.setPlaceholderText("Masukkan Nama")
         self.name_input.setStyleSheet(input_style)
+        self.name_input.setFont(get_font("regular"))
         form_layout.addWidget(self.name_input, 1, 0, 1, 2)
 
         species_label = QLabel("Jenis Hewan:")
         species_label.setStyleSheet(label_style)
+        species_label.setFont(get_font("bold"))
         form_layout.addWidget(species_label, 2, 0)
 
         self.species_input = QLineEdit()
         self.species_input.setPlaceholderText("Masukkan Jenis Hewan")
         self.species_input.setStyleSheet(input_style)  # Apply input style
+        self.species_input.setFont(get_font("reguler"))
         form_layout.addWidget(self.species_input, 3, 0)
 
         # Similarly, apply the label style to other labels
         umur_label = QLabel("Umur:")
         umur_label.setStyleSheet(label_style)
+        umur_label.setFont(get_font("bold"))
         form_layout.addWidget(umur_label, 2, 1, Qt.AlignTop)  # Align to top
 
         self.age_input = QLineEdit()
         self.age_input.setPlaceholderText("Masukkan Umur")
+        self.age_input.setFont(get_font("regular"))
         self.age_input.setStyleSheet(input_style)  # Apply input style
         form_layout.addWidget(self.age_input, 3, 1)
 
         riwayat_label = QLabel("Riwayat Penyakit:")
+        riwayat_label.setFont(get_font("bold"))
         riwayat_label.setStyleSheet(label_style)
         form_layout.addWidget(riwayat_label, 4, 0)
 
         self.medical_record_input = QTextEdit()
         self.medical_record_input.setPlaceholderText("Masukkan Riwayat Penyakit")
+        self.medical_record_input.setFont(get_font("regular"))
         self.medical_record_input.setStyleSheet(input_style)
         form_layout.addWidget(self.medical_record_input, 5, 0, 3, 1)
 
         # Adding combo box and other elements with correct styling
         makanan_label = QLabel("Daftar Makanan:")
         makanan_label.setStyleSheet(label_style)
+        makanan_label.setFont(get_font("bold"))
         form_layout.addWidget(makanan_label, 4, 1)
 
         self.food_list_input = CheckableComboBox()
+        self.food_list_input.setFont(get_font("regular"))
        
         form_layout.addWidget(self.food_list_input, 5, 1)
 
         # Add image label and upload button
         image_label = QLabel("Image:")
         image_label.setStyleSheet(label_style)
+        image_label.setFont(get_font("bold"))
         form_layout.addWidget(image_label, 9, 0, 1, 2)
 
         self.image_label = QLabel("No Image Selected")
         self.image_label.setStyleSheet(label_style)
+        self.image_label.setFont(get_font("regular"))
         form_layout.addWidget(self.image_label, 10, 0)
 
-        self.upload_button = QPushButton("Upload Image")
+        self.upload_button = QPushButton("Upload Gambar")
+        self.upload_button.setStyleSheet("""
+            QPushButton {
+                background-color: #1A646B;
+                font-weight: bold;
+                border-radius: 8px;
+                padding: 20px 5px;
+                color : white;
+                font-size : 24px;
+                
+            }
+
+            QPushButton:hover {
+                background-color: #6E9DA1;
+            }
+        """)
+        self.upload_button.setFont(get_font("regular"))
+        self.upload_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.upload_button.clicked.connect(self.upload_image)
         form_layout.addWidget(self.upload_button, 11, 0)
 
         # Save button
-        self.save_pet_button = QPushButton("Save Pet")
+        self.save_pet_button = QPushButton("Ubah Hewan")
         self.save_pet_button.clicked.connect(self.save_pet)
+        self.save_pet_button.setStyleSheet("""
+            QPushButton {
+                background-color: #F277AD;
+                font-weight: bold;
+                border-radius: 8px;
+                padding: 20px 5px;
+                color : white;
+                font-size: 26px;
+            }
+
+            QPushButton:hover {
+                background-color: #F8B8D4;
+            }
+        """)
+        self.save_pet_button.setFont(get_font("regular"))
+        self.save_pet_button.setCursor(QCursor(Qt.PointingHandCursor))
         form_layout.addWidget(self.save_pet_button, 11, 1, 1, 2)  # Adjusting column span
         
         # Add the form layout to the form widget

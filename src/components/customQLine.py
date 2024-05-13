@@ -11,6 +11,7 @@ class CustomLineEdit(QLineEdit):
                 border-radius: 10px;
                 padding: 6px;
                 font-size: 16px;
+
             }
         """)
     def paintEvent(self, event):
