@@ -4,7 +4,7 @@ from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
-from datetime import datetime,date
+from datetime import date
 
 class UpdateActivityView(QWidget):
 
@@ -140,12 +140,7 @@ class UpdateActivityView(QWidget):
         main_content_layout.addWidget(activity_entry_box)
 
 
-        activities = {
-            "2024-05-10": [("09:00", "Bella"), ("10:30", "Max")],
-            "2024-05-11": [("11:00", "Charlie"), ("14:00", "Luna mafhjdsakgkjvsduyhrelukjtygdgvjyhkjrdsv yhgksjquicldiwe4ksyh fgiewu"),("15:00", "NUNU"),("16:00", "NEOWOOF"), ("17:00", "Jultara"), ("18:00","macamaca")],
-            "2024-05-12": [("09:30", "Rocky")],
-            "2024-05-15": [("12:00", "Buddy"), ("16:00", "Lucy")]
-        }
+    
         self.activity_table = QWidget()
         self.activity_table_layout = QVBoxLayout(self.activity_table)
         self.activity_table.setStyleSheet("""
@@ -156,7 +151,6 @@ class UpdateActivityView(QWidget):
         """)
 
         self.calendar = CustomSchedule()
-        self.calendar.set_activities(activities)
         self.activity_table_layout.addWidget(self.calendar)
         self.activity_table.setContentsMargins(0, 0, 0, 0)
         
@@ -222,7 +216,14 @@ class UpdateActivityView(QWidget):
 
 
     def set_activities(self,activities):
-        self.calendar.set_activities(activities)
+        temp = {}
+        for activity in activities:
+            _, detail, date_str, start_time, end_time, _, animal, _ = activity
+            
+            if date_str not in temp:
+                temp[date_str] = []
+            temp[date_str].append((start_time, end_time, animal, detail[:15]))
+        self.calendar.set_activities(temp)
 
     def set_activity(self,activity):
         self.activity_id = activity[0]

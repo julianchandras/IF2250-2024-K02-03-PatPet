@@ -207,15 +207,14 @@ class AddActivityView(QWidget):
         self.setLayout(main_layout)
 
     def set_activities(self,activities):
-        # Example of needed data structure
-        # activities = {
-        #     "2024-05-10": [("09:00", "Bella"), ("10:30", "Max")],
-        #     "2024-05-11": [("11:00", "Charlie"), ("14:00", "Luna"),("15:00", "NUNU"),("16:00", "NEOWOOF"), ("17:00", "Jultara"), ("18:00","macamaca")],
-        #     "2024-05-12": [("09:30", "Rocky")],
-        #     "2024-05-15": [("12:00", "Buddy"), ("16:00", "Lucy")]
-        # }
-        # Given data structure = (1, 'Jalan-jalan', '2024-05-11', '2024-05-11', '00:00:00', '00:00:00', 2)
-        self.calendar.set_activities(activities)
+        temp = {}
+        for activity in activities:
+            _, detail, date_str, start_time, end_time, _, animal, _ = activity
+            
+            if date_str not in temp:
+                temp[date_str] = []
+            temp[date_str].append((start_time, end_time, animal, detail[:15]))
+        self.calendar.set_activities(temp)
     
     def set_pets(self, pets):
         self.pilihan_hewan.addItems(pets)
@@ -240,7 +239,6 @@ class AddActivityView(QWidget):
             repetition_hop = int(repetition_hop_str)
         else:
             repetition_hop = None
-
 
         self.add_activity_signal.emit(activity_name, activity_date,start_time, end_time, repetition_end, repetition_hop, pet_id)
 

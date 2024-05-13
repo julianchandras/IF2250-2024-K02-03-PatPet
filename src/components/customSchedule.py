@@ -139,13 +139,14 @@ class CustomSchedule(QWidget):
             
             # Add the label to the cell layout
             cell_layout.addWidget(day_label)
-
+            print("ACTIVTIES")
+            print(self.activities)
             # Add activities for the day (if any)
             day_str = day.toString("yyyy-MM-dd")
             if day_str in self.activities:
                 for activity in self.activities[day_str]:
-                    time, animal = activity
-                    activity_button = QPushButton(f"{time} - {animal}")
+                    start_time, end_time, animal,detail = activity
+                    activity_button = QPushButton(f"{start_time} - {end_time} ({animal})\n{detail}")
                     activity_button.clicked.connect(self.handle_activity_click)
                     activity_button.setStyleSheet("""
                         QPushButton {
@@ -188,6 +189,7 @@ class CustomSchedule(QWidget):
         self.update_calendar()
 
     def handle_activity_click(self):
+        
         # Handle the click event here
         sender = self.sender()  # Get the button that was clicked
         activity_info = sender.text()  # Get the text of the button
