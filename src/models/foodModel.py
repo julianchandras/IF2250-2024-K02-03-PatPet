@@ -20,12 +20,11 @@ class FoodModel(BaseModel):
         self.cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS pet_food (
+                pet_food_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 pet_id INTEGER,
                 food_id INTEGER,
-                FOREIGN KEY (food_id) REFERENCES foods(food_id)
-                FOREIGN KEY (pet_id) REFERENCES pets(pet_id)
-                PRIMARY KEY (pet_id, food_id)
-            )
+                FOREIGN KEY (pet_id) REFERENCES pets(pet_id) ON DELETE CASCADE,
+                FOREIGN KEY (food_id) REFERENCES foods(food_id) ON DELETE CASCADE)
             """
         )
 
@@ -94,16 +93,19 @@ class FoodModel(BaseModel):
 
         # Construct the SQL query with the placeholders
         query = f"""
-            SELECT pets.pet_name, pets.species, pets.age, pets.medical_record, pets.image
+            SELECT pets.pet_id, pets.pet_name, pets.species, pets.age, pets.medical_record, pets.image
             FROM pets
             JOIN pet_food ON pets.pet_id = pet_food.pet_id
             JOIN foods ON pet_food.food_id = foods.food_id
-            WHERE foods.food_name IN ({placeholders})
+            WHERE foods.food_id IN ({placeholders})
         """
 
         # Execute the query with the list of food names
         self.cursor.execute(query, tuple(food_list))  # Convert the list to a tuple for SQLite
         rows = self.cursor.fetchall()  # Fetch all matching rows
+
+        ## remove duplicate
+        rows = list(set(rows))
         return rows  # Return the results
 
     def add_pet_food(self, pet_id, food_id):
@@ -121,9 +123,12 @@ class FoodModel(BaseModel):
         INNER JOIN foods ON pet_food.food_id = foods.food_id
         WHERE pets.pet_id = ?
         """
+        
         self.cursor.execute(query, (str(pet_id),))
         rows = self.cursor.fetchall()
-        return rows
+        pet_foods = [row[0] for row in rows]  # Extract the first element of each tuple
+        
+        return pet_foods
     
     def update_pet_food(self, pet_id, food_id):
         self.cursor.execute(

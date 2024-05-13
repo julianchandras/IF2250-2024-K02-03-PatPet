@@ -26,19 +26,18 @@ class MainController:
         self.main_view.view_pet_signal.connect(self.navigate_to_detail)  # Ini untuk navigasi ke detail_pet_view
         self.main_view.filter_pet_signal.connect(self.handle_filter)
 
-
-    def show_activity_today(self):
-        activities = self.activity_model.get_all_activities()
-        self.main_view.set_activities(activities)
+        # Show activity dan 
 
     def handle_filter(self, foods):
-        filtered_pets = self.pet_model.filter_pet_by_food(foods)
+        filtered_pets = self.food_model.filter_pet_by_food(foods)
+        
         self.main_view.set_pets(filtered_pets)
 
     def navigate_to_detail(self, pet_id):
         # Fetch pet details and switch to DetailPetView
         pet = self.pet_model.get_specific_pet(pet_id)
-        self.detail_pet_view.set_pet_details(pet)
+        foods = self.food_model.get_pet_foods(pet_id)
+        self.detail_pet_view.set_pet_details(pet,foods)
         self.stacked_widget.setCurrentIndex(5)  # Navigate to DetailPetView
 
     def show_add_pet_view(self):

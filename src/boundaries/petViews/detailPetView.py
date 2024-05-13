@@ -97,27 +97,11 @@ class DetailPetView(QWidget):
         fl_title_label.setFixedHeight(50)
         food_list_layout.addWidget(fl_title_label)
 
-        fl_label = QLabel(self)
-        fl_label.setText(
-            "<ul>"
-            "<li>Tempe</li>"
-            "<li>Telur</li>"
-            "<li>Tahu</li>"
-            "<li>Tempe</li>"
-            "<li>Telur</li>"
-            "<li>Tahu</li>"
-            "<li>Tempe</li>"
-            "<li>Telur</li>"
-            "<li>Tahu</li>"
-            "<li>Tempe</li>"
-            "<li>Telur</li>"
-            "<li>Tahu</li>"
-            "</ul>"
-        )
-        fl_label.setStyleSheet('font-size: 24px; color: #1A646B;')
+        self.fl_label = QLabel(self)
+        self.fl_label.setStyleSheet('font-size: 24px; color: #1A646B;')
         
         scroll_area = QScrollArea()
-        scroll_area.setWidget(fl_label)
+        scroll_area.setWidget(self.fl_label)
         scroll_area.setWidgetResizable(True)
         scroll_area.setFixedHeight(150)
         scroll_area.setStyleSheet(
@@ -179,7 +163,7 @@ class DetailPetView(QWidget):
         if self.pet_id is not None:
             self.delete_pet_signal.emit(self.pet_id)
 
-    def set_pet_details(self, pet):
+    def set_pet_details(self, pet,foods):
         """
         Set pet details in labels.
         pet is a tuple (pet_id, name, species, age, medical_record, image_data)
@@ -215,4 +199,10 @@ class DetailPetView(QWidget):
             ))
         else:
             animal_image_label.setText("No Image")
+
+        food_list = "<ul>"
+        for food in foods:
+            food_list += f"<li>{food}</li>"
+        food_list += "</ul>"
+        self.fl_label.setText(food_list)
 

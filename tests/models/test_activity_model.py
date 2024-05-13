@@ -19,15 +19,13 @@ class TestActivityModel:
         petmodel.add_pet('Mong', 'Kucing', 1, 'Sehat', dummyImageData)
         
         yield model
-      
+
+        model.cursor.execute("DROP TABLE activity")
+        model.cursor.execute("DROP TABLE pets")
         model.commit()
         model.close()
 
-    @pytest.fixture(autouse=True)
-    def delete_database(self):
-        # Teardown: Delete the database file after each test
-        yield
-        os.remove('database/test.db')
+    
 
     def test_add_activity(self, activity_model: ActivityModel):
         activity_model.add_activity('Makan', date.today(), '10:00:00', '11:00:00', 1)

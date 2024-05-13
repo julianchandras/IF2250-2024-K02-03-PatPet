@@ -31,10 +31,11 @@ class ActivityController:
 
     def load_activities(self):
         activities = self.activity_model.get_all_activities()
-    
         self.add_activity_view.set_activities(activities)
-        self.main_view.set_activities(activities)
         self.update_activity_view.set_activities(activities)
+        today_activities = self.activity_model.get_todays_activity()
+        self.main_view.set_activities(today_activities)
+        
 
     def navigate_to_update(self, activity_id):
         activity = self.activity_model.get_specific_activity(activity_id)

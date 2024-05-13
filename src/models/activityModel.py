@@ -18,7 +18,7 @@ class ActivityModel(BaseModel):
                     start_time TIME,
                     end_time TIME,
                     pet_id INTEGER,
-                    FOREIGN KEY (pet_id) REFERENCES pets(pet_id)
+                    FOREIGN KEY (pet_id) REFERENCES pets(pet_id) ON DELETE CASCADE
                 )
 
                 """
@@ -70,7 +70,7 @@ class ActivityModel(BaseModel):
     def get_todays_activity(self):
         try:
             today = date.today()
-            self.cursor.execute("SELECT * FROM activity WHERE activity_date = ?", (today,))
+            self.cursor.execute("SELECT activity_id,activity_name,activity_date,start_time,end_time,pet_id,pet_name,species FROM activity NATURAL JOIN pets WHERE activity_date = ?", (today,))
             rows = self.cursor.fetchall()
             return rows
         except Exception as e:

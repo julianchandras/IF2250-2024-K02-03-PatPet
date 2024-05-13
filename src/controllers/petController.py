@@ -1,6 +1,4 @@
 from PyQt5.QtWidgets import QStackedWidget
-from PyQt5.QtGui import QPixmap
-from boundaries.mainView import MainView
 from boundaries.petViews.addPetView import AddPetView
 from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
@@ -55,6 +53,7 @@ class PetController:
         self.main_view.set_pets(pets)
         self.add_activity_view.set_pets(activity_pets)
         self.update_activity_view.set_pets(activity_pets)
+        self.main_food_view.set_food(self.food_model.get_food_eater())
         
     def save_pet(self, pet_name, species, age, medical_record, image, food_list):
         self.pet_model.add_pet(pet_name, species, age, medical_record, image,food_list)  # Save pet to the model
@@ -64,7 +63,8 @@ class PetController:
     def show_edit_pet_view(self, pet_id):
         # Set the pet details in EditPetView and switch to it
         pet = self.pet_model.get_specific_pet(pet_id)
-        self.edit_pet_view.set_pet_details(pet)
+        foods = self.food_model.get_pet_foods(pet_id)
+        self.edit_pet_view.set_pet_details(pet,foods)
         self.stacked_widget.setCurrentIndex(4)  # Navigate to EditPetView
 
     def save_pet_edits(self, pet_id, pet_name, species, age, medical_record, image, food_list):
