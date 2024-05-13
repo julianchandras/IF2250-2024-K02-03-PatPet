@@ -11,6 +11,7 @@ class UpdateActivityView(QWidget):
     update_activity_signal = pyqtSignal(int, str, date,  str,str, int)
     delete_activity_signal = pyqtSignal(int)
     navigate_to_update = pyqtSignal(int)
+    cancel_signal = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -118,6 +119,20 @@ class UpdateActivityView(QWidget):
             }
         """)
 
+        self.cancel_button = QPushButton('Batal')
+        self.cancel_button.setStyleSheet("""
+            QPushButton {
+                background-color: #FF0000;
+                font-weight: bold;
+                border-radius: 8px;
+                padding: 20px 5px;
+                color: white;
+            }
+            QPushButton:hover {
+                background-color: #FF6666;
+            }
+        """)
+
         # Create grid layout
         activity_entry_box_layout.addWidget(pilihan_hewan_label, 0, 0, 1, 2)
         activity_entry_box_layout.addWidget(jenis_aktivitas_hewan_label, 0, 2, 1, 2)
@@ -135,6 +150,7 @@ class UpdateActivityView(QWidget):
         
         activity_entry_box_layout.addWidget(self.ubah_button,3,4)
         activity_entry_box_layout.addWidget(self.hapus_button,3,5)
+        activity_entry_box_layout.addWidget(self.cancel_button,4,5)
         
 
         main_content_layout.addWidget(activity_entry_box)
@@ -212,6 +228,7 @@ class UpdateActivityView(QWidget):
         self.setLayout(main_layout)
         self.ubah_button.clicked.connect(self.update_activity)
         self.hapus_button.clicked.connect(self.delete_activity)
+        self.cancel_button.clicked.connect(self.cancel_update)
         self.calendar.activity_clicked.connect(self.navigate_to_update_activity)
 
     
@@ -269,5 +286,5 @@ class UpdateActivityView(QWidget):
     def delete_activity(self):
         self.delete_activity_signal.emit(self.activity_id)
         
-            
-    
+    def cancel_update(self):
+        self.cancel_signal.emit()

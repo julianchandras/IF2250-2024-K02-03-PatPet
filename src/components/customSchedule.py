@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import (
-    QApplication,
     QWidget,
     QGridLayout,
     QLabel,
@@ -9,7 +8,7 @@ from PyQt5.QtWidgets import (
     QScrollArea,
 )
 from PyQt5.QtCore import Qt, QDate,pyqtSignal
-import sys
+from datetime import datetime
 
 
 class CustomSchedule(QWidget):
@@ -145,7 +144,13 @@ class CustomSchedule(QWidget):
             if day_str in self.activities:
                 for activity in self.activities[day_str]:
                     activity_id,start_time, end_time, animal,detail = activity
-                    activity_button = QPushButton(f"{start_time} - {end_time} ({animal})\n{detail}")
+                    start_datetime = datetime.strptime(start_time, "%H:%M:%S")
+                    end_datetime = datetime.strptime(end_time, "%H:%M:%S")
+
+                    start_time_formatted = start_datetime.strftime("%H:%M")
+                    end_time_formatted = end_datetime.strftime("%H:%M")
+
+                    activity_button = QPushButton(f"{start_time_formatted} - {end_time_formatted} ({animal})\n{detail}")
                     activity_button.clicked.connect(lambda checked, activity_id=activity_id: self.handle_activity_click(activity_id))
                     activity_button.setStyleSheet("""
                         QPushButton {
