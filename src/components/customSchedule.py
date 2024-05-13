@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import (
-    QApplication,
     QWidget,
     QGridLayout,
     QLabel,
@@ -8,11 +7,12 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QScrollArea,
 )
-from PyQt5.QtCore import Qt, QDate
-import sys
+from PyQt5.QtCore import Qt, QDate,pyqtSignal
+from datetime import datetime
 
 
 class CustomSchedule(QWidget):
+    activity_clicked = pyqtSignal(int)
     def __init__(self):
         super().__init__()
 
@@ -139,14 +139,19 @@ class CustomSchedule(QWidget):
             
             # Add the label to the cell layout
             cell_layout.addWidget(day_label)
-
             # Add activities for the day (if any)
             day_str = day.toString("yyyy-MM-dd")
             if day_str in self.activities:
                 for activity in self.activities[day_str]:
-                    time, animal = activity
-                    activity_button = QPushButton(f"{time} - {animal}")
-                    activity_button.clicked.connect(self.handle_activity_click)
+                    activity_id,start_time, end_time, animal,detail = activity
+                    start_datetime = datetime.strptime(start_time, "%H:%M:%S")
+                    end_datetime = datetime.strptime(end_time, "%H:%M:%S")
+
+                    start_time_formatted = start_datetime.strftime("%H:%M")
+                    end_time_formatted = end_datetime.strftime("%H:%M")
+
+                    activity_button = QPushButton(f"{start_time_formatted} - {end_time_formatted} ({animal})\n{detail}")
+                    activity_button.clicked.connect(lambda checked, activity_id=activity_id: self.handle_activity_click(activity_id))
                     activity_button.setStyleSheet("""
                         QPushButton {
                             background-color: #F277AD;
@@ -187,10 +192,8 @@ class CustomSchedule(QWidget):
         self.activities = activities
         self.update_calendar()
 
-    def handle_activity_click(self):
-        # Handle the click event here
-        sender = self.sender()  # Get the button that was clicked
-        activity_info = sender.text()  # Get the text of the button
-        print("Clicked:", activity_info)
+    def handle_activity_click(self, activity_id):
+    # Emit a signal to inform the controller about the clicked activity
+        self.activity_clicked.emit(activity_id)
 
 

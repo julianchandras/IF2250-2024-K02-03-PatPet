@@ -76,3 +76,12 @@ class ActivityModel(BaseModel):
         except Exception as e:
             print("Error fetching today's activities:", e)
             return []
+        
+    def get_specific_activity(self, activity_id):
+        try:
+            self.cursor.execute("SELECT * FROM activity WHERE activity_id = ?", (activity_id,))
+            activity = self.cursor.fetchone()
+            return activity
+        except Exception as e:
+            print("Error fetching specific activity:", e)
+            return None
