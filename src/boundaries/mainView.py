@@ -8,13 +8,14 @@ from PyQt5.QtWidgets import (
     QLabel,
     QFrame,
     QGridLayout,
-    QScrollArea
-
+    QScrollArea,
 )
 from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtGui import QCursor
 from components.animalCard import AnimalCard
 from components.activityCard import ActivityCard
 from components.checkableCombobox import CheckableComboBox
+from utils.font import get_font
 
 
 class MainView(QWidget):
@@ -49,20 +50,35 @@ class MainView(QWidget):
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
         
        
-
         header_box = QGroupBox(self)
         header_box.setStyleSheet('border: none')
-        header_box.setFixedHeight(100)
+        header_box.setFixedHeight(int(screen_geometry.height() * 0.075))
         header_layout = QHBoxLayout(header_box)
 
         home_label = QLabel('Beranda', self)
-        home_label.setStyleSheet('font-size: 48px; color: #F277AD; font-weight: bold;')
+        home_label.setStyleSheet('font-size: 72px; color: #F277AD; font-weight: 900;')
+        home_label.setFont(get_font("bold"))
         header_layout.addWidget(home_label)  
 
         add_pet_button = QPushButton('Tambah Hewan', self)
-        add_pet_button.setStyleSheet('background-color: #F277AD; font-size: 18px; color: white; padding: 17px 13px; border: none; border-radius: 5px;')
+        add_pet_button.setStyleSheet("""
+            QPushButton {
+                background-color: #F277AD;
+                font-weight: bold;
+                border-radius: 8px;
+                padding: 20px 5px;
+                color : white;
+                font-size: 26px;
+            }
+
+            QPushButton:hover {
+                background-color: #F8B8D4;
+            }
+        """)
+        add_pet_button.setFont(get_font("regular"))
+        add_pet_button.setCursor(QCursor(Qt.PointingHandCursor))
         add_pet_button.clicked.connect(self.add_pet)
-        add_pet_button.setFixedSize(160, 60)
+        add_pet_button.setFixedSize(220, 70)
         header_layout.addWidget(add_pet_button)
 
         main_content_layout.addWidget(header_box)
@@ -77,12 +93,11 @@ class MainView(QWidget):
         content_box = QWidget(self)
         content_box.setStyleSheet('border: none;')
         content_layout = QHBoxLayout(content_box)
-        # content_box.setFixedHeight(int(screen_geometry.height() * 0.80))
-        content_layout.setAlignment(Qt.AlignTop)
+        content_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        content_layout.setContentsMargins(0,0,0,0)
 
         pet_list_box = QWidget(self)
         pet_list_box.setStyleSheet('border:none;')
-        # pet_list_box.setFixedWidth(int(screen_geometry.width() * 0.4))
         pet_list_layout = QVBoxLayout(pet_list_box)
         pet_list_layout.setAlignment(Qt.AlignTop)
         pet_list_layout.setContentsMargins(0,0,0,0)
@@ -92,16 +107,34 @@ class MainView(QWidget):
         pet_header_box.setStyleSheet('border:none;')
         pet_header_box.setFixedHeight(100)
         pet_header_layout = QHBoxLayout(pet_header_box)
+        pet_header_layout.setContentsMargins(0,0,0,0)
         pet_header_layout.setAlignment(Qt.AlignLeft)
 
 
         pet_title_label = QLabel('Daftar Hewanmu', self)
-        pet_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
+        pet_title_label.setStyleSheet('font-size: 48px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
+        pet_title_label.setFont(get_font("regular"))
         pet_header_layout.addWidget(pet_title_label)
 
         self.filter_button = QPushButton('Filter', self)
-        self.filter_button.setStyleSheet('background-color: #1A646B; font-size: 18px; color: white; padding: 17px 13px; border: none; border-radius: 5px;')
-        self.filter_button.setFixedSize(80, 50)
+        self.filter_button.setStyleSheet("""
+            QPushButton {
+                background-color: #1A646B;
+                font-weight: bold;
+                border-radius: 8px;
+                padding: 20px 5px;
+                color : white;
+                font-size : 24px;
+                
+            }
+
+            QPushButton:hover {
+                background-color: #6E9DA1;
+            }
+        """)
+        self.filter_button.setFont(get_font("regular"))
+        self.filter_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.filter_button.setFixedSize(150, 70)
         self.filter_button.clicked.connect(self.show_filter_menu)
         pet_header_layout.addWidget(self.filter_button)
 
@@ -207,11 +240,12 @@ class MainView(QWidget):
         # Container aktivitas hari ini text
         activity_header_box = QGroupBox(self)
         activity_header_box.setStyleSheet('border: none;')
-        activity_header_box.setFixedHeight(95)
+        activity_header_box.setFixedHeight(100)
         activity_header_layout = QHBoxLayout(activity_header_box)
 
         activity_title_label = QLabel('Aktivitas Hari Ini', self)
-        activity_title_label.setStyleSheet('font-size: 26px; font-weight: bold; color: #1A646B; margin-top:0px;')
+        activity_title_label.setStyleSheet('font-size: 48px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
+        activity_title_label.setFont(get_font("regular"))
         activity_header_layout.addWidget(activity_title_label)
 
         activity_layout.addWidget(activity_header_box)
