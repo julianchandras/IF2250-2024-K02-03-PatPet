@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy, QFrame
-from PyQt5.QtGui import QPixmap, QCursor
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy, QFrame, QGraphicsDropShadowEffect
+from PyQt5.QtGui import QPixmap, QCursor, QColor
 from PyQt5.QtCore import Qt, pyqtSignal
 from utils.font import get_font
 
@@ -103,6 +103,12 @@ class AnimalCard(QWidget):
             self.info = QLabel(f"{self.riwayat_penyakit}")
             self.info.setStyleSheet("background-color: transparent;margin-left: 10px; margin-bottom:20px;padding: 0px;") 
             self.info.setFont(get_font("regular"))
+
+            shadow = QGraphicsDropShadowEffect(self)
+            shadow.setOffset(0, 4)
+            shadow.setBlurRadius(50)
+            shadow.setColor(QColor(0, 0, 0, 15))
+            self.setGraphicsEffect(shadow)
             self.card_content_layout.addWidget(self.info)
 
         else:
