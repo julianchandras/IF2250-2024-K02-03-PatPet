@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication,QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
-from PyQt5.QtCore import Qt,pyqtSignal
+from PyQt5.QtCore import Qt,pyqtSignal, QTime, QDate
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
@@ -82,7 +82,6 @@ class AddActivityView(QWidget):
 
         # Tanggal
         self.tanggal_aktivitas = CalendarInput()
-        self.tanggal_mulai_ulang_input = CalendarInput()
         self.tanggal_akhir_ulang_input = CalendarInput()
 
         # Banyak pengulangan
@@ -243,5 +242,21 @@ class AddActivityView(QWidget):
             repetition_hop = None
 
         self.add_activity_signal.emit(activity_name, activity_date,start_time, end_time, repetition_end, repetition_hop, pet_id)
+
+    def clear_input(self):
+        self.jenis_aktivitas_input.clear()
+        self.banyak_pengulangan_input.clear()
+
+        self.tanggal_aktivitas.calendar.setSelectedDate(QDate(date.today()))
+        self.tanggal_aktivitas.line_edit.clear()
+        self.tanggal_aktivitas.line_edit.setPlaceholderText("Click to select date")
+        self.jam_mulai_input.setTime(QTime(0,0))
+        self.jam_akhir_input.setTime(QTime(0,0))
+        self.tanggal_akhir_ulang_input.calendar.setSelectedDate(QDate(date.today()))
+        self.tanggal_akhir_ulang_input.line_edit.clear()
+        self.tanggal_akhir_ulang_input.line_edit.setPlaceholderText("Click to select a date")
+        self.pilihan_hewan.combo_box.setCurrentIndex(-1)
+        self.pilihan_hewan.combo_box.setEditText('Pilih hewan')
+
 
     

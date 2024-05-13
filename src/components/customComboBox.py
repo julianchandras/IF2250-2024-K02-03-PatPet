@@ -11,6 +11,7 @@ class CustomComboBox(QWidget):
         layout = QVBoxLayout()
 
         self.combo_box = QComboBox()
+        self.combo_box.setEditText("Select an option")
         self.combo_box.setView(QListView())  # Set QListView as the dropdown view
     
         self.combo_box.setStyleSheet("""
@@ -22,12 +23,13 @@ class CustomComboBox(QWidget):
                 selection-background-color: #e0e0e0;
             }
             QComboBox::drop-down {
-                width: 20px;
-                border: none;
-                border-radius : 10px;
+                border: 0px;
             }
             QComboBox::down-arrow {
-                image: url("drop_down.png");
+                image: url("img/chevron-down.png");
+                width: 30px;
+                height: 30px;
+                margin-right: 20px;
             }
             QListView {
                 border: 1px solid #ccc; /* Add this line */
@@ -60,5 +62,11 @@ class CustomComboBox(QWidget):
             display_text = item[0]
             value = item[1]
             self.addItem(display_text, value)
+
+    def clearSelection(self):
+        self.combo_box.setCurrentIndex(-1)
+
+    def setDefaultText(self, text):
+        self.combo_box.setEditText(text)
 
 

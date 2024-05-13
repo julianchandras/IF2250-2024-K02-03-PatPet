@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import (
     QFrame,
     QGridLayout,
     QScrollArea
-
 )
 from PyQt5.QtCore import pyqtSignal, Qt
 from components.animalCard import AnimalCard
@@ -121,9 +120,11 @@ class MainView(QWidget):
 
                                             }
                                             """)
-        self.filter_combo_box.hide()
+        
         self.filter_combo_box.setFixedSize(400, 50)
         self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
+        self.filter_combo_box.hide()
+        
         
         pet_header_layout.addWidget(self.filter_combo_box)
     
@@ -297,7 +298,6 @@ class MainView(QWidget):
         self.add_pet_signal.emit()  # Emit signal to switch to AddPetView
 
     def filter_pet(self):
-        
         self.filter_pet_signal.emit(self.filter_combo_box.currentData())
 
     def set_pets(self, pets):
@@ -355,3 +355,10 @@ class MainView(QWidget):
                 widget.deleteLater()
             else:
                 self.clear_layout(item.layout())
+
+    def clear_input(self):
+        for index in range(self.filter_combo_box.count()):
+            self.filter_combo_box.setCheckState(index, Qt.Unchecked)
+        self.filter_combo_box.hide()
+    
+    
