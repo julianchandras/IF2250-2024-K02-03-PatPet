@@ -112,4 +112,8 @@ class CustomCalendar(QWidget):
     def selectedDate(self):
         # Return the selected date
         return self.calendar.selectedDate()
+    
+    def setSelectedDate(self,date):
+        self.calendar.setSelectedDate(date)
+        print(self.calendar.selectedDate())
 

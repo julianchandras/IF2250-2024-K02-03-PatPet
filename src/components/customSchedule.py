@@ -8,11 +8,12 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QScrollArea,
 )
-from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtCore import Qt, QDate,pyqtSignal
 import sys
 
 
 class CustomSchedule(QWidget):
+    activity_clicked = pyqtSignal(int)
     def __init__(self):
         super().__init__()
 
@@ -139,15 +140,13 @@ class CustomSchedule(QWidget):
             
             # Add the label to the cell layout
             cell_layout.addWidget(day_label)
-            print("ACTIVTIES")
-            print(self.activities)
             # Add activities for the day (if any)
             day_str = day.toString("yyyy-MM-dd")
             if day_str in self.activities:
                 for activity in self.activities[day_str]:
-                    start_time, end_time, animal,detail = activity
+                    activity_id,start_time, end_time, animal,detail = activity
                     activity_button = QPushButton(f"{start_time} - {end_time} ({animal})\n{detail}")
-                    activity_button.clicked.connect(self.handle_activity_click)
+                    activity_button.clicked.connect(lambda checked, activity_id=activity_id: self.handle_activity_click(activity_id))
                     activity_button.setStyleSheet("""
                         QPushButton {
                             background-color: #F277AD;
@@ -188,11 +187,8 @@ class CustomSchedule(QWidget):
         self.activities = activities
         self.update_calendar()
 
-    def handle_activity_click(self):
-        
-        # Handle the click event here
-        sender = self.sender()  # Get the button that was clicked
-        activity_info = sender.text()  # Get the text of the button
-        print("Clicked:", activity_info)
+    def handle_activity_click(self, activity_id):
+    # Emit a signal to inform the controller about the clicked activity
+        self.activity_clicked.emit(activity_id)
 
 

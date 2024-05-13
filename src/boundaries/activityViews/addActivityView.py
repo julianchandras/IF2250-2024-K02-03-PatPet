@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
-from PyQt5.QtCore import Qt,pyqtSignal, QTime
+from PyQt5.QtWidgets import QApplication,QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
+from PyQt5.QtCore import Qt,pyqtSignal
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
@@ -16,7 +16,8 @@ class AddActivityView(QWidget):
         self.initUI()
 
     def initUI(self):
-        # self.activites = {}
+        screen_geometry = QApplication.desktop().availableGeometry()
+
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0,0,0,0)
         main_layout.setSpacing(0)
@@ -27,7 +28,7 @@ class AddActivityView(QWidget):
         main_content_layout.setContentsMargins(115, 42, 115, 50)
 
         # Set background color for the main content widget
-        main_content_widget.setStyleSheet('background-color: #C0E9DF;')
+        main_content_widget.setStyleSheet('background-color: #C0E9DF; border:none;')
 
         title_label = QLabel('Jadwal', self)
         title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
@@ -46,7 +47,7 @@ class AddActivityView(QWidget):
 
         # Create a QGroupBox
         activity_entry_box = QGroupBox('', self)
-        activity_entry_box.setFixedHeight(500)
+        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.25))
         activity_entry_box.setStyleSheet("background-color: white; border-radius: 8px;")
 
         # Create a QGridLayout for the QGroupBox
@@ -65,8 +66,6 @@ class AddActivityView(QWidget):
         # Pilih hewan
         self.pilihan_hewan = CustomComboBox()
 
-        # Masukin pilihan hewan
-        
 
         # Jenis Aktivtias
         self.jenis_aktivitas_input = CustomLineEdit()
@@ -206,15 +205,18 @@ class AddActivityView(QWidget):
         main_layout.addWidget(scroll_area) 
         self.setLayout(main_layout)
 
+        self.calendar.activity_clicked.connect(self.handle_activity_click)
+
     def set_activities(self,activities):
         temp = {}
         for activity in activities:
-            _, detail, date_str, start_time, end_time, _, animal, _ = activity
+            activity_id, detail, date_str, start_time, end_time, _, animal, _ = activity
             
             if date_str not in temp:
                 temp[date_str] = []
-            temp[date_str].append((start_time, end_time, animal, detail[:15]))
+            temp[date_str].append((activity_id,start_time, end_time, animal, detail[:15]))
         self.calendar.set_activities(temp)
+
     
     def set_pets(self, pets):
         self.pilihan_hewan.addItems(pets)
@@ -242,3 +244,5 @@ class AddActivityView(QWidget):
 
         self.add_activity_signal.emit(activity_name, activity_date,start_time, end_time, repetition_end, repetition_hop, pet_id)
 
+    def handle_activity_click(self, activity_id):
+        self.navigate_to_update.emit(activity_id)
