@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import (
     
 )
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QCursor
+from utils.font import get_font
 
 class Sidebar(QWidget):
     def __init__(self, width):
@@ -32,21 +33,35 @@ class Sidebar(QWidget):
         # Add a logo at the top
         logo_label = QLabel()  # Create a label to display the logo
         logo_pixmap = QPixmap("img/logo_patpet.svg")  # Load the logo image
+        logo_pixmap = logo_pixmap.scaled(250, 250, Qt.KeepAspectRatio)  
         logo_label.setPixmap(logo_pixmap)  # Set the pixmap to the label
         logo_label.setAlignment(Qt.AlignHCenter)
 
 
         # Navigation buttons
-        main_button = QPushButton("Main View")
+        main_button = QPushButton("Beranda")
         jadwal_button = QPushButton("Jadwal")
         article_button = QPushButton("Artikel")
         food_button = QPushButton("Makanan")
         exit_button = QPushButton("Exit")
         
         # Set styles for buttons for better visibility on the orange background
-        button_style = "font-weight: bold; border: none; color: white; font-size: 40px"
+        button_style = """
+            QPushButton {
+                font-weight: bold; 
+                border: none; 
+                color: white; 
+                font-size: 40px;
+            }
+
+            QPushButton:hover {
+                color : #FFD66C;
+            }
+        """
         for button in (main_button, jadwal_button, article_button, food_button, exit_button):
             button.setStyleSheet(button_style)  # Apply style to all buttons
+            button.setCursor(QCursor(Qt.PointingHandCursor))
+            button.setFont(get_font("bold"))
         
         # Connect buttons to change views in QStackedWidget
         main_button.clicked.connect(lambda: self.change_view(0))
