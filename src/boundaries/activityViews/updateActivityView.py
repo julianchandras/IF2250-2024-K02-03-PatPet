@@ -1,15 +1,16 @@
 from PyQt5.QtWidgets import QApplication, QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
-from PyQt5.QtCore import Qt,pyqtSignal
+from PyQt5.QtCore import Qt,pyqtSignal, QTime, QDate
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
-from datetime import date
+from datetime import date, datetime
 
 class UpdateActivityView(QWidget):
 
     update_activity_signal = pyqtSignal(int, str, date,  str,str, int)
     delete_activity_signal = pyqtSignal(int)
+    navigate_to_update = pyqtSignal(int)
 
     def __init__(self):
         super().__init__()
@@ -211,6 +212,8 @@ class UpdateActivityView(QWidget):
         self.setLayout(main_layout)
         self.ubah_button.clicked.connect(self.update_activity)
         self.hapus_button.clicked.connect(self.delete_activity)
+        self.calendar.activity_clicked.connect(self.navigate_to_update_activity)
+
     
     def set_pets(self,pets):
         self.pilihan_hewan.addItems(pets)
@@ -229,8 +232,29 @@ class UpdateActivityView(QWidget):
     def set_activity_details(self,activity):
         self.activity_id = activity[0]
         self.jenis_aktivitas_input.setText(activity[1])
+        date_parts = activity[2].split('-')
+        year, month, day = map(int, date_parts)
+        selected_date = QDate(year, month, day)
+        
+        self.tanggal_mulai_input.calendar.setSelectedDate(selected_date)
+        self.tanggal_mulai_input.line_edit.setPlaceholderText(activity[2])
+        
+        jam_mulai = datetime.strptime(activity[3], "%H:%M:%S")
+        jam_akhir = datetime.strptime(activity[4], "%H:%M:%S")
 
-      
+        jam_mulai_hour = jam_mulai.hour
+        jam_mulai_minute = jam_mulai.minute
+        jam_akhir_hour = jam_akhir.hour
+        jam_akhir_minute = jam_akhir.minute
+
+
+        self.jam_mulai_input.setTime(QTime(jam_mulai_hour, jam_mulai_minute))
+
+        self.jam_akhir_input.setTime(QTime(jam_akhir_hour, jam_akhir_minute))
+
+    def navigate_to_update_activity(self, activity_id):
+        self.navigate_to_update.emit(activity_id)
+
 
     def update_activity(self):
         activity_id = self.activity_id
@@ -244,7 +268,6 @@ class UpdateActivityView(QWidget):
 
     def delete_activity(self):
         self.delete_activity_signal.emit(self.activity_id)
-        
         
             
     

@@ -26,6 +26,7 @@ class ActivityController:
         self.add_activity_view.navigate_to_update.connect(self.navigate_to_update)
         self.update_activity_view.update_activity_signal.connect(self.update_activity)
         self.update_activity_view.delete_activity_signal.connect(self.delete_activity)
+        self.update_activity_view.navigate_to_update.connect(self.navigate_to_update)
 
         self.load_activities()
 

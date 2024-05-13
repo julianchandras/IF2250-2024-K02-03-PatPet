@@ -205,7 +205,7 @@ class AddActivityView(QWidget):
         main_layout.addWidget(scroll_area) 
         self.setLayout(main_layout)
 
-        self.calendar.activity_clicked.connect(self.handle_activity_click)
+        self.calendar.activity_clicked.connect(self.navigate_to_update_activity)
 
     def set_activities(self,activities):
         temp = {}
@@ -244,5 +244,4 @@ class AddActivityView(QWidget):
 
         self.add_activity_signal.emit(activity_name, activity_date,start_time, end_time, repetition_end, repetition_hop, pet_id)
 
-    def handle_activity_click(self, activity_id):
-        self.navigate_to_update.emit(activity_id)
+    
