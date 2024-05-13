@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt, pyqtSignal
+from utils.font import get_font
 
 class ActivityCard(QWidget):
     clicked = pyqtSignal()
@@ -17,7 +18,7 @@ class ActivityCard(QWidget):
 
         self.card_content = QWidget(self)
         self.card_content_layout = QVBoxLayout(self.card_content)
-        self.card_content.setFixedHeight(120)
+        self.card_content.setFixedHeight(160)
         self.card_content_layout.setSpacing(5)
         self.card_content_layout.setAlignment(Qt.AlignTop)
 
@@ -33,15 +34,18 @@ class ActivityCard(QWidget):
         ''')
 
         activity_activity_name_label = QLabel(f"{self.activity_name}")
-        activity_activity_name_label.setStyleSheet('font-size: 18px; font-weight: bold;')
+        activity_activity_name_label.setStyleSheet('font-size: 26px; font-weight: bold;')
+        activity_activity_name_label.setFont(get_font("Bold"))
         self.card_content_layout.addWidget(activity_activity_name_label)
 
         activity_time_label = QLabel(f"{self.time}")
-        activity_time_label.setStyleSheet('font-size: 16px;')
+        activity_time_label.setStyleSheet('font-size: 24px;')
+        activity_time_label.setFont(get_font("regular"))
         self.card_content_layout.addWidget(activity_time_label)
 
         activity_pet_label = QLabel(f"{self.pet}")
-        activity_pet_label.setStyleSheet('font-size: 16px; background: #FFD66C')
+        activity_pet_label.setStyleSheet('font-size: 24px; background: #FFD66C; border-radius:8px;')
+        activity_pet_label.setFont(get_font("regular"))
         self.card_content_layout.addWidget(activity_pet_label)
 
         layout.addWidget(self.card_content)
@@ -49,3 +53,7 @@ class ActivityCard(QWidget):
 
     def mousePressEvent(self, event):
         self.clicked.emit()
+
+    
+
+    

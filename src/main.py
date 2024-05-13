@@ -6,6 +6,9 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QWidget,
 )
+from PyQt5.QtGui import QFontDatabase, QFont
+
+
 
 ## Boundaries
 from boundaries.mainView import MainView
@@ -42,6 +45,8 @@ class PetManagementApp(QMainWindow):
 
         # Set the window title
         self.setWindowTitle("Pet Management App")
+        # font_id = QFontDatabase.addApplicationFont("img/fonts/Raleway-Regular.ttf")
+        # font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
 
         # Create the main layout and central widget
         main_layout = QHBoxLayout()
@@ -126,3 +131,8 @@ if __name__ == "__main__":
     pet_management_app = PetManagementApp()  # Create the main application instance
     pet_management_app.showFullScreen()  # Show the main window
     sys.exit(app.exec_())  # Start the event loop
+
+
+
+
+

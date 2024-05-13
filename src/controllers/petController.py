@@ -42,6 +42,7 @@ class PetController:
         # Signal buat di detail page
         self.detail_pet_view.edit_pet_signal.connect(self.show_edit_pet_view)  # Ini untuk navigasi ke edit_pet_view
         self.detail_pet_view.delete_pet_signal.connect(self.delete_pet)  # Delete the pet
+        self.detail_pet_view.back_signal.connect(self.back_home)
 
         # Signal buat di edit page
         self.edit_pet_view.save_pet_signal.connect(self.save_pet_edits)  # Save pet edits and return to MainPetView
@@ -77,6 +78,7 @@ class PetController:
         self.load_pets()
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
 
-
-
+    def back_home(self):
+        self.load_pets()
+        self.stacked_widget.setCurrentIndex(0)
     
