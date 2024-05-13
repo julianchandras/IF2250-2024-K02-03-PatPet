@@ -149,7 +149,6 @@ class EditPetView(QWidget):
 
         self.selected_image_data = pet[5]
         for food in foods:
-            print(food)
             index = self.food_list_input.findText(food)
             
             if index >= 0:

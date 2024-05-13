@@ -11,7 +11,6 @@ class CheckableComboBox(QComboBox):
         def sizeHint(self, option, index):
             size = super().sizeHint(option, index)
             size.setHeight(80)
-            
             return size
             
     def __init__(self, *args, **kwargs):
@@ -90,13 +89,15 @@ class CheckableComboBox(QComboBox):
     def updateText(self):
         texts = []
         for i in range(self.model().rowCount()):
-            if self.model().item(i).checkState() == Qt.Checked:
+            if self.model().item(i).checkState() == Qt.Checked :
+                
                 texts.append(self.model().item(i).text())
+        
         text = ", ".join(texts)
 
-        if not text:
+        if text == "" or texts == [] or text == None:
             text = "Pilih Makanan"
-
+        self.lineEdit().clear()
         self.lineEdit().setText(text)
 
     def addItem(self, text, data=None):

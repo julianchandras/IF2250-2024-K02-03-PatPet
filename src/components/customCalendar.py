@@ -107,7 +107,7 @@ class CustomCalendar(QWidget):
     def emit_clicked_signal(self, date):
         # Emit the custom clicked signal with the selected date
         self.clicked.emit(date)
-        print("Selected date:", date.toString("yyyy-MM-dd"))
+       
 
     def selectedDate(self):
         # Return the selected date
@@ -115,6 +115,9 @@ class CustomCalendar(QWidget):
     
     def setSelectedDate(self,date):
         self.calendar.setSelectedDate(date)
-        print(self.calendar.selectedDate())
+    
+    def clearSelectedDate(self):
+        self.calendar.clearFocus()
+        
 
     
