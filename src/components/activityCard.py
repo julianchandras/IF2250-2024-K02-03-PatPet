@@ -4,7 +4,6 @@ from utils.font import get_font
 
 class ActivityCard(QWidget):
     clicked = pyqtSignal()
-    see_schedule_signal = pyqtSignal
 
     def __init__(self, activity_name, time, pet, parent=None):
         super().__init__(parent)
