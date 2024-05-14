@@ -5,6 +5,7 @@ from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
 from datetime import date
+from utils.font import get_font
 
 class AddActivityView(QWidget):
     add_activity_signal = pyqtSignal(str, date,  str, str, date, int, int)
@@ -31,7 +32,8 @@ class AddActivityView(QWidget):
         main_content_widget.setStyleSheet('background-color: #C0E9DF; border:none;')
 
         title_label = QLabel('Jadwal', self)
-        title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
+        title_label.setStyleSheet('font-size: 72px; color: #1A646B; font-weight: 900;')
+        title_label.setFont(get_font("bold"))
         title_label.setFixedHeight(70)
         main_content_layout.addWidget(title_label)
 
@@ -47,7 +49,7 @@ class AddActivityView(QWidget):
 
         # Create a QGroupBox
         activity_entry_box = QGroupBox('', self)
-        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.25))
+        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.225))
         activity_entry_box.setStyleSheet("background-color: white; border-radius: 8px;")
 
         # Create a QGridLayout for the QGroupBox
@@ -56,13 +58,17 @@ class AddActivityView(QWidget):
 
         # Create labels
         pilihan_hewan_label = QLabel('Pilihan Hewan')
-        jenis_aktivitas_hewan_label = QLabel('Jenis Aktivitas Hewan: ')
-        tanggal_aktivitas_label = QLabel('Tanggal Aktivitas:')
+        jenis_aktivitas_hewan_label = QLabel('Jenis Aktivitas Hewan')
+        tanggal_aktivitas_label = QLabel('Tanggal Aktivitas')
         tanggal_akhir_pengulangan_label = QLabel("Tanggal Akhir Pengulangan")
         jam_mulai_label = QLabel("Jam Mulai")
         jam_akhir_label = QLabel("Jam Selesai")
-        banyak_pengulangan_label = QLabel("Banyaknya Pengulangan")
+        banyak_pengulangan_label = QLabel("Interval Pengulangan")
         
+        for label in [pilihan_hewan_label,jenis_aktivitas_hewan_label,tanggal_aktivitas_label,tanggal_akhir_pengulangan_label,jam_mulai_label,jam_akhir_label,banyak_pengulangan_label]:
+            label.setStyleSheet("font-weight:bold; font-size:28px; margin:0px;")
+            label.setFont(get_font("bold"))
+
         # Pilih hewan
         self.pilihan_hewan = CustomComboBox()
 
@@ -74,11 +80,13 @@ class AddActivityView(QWidget):
         self.jam_mulai_input = QTimeEdit()
         self.jam_mulai_input.setDisplayFormat("HH:mm")
         self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
+        self.jam_mulai_input.setFont(get_font("regular"))
 
         # Jam akhir
         self.jam_akhir_input = QTimeEdit()
         self.jam_akhir_input.setDisplayFormat("HH:mm")
         self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
+        self.jam_akhir_input.setFont(get_font("regular"))
 
         # Tanggal
         self.tanggal_aktivitas = CalendarInput()
@@ -103,6 +111,7 @@ class AddActivityView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
+        self.tambah_button.setFont(get_font("bold"))
         self.tambah_button.clicked.connect(self.add_activity)
 
         # Create grid layout

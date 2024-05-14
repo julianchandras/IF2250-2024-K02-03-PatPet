@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, QDate,pyqtSignal
 from datetime import datetime
+from utils.font import get_font
 
 
 class CustomSchedule(QWidget):
@@ -102,6 +103,8 @@ class CustomSchedule(QWidget):
         # Update the current month label
         month_name = first_day.toString("MMMM yyyy")
         self.current_month_label.setText(month_name)
+        self.current_month_label.setStyleSheet("font-size: 36px; font-weight:600;")
+        self.current_month_label.setFont(get_font("bold"))
 
         # Start the grid with day names (Sunday to Saturday)
         day_names = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -110,13 +113,14 @@ class CustomSchedule(QWidget):
             label.setAlignment(Qt.AlignCenter)
             label.setStyleSheet("""
                 QLabel {
-                    font-size: 24px;
+                    font-size: 30px;
                     font-weight: bold;
                     background-color: #F2F2F2;
                     border-radius: 3px;
                     
                 }
             """)
+            label.setFont(get_font("regular"))
             self.calendar_grid.addWidget(label, 0, i)
 
         # Determine the starting position for the first day
@@ -130,9 +134,10 @@ class CustomSchedule(QWidget):
             cell_layout = QVBoxLayout()
             cell_layout.setAlignment(Qt.AlignTop)
             day_label = QLabel(str(i))
+            day_label.setFont(get_font("regular"))
             day_label.setStyleSheet("""
                 QLabel {
-                    font-size: 20px;
+                    font-size: 26px;
                 }
             """)
             day_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
@@ -150,14 +155,15 @@ class CustomSchedule(QWidget):
                     start_time_formatted = start_datetime.strftime("%H:%M")
                     end_time_formatted = end_datetime.strftime("%H:%M")
 
-                    activity_button = QPushButton(f"{start_time_formatted} - {end_time_formatted} ({animal})\n{detail}")
+                    activity_button = QPushButton(f"({start_time_formatted} - {end_time_formatted}) {animal}\n{detail}")
+                    activity_button.setFont(get_font("regular"))
                     activity_button.clicked.connect(lambda checked, activity_id=activity_id: self.handle_activity_click(activity_id))
                     activity_button.setStyleSheet("""
                         QPushButton {
                             background-color: #F277AD;
                             font-size: 18px;
-                            font-weight: bold;
                             border-radius: 8px;
+                            font-weight:600;
                             padding: 5px;                                                                                  
                             color : white;
                             text-align: left;

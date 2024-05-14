@@ -30,6 +30,7 @@ class ActivityController:
         self.update_activity_view.navigate_to_update.connect(self.navigate_to_update)
         self.update_activity_view.cancel_signal.connect(self.cancel_update)
 
+
         self.load_activities()
 
     def load_activities(self):
@@ -58,7 +59,6 @@ class ActivityController:
                 activity_date += timedelta(repetition_hop)
                 
         self.load_activities()
-        self.stacked_widget.setCurrentIndex(0)
 
 
     def update_activity(self, activity_id, activity_name, activity_date, start_time, end_time, pet_id):
@@ -72,5 +72,9 @@ class ActivityController:
         self.stacked_widget.setCurrentIndex(7)
     
     def cancel_update(self):
+        self.load_activities()
+        self.stacked_widget.setCurrentIndex(7)
+
+    def see_schedule(self):
         self.load_activities()
         self.stacked_widget.setCurrentIndex(7)
