@@ -4,6 +4,7 @@ from boundaries.petViews.detailPetView import DetailPetView
 from boundaries.petViews.editPetView import EditPetView
 from models.petModel import PetModel
 from models.foodModel import FoodModel
+from models.activityModel import ActivityModel
 
 class PetController:
     stacked_widget : QStackedWidget
@@ -11,12 +12,14 @@ class PetController:
     add_pet_view : AddPetView
     edit_pet_view : EditPetView
     detail_pet_view : DetailPetView
+    activity_model : ActivityModel
 
-    def __init__(self, stacked_widget : QStackedWidget, pet_model : PetModel, food_model : FoodModel):
+    def __init__(self, stacked_widget : QStackedWidget, pet_model : PetModel, food_model : FoodModel, activity_model : ActivityModel):
     
         self.stacked_widget = stacked_widget
         self.pet_model = pet_model
         self.food_model = food_model
+        self.activity_model = activity_model
 
         ## index 0 = main_pet_view
         ## index 1 = main article view
@@ -76,6 +79,11 @@ class PetController:
     def delete_pet(self, pet_id):
         self.pet_model.delete_pet(pet_id)  # Delete pet from the model
         self.load_pets()
+        activities = self.activity_model.get_all_activities()
+        self.add_activity_view.set_activities(activities)
+        self.update_activity_view.set_activities(activities)
+        today_activities = self.activity_model.get_todays_activity()
+        self.main_view.set_activities(today_activities)
         self.stacked_widget.setCurrentIndex(0)  # Return to MainPetView
 
     def back_home(self):

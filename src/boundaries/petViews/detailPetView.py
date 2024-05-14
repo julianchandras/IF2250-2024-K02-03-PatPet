@@ -59,7 +59,7 @@ class DetailPetView(QWidget):
         # Group box for general information
         animal_general_box = QGroupBox(self)
         animal_general_box.setStyleSheet('border: none')
-        animal_general_box.setFixedHeight(150)
+        animal_general_box.setFixedHeight(int(screen_geometry.height() * 0.1))
         animal_general_layout = QVBoxLayout(animal_general_box)
 
         title_label = QLabel('Pet Name', self)
