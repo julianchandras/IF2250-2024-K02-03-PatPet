@@ -106,7 +106,7 @@ class PetManagementApp(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Create the controller and pass the stacked widget and model
-        self.pet_controller = PetController(self.stacked_widget, self.pet_model, self.food_model)
+        self.pet_controller = PetController(self.stacked_widget, self.pet_model, self.food_model, self.activity_model)
         self.food_controller = FoodController(self.stacked_widget, self.food_model)
         self.article_controller = ArticleController(self.stacked_widget, self.article_model)
         self.activity_controller = ActivityController(self.stacked_widget, self.activity_model)
