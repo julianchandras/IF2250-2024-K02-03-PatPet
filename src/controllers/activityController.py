@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QStackedWidget
 from models.activityModel import ActivityModel
+from components.activityCard import ActivityCard
 from datetime import timedelta
 
 class ActivityController:
@@ -24,7 +25,6 @@ class ActivityController:
 
         self.add_activity_view.add_activity_signal.connect(self.add_activity)
         self.add_activity_view.navigate_to_update.connect(self.navigate_to_update)
-        
         self.update_activity_view.update_activity_signal.connect(self.update_activity)
         self.update_activity_view.delete_activity_signal.connect(self.delete_activity)
         self.update_activity_view.navigate_to_update.connect(self.navigate_to_update)
@@ -42,6 +42,7 @@ class ActivityController:
         
 
     def navigate_to_update(self, activity_id):
+        self.load_activities()
         activity = self.activity_model.get_specific_activity(activity_id)
         self.update_activity_view.set_activity_details(activity)
         self.stacked_widget.setCurrentIndex(8)
@@ -75,6 +76,3 @@ class ActivityController:
         self.load_activities()
         self.stacked_widget.setCurrentIndex(7)
 
-    def see_schedule(self):
-        self.load_activities()
-        self.stacked_widget.setCurrentIndex(7)
