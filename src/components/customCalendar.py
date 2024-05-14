@@ -2,6 +2,7 @@ import sys
 
 from PyQt5.QtCore import pyqtSignal, QDate
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QCalendarWidget
+from utils.font import get_font
 
 class CustomCalendar(QWidget):
 
@@ -18,6 +19,7 @@ class CustomCalendar(QWidget):
 
         # Create custom calendar widget
         self.calendar = QCalendarWidget()
+        self.calendar.setFont(get_font("regular"))
 
         # Apply stylesheets for customization
         self.calendar.setStyleSheet(""" 

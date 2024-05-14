@@ -11,6 +11,8 @@ class ArticleController:
 
         self.main_article_view : MainArticleView= self.stacked_widget.widget(1)  # Main article view index 1
         self.detail_article_view : DetailArticleView = self.stacked_widget.widget(2)
+        
+        self.detail_article_view.back_signal.connect(self.back_article)
 
         self.main_article_view.view_article_signal.connect(self.navigate_to_detail)
 
@@ -24,3 +26,6 @@ class ArticleController:
         article = self.article_model.get_specific_article(article_id)
         self.detail_article_view.set_article_details(article)
         self.stacked_widget.setCurrentIndex(2)
+    
+    def back_article(self):
+        self.stacked_widget.setCurrentIndex(1)

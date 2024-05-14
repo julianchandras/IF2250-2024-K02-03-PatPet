@@ -183,6 +183,9 @@ class MainView(QWidget):
 
         scroll_area_pet.setWidget(pet_content_list)
         scroll_area_pet.setStyleSheet('''
+            QScrollArea {
+                border: none;
+            }
             QScrollBar:vertical {
                 border: none;
                 background: #f0f0f0;
@@ -267,6 +270,9 @@ class MainView(QWidget):
         activity_content_box.setLayout(self.activity_content_layout)
         scroll_area_activity.setWidget(activity_content_box)
         scroll_area_activity.setStyleSheet('''
+            QScrollArea {
+                border: none;
+            }
             QScrollBar:vertical {
                 border: none;
                 background: #f0f0f0;

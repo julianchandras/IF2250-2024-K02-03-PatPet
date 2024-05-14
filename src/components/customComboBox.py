@@ -1,5 +1,5 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QListView
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QComboBox, QListView
+from utils.font import get_font
 
 class CustomComboBox(QWidget):
     def __init__(self):
@@ -11,9 +11,11 @@ class CustomComboBox(QWidget):
         layout = QVBoxLayout()
 
         self.combo_box = QComboBox()
+        self.combo_box.setFixedHeight(50)
+        self.combo_box.setFont(get_font("regular"))
         self.combo_box.setEditText("Select an option")
         self.combo_box.setView(QListView())  # Set QListView as the dropdown view
-    
+        
         self.combo_box.setStyleSheet("""
             QComboBox {
                 padding: 5px;
@@ -35,6 +37,8 @@ class CustomComboBox(QWidget):
                 border: 1px solid #ccc; /* Add this line */
                 border-top: none;
                 border-radius: 10px;
+                font-family : Raleway;
+                font-size : 18px;
             }
             QListView::item {
                 background-color : #fff;
@@ -44,8 +48,8 @@ class CustomComboBox(QWidget):
                 padding: 5px;
             }
             QListView::item:selected {
-                color : #F277AD;
-                background-color: #FFD7E0;
+                color : #000;
+                background-color: #C0E9DF;
             }
     """)
 
