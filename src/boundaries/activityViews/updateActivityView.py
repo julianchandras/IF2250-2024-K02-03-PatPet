@@ -5,6 +5,7 @@ from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
 from datetime import date, datetime
+from utils.font import get_font
 
 class UpdateActivityView(QWidget):
 
@@ -32,8 +33,9 @@ class UpdateActivityView(QWidget):
         # Set background color for the main content widget
         main_content_widget.setStyleSheet('background-color: #C0E9DF; border:none')
 
-        title_label = QLabel('Jadwal', self)
-        title_label.setStyleSheet('font-size: 48px; color: #1A646B; font-weight: bold;')
+        title_label = QLabel('Edit Jadwal', self)
+        title_label.setStyleSheet('font-size: 72px; color: #1A646B; font-weight: 900;')
+        title_label.setFont(get_font("bold"))
         title_label.setFixedHeight(70)
         main_content_layout.addWidget(title_label)
         
@@ -49,7 +51,7 @@ class UpdateActivityView(QWidget):
 
         # Create a QGroupBox
         activity_entry_box = QGroupBox('', self)
-        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.2))
+        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.215))
         activity_entry_box.setStyleSheet("background-color: white; border-radius: 8px;")
 
         # Create a QGridLayout for the QGroupBox
@@ -63,11 +65,13 @@ class UpdateActivityView(QWidget):
         jam_mulai_label = QLabel("Jam Mulai")
         jam_akhir_label = QLabel("Jam Selesai")
         
+        for label in [pilihan_hewan_label,jenis_aktivitas_hewan_label,tanggal_mulai_label,jam_akhir_label,jam_mulai_label]:
+            label.setStyleSheet("font-weight:bold; font-size:28px; margin:0px;")
+            label.setFont(get_font("bold"))
+
         # Pilih hewan
         self.pilihan_hewan = CustomComboBox()
 
-        # Masukin pilihan hewan
-        
 
         # Jenis Aktivtias
         self.jenis_aktivitas_input = CustomLineEdit()
@@ -76,12 +80,14 @@ class UpdateActivityView(QWidget):
         # Jam Mulai
         self.jam_mulai_input = QTimeEdit()
         self.jam_mulai_input.setDisplayFormat("HH:mm")
-        self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; }")
+        self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
+        self.jam_mulai_input.setFont(get_font("regular"))
 
         # Jam akhir
         self.jam_akhir_input = QTimeEdit()
         self.jam_akhir_input.setDisplayFormat("HH:mm")
-        self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; }")
+        self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
+        self.jam_akhir_input.setFont(get_font("regular"))
 
         # Tanggal
         self.tanggal_mulai_input = CalendarInput()
@@ -132,6 +138,9 @@ class UpdateActivityView(QWidget):
                 background-color: #FF6666;
             }
         """)
+
+        for button in [self.cancel_button,self.ubah_button,self.hapus_button]:
+            button.setFont(get_font("bold"))
 
         # Create grid layout
         activity_entry_box_layout.addWidget(pilihan_hewan_label, 0, 0, 1, 2)
