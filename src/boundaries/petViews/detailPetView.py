@@ -10,7 +10,8 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import QPixmap, QCursor
 from PyQt5.QtCore import Qt, pyqtSignal
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class DetailPetView(QWidget):
     edit_pet_signal = pyqtSignal(int)  # Signal to switch to EditPetView
@@ -32,24 +33,33 @@ class DetailPetView(QWidget):
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
         main_content_layout.setContentsMargins(
-            int(screen_geometry.width() * 0.25),
-            int(screen_geometry.height() * 0.05),
-            int(screen_geometry.width() * 0.25),
+            int(getWidth() * 0.25),
+            int(getHeight() * 0.05),
+            int(getWidth() * 0.25),
             0,
         )
         main_content_layout.setSpacing(0)
         main_content_widget.setStyleSheet('background-color: #F2F2F2;')
-        main_content_widget.setFixedHeight(screen_geometry.height())
-        main_content_widget.setFixedWidth(int(screen_geometry.width() * 0.85))
+        main_content_widget.setFixedHeight(getHeight())
+        main_content_widget.setFixedWidth(int(getWidth() * 0.85))
 
     
         # Labels for pet details
+        pic_width = 0
+        pic_height = 0
+        if getHeight() > 1080:
+            pic_width = int(getWidth() * 0.33)
+            pic_height = int(getHeight() * 0.4)
+        else:
+            pic_width = int(getWidth() * 0.2)
+            pic_height = int(getHeight() * 0.3)
+
         animal_image_label = QLabel(self)
         animal_image_label.setObjectName("animalImageLabel")  # Set object name
         animal_image_label.setPixmap(
             QPixmap('img/meng.png').scaled(
-                int(screen_geometry.width() * 0.33),
-                int(screen_geometry.height() * 0.4),
+                pic_width,
+                pic_height,
                 Qt.KeepAspectRatio,
             )
         )
@@ -59,19 +69,19 @@ class DetailPetView(QWidget):
         # Group box for general information
         animal_general_box = QGroupBox(self)
         animal_general_box.setStyleSheet('border: none')
-        animal_general_box.setFixedHeight(int(screen_geometry.height() * 0.1))
+        animal_general_box.setFixedHeight(int(getHeight() * 0.1))
         animal_general_layout = QVBoxLayout(animal_general_box)
 
         title_label = QLabel('Pet Name', self)
         title_label.setObjectName('Pet Name')
-        title_label.setStyleSheet('font-size: 60px; color: #1A646B; font-weight: bold;')
-        title_label.setFont(get_font("bold"))
+        title_label.setStyleSheet('; color: #1A646B; font-weight: bold;')
+        title_label.setFont(set_font("bold",24))
         animal_general_layout.addWidget(title_label)
 
         description_label = QLabel('Spesies | Umur: X Tahun', self)
         description_label.setObjectName('Spesies | Umur: X Tahun')
-        description_label.setStyleSheet('font-size: 36px; color: #1A646B;')
-        description_label.setFont(get_font("regular"))
+        description_label.setStyleSheet('color: #1A646B;')
+        description_label.setFont(set_font("regular",12))
         animal_general_layout.addWidget(description_label)
 
         main_content_layout.addWidget(animal_general_box)
@@ -85,22 +95,22 @@ class DetailPetView(QWidget):
 
         mh_title_label = QLabel('Riwayat Penyakit', self)
         mh_title_label.setObjectName('Riwayat Penyakit')
-        mh_title_label.setStyleSheet('font-size: 30px; font-weight: bold; color: #1A646B;')
-        mh_title_label.setFont(get_font("bold"))
+        mh_title_label.setStyleSheet('font-weight: bold; color: #1A646B;')
+        mh_title_label.setFont(set_font("bold",14))
         medical_history_layout.addWidget(mh_title_label)
 
         mh_label = QLabel('Deskripsi Penyakit', self)
         mh_label.setObjectName('Deskripsi Penyakit')
-        mh_label.setStyleSheet('font-size: 24px; color: #1A646B;')
-        mh_label.setFont(get_font("regular"))
-        mh_label.setMaximumWidth(int(screen_geometry.width() * 0.825))
+        mh_label.setStyleSheet('color: #1A646B;')
+        mh_label.setFont(set_font("regular",12))
+        mh_label.setMaximumWidth(int(getWidth() * 0.825))
         mh_label.setWordWrap(True)
         medical_history_layout.addWidget(mh_label)
 
         scroll_medical = QScrollArea()
         scroll_medical.setWidget(medical_history_box)
         scroll_medical.setWidgetResizable(True)
-        scroll_medical.setFixedHeight(int(screen_geometry.height() * 0.225))
+        scroll_medical.setFixedHeight(int(getHeight() * 0.225))
         scroll_medical.setStyleSheet(
             """
             QScrollArea {
@@ -160,19 +170,19 @@ class DetailPetView(QWidget):
         food_list_layout.setAlignment(Qt.AlignTop)
 
         fl_title_label = QLabel('Daftar Makanan', self)
-        fl_title_label.setStyleSheet('font-size: 30px; font-weight: bold; color: #1A646B;')
-        fl_title_label.setFont(get_font("bold"))
+        fl_title_label.setStyleSheet('font-weight: bold; color: #1A646B;')
+        fl_title_label.setFont(set_font("bold",14))
         fl_title_label.setFixedHeight(50)
         food_list_layout.addWidget(fl_title_label)
 
         self.fl_label = QLabel(self)
-        self.fl_label.setStyleSheet('font-size: 24px; color: #1A646B;')
-        self.fl_label.setFont(get_font("regular"))
+        self.fl_label.setStyleSheet('color: #1A646B;')
+        self.fl_label.setFont(set_font("regular",12))
 
         scroll_area = QScrollArea()
         scroll_area.setWidget(self.fl_label)
         scroll_area.setWidgetResizable(True)
-        scroll_area.setFixedHeight(int(screen_geometry.height() * 0.2))
+        scroll_area.setFixedHeight(int(getHeight() * 0.2))
         scroll_area.setStyleSheet(
             """
             QScrollArea {
@@ -344,8 +354,8 @@ class DetailPetView(QWidget):
             pixmap = QPixmap()
             pixmap.loadFromData(pet[5])
             animal_image_label.setPixmap(pixmap.scaled(
-                int(screen_geometry.width() * 0.33),
-                int(screen_geometry.height() * 0.4),
+                int(getWidth() * 0.33),
+                int(getHeight() * 0.4),
                 Qt.KeepAspectRatio,
             ))
         else:
