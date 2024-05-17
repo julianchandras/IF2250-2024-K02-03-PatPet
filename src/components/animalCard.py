@@ -26,7 +26,7 @@ class AnimalCard(QWidget):
         self.card_content_layout.setContentsMargins(0, 0, 0, 0)
         self.card_content_layout.setSpacing(0)
         self.card_content_layout.setAlignment(Qt.AlignTop)
-        self.card_content.setFixedSize(350, 415)
+        self.card_content.setFixedSize(325, 375)
         
         # Set style sheet for the card
         self.card_content.setStyleSheet('''
@@ -43,7 +43,7 @@ class AnimalCard(QWidget):
         pixmap = QPixmap()
         pixmap.loadFromData(self.image_path)
         if not pixmap.isNull():  # Check if pixmap is valid
-            pixmap = pixmap.scaledToWidth(350)  # Adjust the width to match the card content width
+            pixmap = pixmap.scaledToWidth(325)  # Adjust the width to match the card content width
             self.image_label.setPixmap(pixmap)
             self.image_label.setAlignment(Qt.AlignCenter)
             self.image_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
