@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QApplication,QWidget, QVBoxLayout, QFrame, QScrollArea, QLabel, QTextEdit, QPushButton
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QCursor
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class DetailArticleView(QWidget):
     back_signal = pyqtSignal()
@@ -15,15 +16,15 @@ class DetailArticleView(QWidget):
         page_layout.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
         self.title_label = QLabel()
-        self.title_label.setStyleSheet("font-size: 72px; color: #1A646B; font-weight:900")
-        self.title_label.setFixedHeight(int(screen_geometry.height() * 0.075))
-        self.title_label.setFont(get_font("bold"))
+        self.title_label.setStyleSheet("color: #1A646B; font-weight:900")
+        self.title_label.setFixedHeight(int(getHeight() * 0.075))
+        self.title_label.setFont(set_font("bold",24))
         
         line = QFrame()
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
         line.setStyleSheet("QFrame { background-color: #1A646B; }")
-        line.setFixedWidth(int(screen_geometry.width() * 0.65))
+        line.setFixedWidth(int(getWidth() * 0.65))
         scroll_area = QScrollArea()
 
         scroll_area.setStyleSheet("""
@@ -80,16 +81,16 @@ class DetailArticleView(QWidget):
 
         
         self.content_label = QTextEdit()
-        self.content_label.setStyleSheet("font-size: 36px; color: #000000; font-weight:400; background:transparent; border:none;")
+        self.content_label.setStyleSheet("color: #000000; font-weight:400; background:transparent; border:none;")
 
-        self.content_label.setFont(get_font("regular"))
+        self.content_label.setFont(set_font("regular",12))
         self.content_label.setReadOnly(True)
 
         scroll_layout.addWidget(self.content_label)
         scroll_widget.setLayout(scroll_layout)
 
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setFixedHeight(int(screen_geometry.height() * 0.8))
+        scroll_area.setFixedHeight(int(getHeight() * 0.775))
         scroll_area.setWidgetResizable(True)
 
         scroll_area.setWidget(scroll_widget)
@@ -109,9 +110,9 @@ class DetailArticleView(QWidget):
                 border : 3px solid #F277AD;
             }
         """)
-        back_button.setFont(get_font("bold"))
+        back_button.setFont(set_font("bold",14))
         back_button.setCursor(QCursor(Qt.PointingHandCursor))
-        back_button.setFixedWidth(int(screen_geometry.width() * 0.65))
+        back_button.setFixedSize(int(getWidth() * 0.65), int(getHeight() * 0.0675))
         back_button.clicked.connect(self.back_article)
         # Add the article_cards_layout to the page_layout
         page_layout.addWidget(self.title_label)
@@ -120,16 +121,15 @@ class DetailArticleView(QWidget):
         # Add the scroll area to the main layout
         page_layout.addWidget(scroll_area)
         page_layout.addWidget(back_button)
-        page_layout.setContentsMargins(150, 150, 150, 0)
+        page_layout.setContentsMargins(int(getWidth()*0.05), int(getHeight()*0.05), int(getWidth()*0.05), int(getHeight()*0.05))
 
         self.setLayout(page_layout)
 
     def set_article_details(self, article):
         self.title_label.setText(article[1])
         self.content_label.setPlainText(article[2])
-        screen_geometry = QApplication.desktop().availableGeometry()
         self.content_label.setAlignment(Qt.AlignJustify)
-        self.content_label.setFixedWidth(int(screen_geometry.width() * 0.65))
+        self.content_label.setFixedWidth(int(getWidth() * 0.65))
 
     def back_article(self):
         self.back_signal.emit()

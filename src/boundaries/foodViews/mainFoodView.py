@@ -86,7 +86,10 @@ class MainFoodView(QWidget):
         submit_button.setFont(set_font("regular",10))
         submit_button.setCursor(QCursor(Qt.PointingHandCursor))
         submit_button.clicked.connect(self.add_food)
-        submit_button.setFixedSize(int(getWidth() * 0.07), int(getHeight() * 0.05))
+        if (getHeight() > 1080):
+            submit_button.setFixedSize(int(getWidth() * 0.07), int(getHeight() * 0.035))
+        else:
+            submit_button.setFixedSize(int(getWidth() * 0.07), int(getHeight() * 0.05))
         food_entry_box_layout.addWidget(submit_button)
 
         main_content_layout.addWidget(food_entry_box)
@@ -172,6 +175,11 @@ class MainFoodView(QWidget):
         self.food_table.setFixedHeight(int((getHeight() * 0.62)))
         self.food_table.verticalHeader().setDefaultSectionSize(int(getHeight()* 0.09))
         self.food_table.horizontalHeader().setDefaultSectionSize(int((screen_geometry.width() * 0.6) // 3))
+        
+        if (getHeight() > 1080):
+            self.food_table.setFixedHeight(int((getHeight() * 0.7)))
+            self.food_table.verticalHeader().setDefaultSectionSize(int(getHeight()* 0.06))
+
         self.food_table.verticalHeader().setVisible(False)
         main_content_layout.addWidget(self.food_table)
     
@@ -250,8 +258,12 @@ class MainFoodView(QWidget):
             delete_button.setCursor(QCursor(Qt.PointingHandCursor))
             delete_button.setFixedHeight(int(getHeight() * 0.05))
             delete_button.clicked.connect(lambda checked, id=food_id: self.delete_food_signal.emit(id))
-            option_layout.addWidget(delete_button)
 
+            if (getHeight() > 1080):
+                update_button.setFixedHeight(int(getHeight() * 0.035))
+                delete_button.setFixedHeight(int(getHeight() * 0.035))
+            
+            option_layout.addWidget(delete_button)
             option_widget.setLayout(option_layout)  # Set the layout for the widget
 
             # Add the option widget to the table

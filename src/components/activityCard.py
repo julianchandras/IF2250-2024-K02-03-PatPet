@@ -19,7 +19,10 @@ class ActivityCard(QWidget):
 
         self.card_content = QWidget(self)
         self.card_content_layout = QVBoxLayout(self.card_content)
-        self.card_content.setFixedHeight(int(getHeight() * 0.16))
+        if (getHeight() > 1080):
+            self.card_content.setFixedHeight(int(getHeight() * 0.12))
+        else:
+            self.card_content.setFixedHeight(int(getHeight() * 0.16))
         self.card_content_layout.setSpacing(5)
         self.card_content_layout.setAlignment(Qt.AlignTop)
 

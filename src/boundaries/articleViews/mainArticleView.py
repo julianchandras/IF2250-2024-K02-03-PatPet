@@ -2,7 +2,9 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QGridLayout, QLabel, QFrame, Q
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QColor, QCursor
 
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
+
 class MainArticleView(QWidget):
     view_article_signal = pyqtSignal(int)
     def __init__(self):
@@ -19,17 +21,17 @@ class MainArticleView(QWidget):
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
         main_content_layout.setContentsMargins(
-            int(screen_geometry.width() * 0.1), 
-            int(screen_geometry.height() * 0.1), 
-            int(screen_geometry.width() * 0.1), 
+            int(getWidth() * 0.1), 
+            int(getHeight() * 0.1), 
+            int(getWidth() * 0.1), 
             0,
         )
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
 
         heading = QLabel("Artikel")
-        heading.setStyleSheet('font-size: 72px; color: #F277AD; font-weight:900;')
-        heading.setFont(get_font("bold"))
-        heading.setFixedHeight(int(screen_geometry.height() * 0.075))
+        heading.setStyleSheet('color: #F277AD; font-weight:900;')
+        heading.setFont(set_font("bold",24))
+        heading.setFixedHeight(int(getHeight() * 0.075))
 
         main_content_layout.addWidget(heading)
 
@@ -37,14 +39,14 @@ class MainArticleView(QWidget):
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
         line.setStyleSheet("QFrame { background-color: #F277AD; margin:0px; }")
-        line.setFixedWidth(int(screen_geometry.width() * 0.7))
+        line.setFixedWidth(int(getWidth() * 0.6))
         line.setContentsMargins(0,0,0,0)
         main_content_layout.addWidget(line)
 
         self.article_cards_layout = QGridLayout()
-        self.article_cards_layout.setVerticalSpacing(20)
+        self.article_cards_layout.setVerticalSpacing(int(getHeight()*0.02))
         self.article_cards_layout.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-        self.article_cards_layout.setHorizontalSpacing(50)
+        self.article_cards_layout.setHorizontalSpacing(int(getWidth() * 0.05))
 
         cards_widget = QWidget(self)
         cards_widget.setLayout(self.article_cards_layout)
@@ -100,7 +102,7 @@ class MainArticleView(QWidget):
         """)
 
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll_area.setFixedHeight(int(screen_geometry.height() * 0.8))
+        scroll_area.setFixedHeight(int(getHeight() * 0.8))
         scroll_area.setWidgetResizable(True)
         scroll_area.setWidget(cards_widget)
 
@@ -115,7 +117,7 @@ class MainArticleView(QWidget):
         num_of_articles = len(articles)
         for i in range(num_of_articles):
             card = ArticleCard(articles[i], self)
-            card.setFixedSize(975,500)
+            card.setFixedSize(int(getWidth()* 0.3),int(getHeight() * 0.4))
             card.my_signal.connect(self.view_article_signal)
             self.article_cards_layout.addWidget(card, i // 2, i % 2)
 
@@ -136,25 +138,30 @@ class ArticleCard(QWidget):
         card = QWidget(self)
         card_layout = QVBoxLayout(card)
         card_layout.setContentsMargins(0,0,0,0)
+        card_layout.setAlignment(Qt.AlignTop)
         card_layout.setSpacing(0)
 
         MAX_TITLE_LENGTH = 60
-        MAX_CONTENT_LENGTH = 315
+        MAX_CONTENT_LENGTH = 200
         title_label = QLabel(self.title[:MAX_TITLE_LENGTH], self)
         title_label.setWordWrap(True)
-        title_label.setStyleSheet("color: #1A646B; font-size: 40px; font-style: bold; font-weight:900")
-        title_label.setFont(get_font("bold"))
-        title_label.setFixedHeight(int(screen_geometry.height() * 0.075))
+        title_label.setStyleSheet("color: #1A646B; font-style: bold; font-weight:900")
+        title_label.setFont(set_font("bold",14))
+        title_label.setFixedHeight(int(getHeight() * 0.075))
         
         content_label = QLabel(self.content[:MAX_CONTENT_LENGTH] + "...", self)
-        content_label.setFont(get_font("regular"))
+        content_label.setFont(set_font("regular",12))
         content_label.setWordWrap(True)
-        content_label.setStyleSheet("color: #000000; font-size: 32px;")
+        content_label.setStyleSheet("color: #000000;")
         
         card_layout.addWidget(title_label)
         card_layout.addWidget(content_label)
         
-        card.setFixedSize(935, 460)
+        if (getHeight() > 1080):
+            card.setFixedSize(int(getWidth()* 0.3),int(getHeight() * 0.25))
+        else:
+            card.setFixedSize(int(getWidth()* 0.3),int(getHeight() * 0.3))
+            
         card.setContentsMargins(20,20,20,20)
         self.setStyleSheet("background-color: #FFFFFF; border-radius: 20px;")
 

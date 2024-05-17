@@ -131,7 +131,10 @@ class MainView(QWidget):
         """)
         self.filter_button.setFont(set_font("regular",12))
         self.filter_button.setCursor(QCursor(Qt.PointingHandCursor))
-        self.filter_button.setFixedSize(int(getWidth() * 0.05),int(getHeight() * 0.062))
+        if (getHeight() > 1080):
+            self.filter_button.setFixedSize(int(getWidth() * 0.05),int(getHeight() * 0.045))
+        else:
+            self.filter_button.setFixedSize(int(getWidth() * 0.05),int(getHeight() * 0.062))
         self.filter_button.clicked.connect(self.show_filter_menu)
         pet_header_layout.addWidget(self.filter_button)
 
@@ -151,8 +154,10 @@ class MainView(QWidget):
 
                                             }
                                             """)
-        self.filter_combo_box.setFixedSize(int(getWidth() * 0.12), int(getHeight() * 0.06))
-        self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
+        if (getHeight() > 1080):
+            self.filter_combo_box.setFixedSize(int(getWidth() * 0.12), int(getHeight() * 0.05))
+        else:
+            self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
         self.filter_combo_box.hide()
         
         
@@ -348,9 +353,14 @@ class MainView(QWidget):
             card = AnimalCard(pet_id = data[0], name=data[1], age=data[3], species=data[2], riwayat_penyakit=data[4], image_path=data[5])  # Create a CardWidget instance with the provided data
             self.pet_content_list_layout.addWidget(card, row, col)
             col += 1
-            if col == 2:  # After reaching the second column
-                col = 0  # Reset column index
-                row += 1  # Move to the next row//6
+            if (getHeight() > 1080):
+                if col >= 3:  # After reaching the second column
+                    col = 0  # Reset column index
+                    row += 1  # Move to the next row//6
+            else:
+                if col == 2:  # After reaching the second column
+                    col = 0  # Reset column index
+                    row += 1  # Move to the next row//6
            
             card.clicked.connect(self.onAnimalCardClicked)
 
