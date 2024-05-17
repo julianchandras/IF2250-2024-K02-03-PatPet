@@ -2,7 +2,8 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox, QFrame
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QCursor
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class MainFoodView(QWidget):
     
@@ -24,13 +25,14 @@ class MainFoodView(QWidget):
 
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
-        main_content_layout.setContentsMargins(115, 42, 115, 42)
+        main_content_layout.setContentsMargins(int(getWidth() * 0.1), int(getHeight() * 0.02), int(getWidth() * 0.1), int(getHeight() * 0.02))
+        main_content_layout.setSpacing(0)
         main_content_widget.setStyleSheet('background-color: #FFEAB4; border:none;')
 
         title_label = QLabel('Daftar Makanan', self)
-        title_label.setStyleSheet('font-size: 72px; color: #1A646B; font-weight: bold;')
-        title_label.setFont(get_font("bold"))
-        title_label.setContentsMargins(0, 0, 0, 28)
+        title_label.setStyleSheet('color: #1A646B; font-weight: bold;')
+        title_label.setFont(set_font("bold",24))
+        title_label.setContentsMargins(0, 0, 0, 0)
         main_content_layout.addWidget(title_label)
 
         line_frame = QFrame(self)
@@ -39,14 +41,14 @@ class MainFoodView(QWidget):
         line_frame.setLineWidth(2)
         line_frame.setMidLineWidth(4)
         line_frame.setStyleSheet("border: 2px solid #1A646B;")
-        line_frame.setContentsMargins(0, 0, 0, 30)
+        line_frame.setContentsMargins(0, 0, 0, 0)
 
         main_content_layout.addWidget(line_frame)
 
         add_food_label = QLabel('Tambah Makanan', self)
-        add_food_label.setStyleSheet('font-size: 48px; font-weight: bold; color: #1A646B;')
-        add_food_label.setFont(get_font("bold"))
-        add_food_label.setContentsMargins(0, 0, 0, 11)
+        add_food_label.setStyleSheet(' font-weight: bold; color: #1A646B;')
+        add_food_label.setFont(set_font("bold",16))
+        add_food_label.setContentsMargins(0, 0, 0, 0)
         main_content_layout.addWidget(add_food_label)
 
         food_entry_box = QGroupBox('', self)
@@ -55,15 +57,15 @@ class MainFoodView(QWidget):
         food_entry_box_layout.setContentsMargins(24, 30, 24, 20)
 
         food_name_label = QLabel('Nama Makanan', self)
-        food_name_label.setStyleSheet('font-size: 32px; font-weight: bold; color: #0F172A;')
-        food_name_label.setFont(get_font("bold"))
+        food_name_label.setStyleSheet('font-weight: bold; color: #0F172A;')
+        food_name_label.setFont(set_font("bold",12))
         food_name_label.setContentsMargins(0, 0, 0, 6)
         food_entry_box_layout.addWidget(food_name_label)
 
         self.food_name_input = QLineEdit(self)
-        self.food_name_input.setStyleSheet('padding: 8px; font-size: 24px; border: 1px solid #ccc; border-radius: 5px;')
+        self.food_name_input.setStyleSheet('padding: 8px; border: 1px solid #ccc; border-radius: 5px;')
         self.food_name_input.setPlaceholderText("Masukkan nama makanan")
-        self.food_name_input.setFont(get_font("regular"))
+        self.food_name_input.setFont(set_font("regular",10))
         self.food_name_input.setContentsMargins(0, 0, 0, 6)
         food_entry_box_layout.addWidget(self.food_name_input)
 
@@ -73,9 +75,7 @@ class MainFoodView(QWidget):
                 background-color: #1A646B;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
-                font-size : 24px;
                 
             }
 
@@ -83,44 +83,40 @@ class MainFoodView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
-        submit_button.setFont(get_font("regular"))
+        submit_button.setFont(set_font("regular",10))
         submit_button.setCursor(QCursor(Qt.PointingHandCursor))
         submit_button.clicked.connect(self.add_food)
-        submit_button.setFixedSize(140, 70)
+        submit_button.setFixedSize(int(getWidth() * 0.07), int(getHeight() * 0.05))
         food_entry_box_layout.addWidget(submit_button)
 
         main_content_layout.addWidget(food_entry_box)
 
         food_list_label = QLabel('Daftar Makanan', self)
-        food_list_label.setStyleSheet('font-size: 32px; font-weight: bold; color: #1A646B;')
-        food_list_label.setFont(get_font("regular"))
-        food_list_label.setContentsMargins(0, 10, 0, 0)
+        food_list_label.setStyleSheet(' font-weight: bold; color: #1A646B;')
+        food_list_label.setFont(set_font("regular",14))
+        food_list_label.setContentsMargins(0, 0, 0, 0)
         main_content_layout.addWidget(food_list_label)
 
         note_label = QLabel("Tekan nama makanan untuk mengubah")
-        note_label.setStyleSheet('font-size: 24px; color: #1A646B;')
-        note_label.setFont(get_font("regular"))
+        note_label.setStyleSheet('color: #1A646B;')
+        note_label.setFont(set_font("regular",12))
         main_content_layout.addWidget(note_label)
 
         self.food_table = QTableWidget(self)
-        self.food_table.setFont(get_font("regular"))
+        self.food_table.setFont(set_font("regular",10))
         self.food_table.setColumnCount(3)
         self.food_table.setHorizontalHeaderLabels(['Nama Makanan', 'Daftar Hewan', 'Options'])
-        self.food_table.horizontalHeader().setFont(get_font("bold"))
+        self.food_table.horizontalHeader().setFont(set_font("bold",12))
         self.food_table.setStyleSheet('''
             QTableWidget {
-                font-size: 26px;
                 border-radius: 5px;
                 background-color: white;
             }
             QTableWidget QHeaderView::section {
                 background-color: #D9D9D9;
                 color: #1A646B;
-                font-size: 32px;
                 font-weight: bold;
                 padding: 8px; 
-                width: 432px;
-                height: 74px;
                 border-radius: 11px;
             }
             QTableWidget::item {
@@ -172,10 +168,10 @@ class MainFoodView(QWidget):
                 background: none;
             }
         ''')
-        self.food_table.setFixedWidth(int((screen_geometry.width() * 0.755)))
-        self.food_table.setFixedHeight(int((screen_geometry.width() * 0.385)))
-        self.food_table.verticalHeader().setDefaultSectionSize(95)
-        self.food_table.horizontalHeader().setDefaultSectionSize(int((screen_geometry.width() * 0.755) // 3))
+        self.food_table.setFixedWidth(int(getWidth() * 0.6))
+        self.food_table.setFixedHeight(int((getHeight() * 0.62)))
+        self.food_table.verticalHeader().setDefaultSectionSize(int(getHeight()* 0.09))
+        self.food_table.horizontalHeader().setDefaultSectionSize(int((screen_geometry.width() * 0.6) // 3))
         self.food_table.verticalHeader().setVisible(False)
         main_content_layout.addWidget(self.food_table)
     
@@ -230,9 +226,9 @@ class MainFoodView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
-            update_button.setFont(get_font("regular"))
+            update_button.setFont(set_font("regular",10))
             update_button.setCursor(QCursor(Qt.PointingHandCursor))
-            update_button.setFixedHeight(55)
+            update_button.setFixedHeight(int(getHeight() * 0.05))
             update_button.clicked.connect(lambda checked, row=i, id=food_id: self.update_food_signal.emit(id, self.food_table.item(row, 0).text()))
             option_layout.addWidget(update_button)
 
@@ -242,9 +238,7 @@ class MainFoodView(QWidget):
                     background-color: #F277AD;
                     font-weight: bold;
                     border-radius: 8px;
-                    padding: 15px 5px;
                     color : white;
-                    font-size : 20px;
                     
                 }
 
@@ -252,9 +246,9 @@ class MainFoodView(QWidget):
                     background-color: #F8B8D4;
                 }
             """)
-            delete_button.setFont(get_font("regular"))
+            delete_button.setFont(set_font("regular",10))
             delete_button.setCursor(QCursor(Qt.PointingHandCursor))
-            delete_button.setFixedHeight(55)
+            delete_button.setFixedHeight(int(getHeight() * 0.05))
             delete_button.clicked.connect(lambda checked, id=food_id: self.delete_food_signal.emit(id))
             option_layout.addWidget(delete_button)
 
