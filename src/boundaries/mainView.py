@@ -157,7 +157,9 @@ class MainView(QWidget):
         if (getHeight() > 1080):
             self.filter_combo_box.setFixedSize(int(getWidth() * 0.12), int(getHeight() * 0.05))
         else:
-            self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
+            self.filter_combo_box.setFixedSize(int(getWidth() * 0.12), int(getHeight() * 0.055))
+
+        self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
         self.filter_combo_box.hide()
         
         

@@ -260,9 +260,9 @@ class DetailPetView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
-        change_profile_button.setFont(get_font("regular"))
+        change_profile_button.setFont(set_font("regular",12))
         change_profile_button.setCursor(QCursor(Qt.PointingHandCursor))
-        change_profile_button.setFixedSize(220, 70)
+        change_profile_button.setFixedSize(int(getWidth()*0.1), int(getHeight() * 0.065))
         change_profile_button.clicked.connect(self.edit_pet)  # Connect to edit method
         button_layout.addWidget(change_profile_button)
 
@@ -281,11 +281,15 @@ class DetailPetView(QWidget):
                 background-color: #F8B8D4;
             }
         """)
-        delete_animal_button.setFont(get_font("regular"))
+        delete_animal_button.setFont(set_font("regular",12))
         delete_animal_button.setCursor(QCursor(Qt.PointingHandCursor))
-        delete_animal_button.setFixedSize(220, 70)
+        delete_animal_button.setFixedSize(int(getWidth()*0.1), int(getHeight() * 0.065))
         delete_animal_button.clicked.connect(self.delete_pet)  # Connect to delete method
         button_layout.addWidget(delete_animal_button)
+
+        if (getHeight() > 1080):
+            delete_animal_button.setFixedSize(220, 70)    
+            change_profile_button.setFixedSize(220, 70)
 
         main_content_layout.addWidget(button_box)
 
@@ -295,9 +299,7 @@ class DetailPetView(QWidget):
                 border : 3px solid #F277AD;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : #F277AD;
-                font-size: 26px;
             }
 
             QPushButton:hover {
@@ -305,7 +307,8 @@ class DetailPetView(QWidget):
                 border : 3px solid #F277AD;
             }
         """)
-        back_button.setFont(get_font("bold"))
+        back_button.setFont(set_font("bold",12))
+        back_button.setFixedSize(int(getWidth() * 0.4), int(getHeight() * 0.06))  
         back_button.setCursor(QCursor(Qt.PointingHandCursor))
         back_button.clicked.connect(self.back_home)
         main_content_layout.addWidget(back_button)

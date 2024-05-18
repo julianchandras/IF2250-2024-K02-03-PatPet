@@ -12,7 +12,6 @@ class MainArticleView(QWidget):
         self.setup_ui()
 
     def setup_ui(self):
-        screen_geometry = QApplication.desktop().availableGeometry()
 
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
@@ -20,13 +19,7 @@ class MainArticleView(QWidget):
 
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
-        main_content_layout.setContentsMargins(
-            int(getWidth() * 0.1), 
-            int(getHeight() * 0.1), 
-            int(getWidth() * 0.1), 
-            0,
-        )
-        main_content_widget.setStyleSheet('background-color: #F8F8F8;')
+        main_content_layout.setContentsMargins(0,0,0,0)
 
         heading = QLabel("Artikel")
         heading.setStyleSheet('color: #F277AD; font-weight:900;')

@@ -100,9 +100,7 @@ class DetailArticleView(QWidget):
                 border : 3px solid #F277AD;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : #F277AD;
-                font-size: 26px;
             }
 
             QPushButton:hover {
@@ -112,7 +110,7 @@ class DetailArticleView(QWidget):
         """)
         back_button.setFont(set_font("bold",14))
         back_button.setCursor(QCursor(Qt.PointingHandCursor))
-        back_button.setFixedSize(int(getWidth() * 0.65), int(getHeight() * 0.0675))
+        back_button.setFixedSize(int(getWidth() * 0.65), int(getHeight() * 0.06))
         back_button.clicked.connect(self.back_article)
         # Add the article_cards_layout to the page_layout
         page_layout.addWidget(self.title_label)

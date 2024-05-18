@@ -5,7 +5,8 @@ from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
 from datetime import date
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class AddActivityView(QWidget):
     add_activity_signal = pyqtSignal(str, date,  str, str, date, int, int)
@@ -32,9 +33,9 @@ class AddActivityView(QWidget):
         main_content_widget.setStyleSheet('background-color: #C0E9DF; border:none;')
 
         title_label = QLabel('Jadwal', self)
-        title_label.setStyleSheet('font-size: 72px; color: #1A646B; font-weight: 900;')
-        title_label.setFont(get_font("bold"))
-        title_label.setFixedHeight(70)
+        title_label.setStyleSheet('color: #1A646B; font-weight: 900;')
+        title_label.setFont(set_font("bold",24))
+        title_label.setFixedHeight(int(getHeight() * 0.05))
         main_content_layout.addWidget(title_label)
 
         line_frame = QFrame(self)
@@ -49,7 +50,7 @@ class AddActivityView(QWidget):
 
         # Create a QGroupBox
         activity_entry_box = QGroupBox('', self)
-        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.225))
+        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.25))
         activity_entry_box.setStyleSheet("background-color: white; border-radius: 8px;")
 
         # Create a QGridLayout for the QGroupBox
@@ -66,8 +67,11 @@ class AddActivityView(QWidget):
         banyak_pengulangan_label = QLabel("Interval Pengulangan")
         
         for label in [pilihan_hewan_label,jenis_aktivitas_hewan_label,tanggal_aktivitas_label,tanggal_akhir_pengulangan_label,jam_mulai_label,jam_akhir_label,banyak_pengulangan_label]:
-            label.setStyleSheet("font-weight:bold; font-size:28px; margin:0px;")
-            label.setFont(get_font("bold"))
+            label.setStyleSheet("font-weight:bold;margin:0px;")
+            if (getHeight() > 1080):
+                label.setFont(set_font("bold",12))
+            else:
+                label.setFont(set_font("bold",10))
 
         # Pilih hewan
         self.pilihan_hewan = CustomComboBox()
@@ -79,14 +83,21 @@ class AddActivityView(QWidget):
         # Jam Mulai
         self.jam_mulai_input = QTimeEdit()
         self.jam_mulai_input.setDisplayFormat("HH:mm")
-        self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
-        self.jam_mulai_input.setFont(get_font("regular"))
+        self.jam_mulai_input.setFont(set_font("regular",12))
 
         # Jam akhir
         self.jam_akhir_input = QTimeEdit()
         self.jam_akhir_input.setDisplayFormat("HH:mm")
-        self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
-        self.jam_akhir_input.setFont(get_font("regular"))
+        self.jam_akhir_input.setFont(set_font("regular",12))
+
+
+        if (getHeight() > 1080):
+            self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
+            self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
+        else:
+            self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 5px;}")
+            self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:5px;}")
+
 
         # Tanggal
         self.tanggal_aktivitas = CalendarInput()
@@ -102,7 +113,6 @@ class AddActivityView(QWidget):
                 background-color: #1A646B;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
                 
             }
@@ -111,7 +121,13 @@ class AddActivityView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
-        self.tambah_button.setFont(get_font("bold"))
+        if (getHeight() > 1080):
+            self.tambah_button.setFixedHeight(int(getHeight() * 0.05))
+            activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.225))
+        else:
+            self.tambah_button.setFixedHeight(int(getHeight() * 0.04))
+
+        self.tambah_button.setFont(set_font("bold",12))
         self.tambah_button.clicked.connect(self.add_activity)
 
         # Create grid layout
@@ -145,7 +161,6 @@ class AddActivityView(QWidget):
         self.activity_table = QWidget()
         self.activity_table_layout = QVBoxLayout(self.activity_table)
         self.activity_table.setStyleSheet("""
-            font-size: 14px; 
             border:none; 
             border-radius: 10px; 
             background-color: white;

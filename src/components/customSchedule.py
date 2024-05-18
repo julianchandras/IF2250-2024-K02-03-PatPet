@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, QDate,pyqtSignal
 from datetime import datetime
-from utils.font import get_font
+from utils.font import set_font
 
 
 class CustomSchedule(QWidget):
@@ -103,8 +103,8 @@ class CustomSchedule(QWidget):
         # Update the current month label
         month_name = first_day.toString("MMMM yyyy")
         self.current_month_label.setText(month_name)
-        self.current_month_label.setStyleSheet("font-size: 36px; font-weight:600;")
-        self.current_month_label.setFont(get_font("bold"))
+        self.current_month_label.setStyleSheet("font-weight:600;")
+        self.current_month_label.setFont(set_font("bold",24))
 
         # Start the grid with day names (Sunday to Saturday)
         day_names = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -120,7 +120,7 @@ class CustomSchedule(QWidget):
                     
                 }
             """)
-            label.setFont(get_font("regular"))
+            label.setFont(set_font("regular",12))
             self.calendar_grid.addWidget(label, 0, i)
 
         # Determine the starting position for the first day
@@ -134,7 +134,7 @@ class CustomSchedule(QWidget):
             cell_layout = QVBoxLayout()
             cell_layout.setAlignment(Qt.AlignTop)
             day_label = QLabel(str(i))
-            day_label.setFont(get_font("regular"))
+            day_label.setFont(set_font("regular",12))
             day_label.setStyleSheet("""
                 QLabel {
                     font-size: 26px;
@@ -156,7 +156,7 @@ class CustomSchedule(QWidget):
                     end_time_formatted = end_datetime.strftime("%H:%M")
 
                     activity_button = QPushButton(f"({start_time_formatted} - {end_time_formatted}) {animal}\n{detail}")
-                    activity_button.setFont(get_font("regular"))
+                    activity_button.setFont(set_font("regular",12))
                     activity_button.clicked.connect(lambda checked, activity_id=activity_id: self.handle_activity_click(activity_id))
                     activity_button.setStyleSheet("""
                         QPushButton {

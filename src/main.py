@@ -135,7 +135,11 @@ if __name__ == "__main__":
     pet_management_app = PetManagementApp()  # Create the main application instance
     # pet_management_app.setFixedSize(getWidth(),getHeight())
     # pet_management_app.show()
+    screen = QApplication.primaryScreen()
+    dpi = screen.logicalDotsPerInch()
+    print(dpi)
     pet_management_app.showFullScreen()
+
     sys.exit(app.exec_())  # Start the event loop
 
 
