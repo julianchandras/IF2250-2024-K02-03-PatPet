@@ -15,7 +15,8 @@ from PyQt5.QtGui import QCursor
 from components.animalCard import AnimalCard
 from components.activityCard import ActivityCard
 from components.checkableCombobox import CheckableComboBox
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 
 class MainView(QWidget):
@@ -42,22 +43,22 @@ class MainView(QWidget):
         main_content_widget = QWidget(self)
         main_content_layout = QVBoxLayout(main_content_widget)
         main_content_layout.setContentsMargins(
-            int(screen_geometry.width() * 0.1), 
-            int(screen_geometry.height() * 0.1), 
-            int(screen_geometry.width() * 0.1), 
-            0,
+            int(getWidth() * 0.1), 
+            int(getHeight() * 0.1), 
+            int(getWidth() * 0.1), 
+            int(getHeight() * 0.04),
         )
         main_content_widget.setStyleSheet('background-color: #F8F8F8;')
         
        
         header_box = QGroupBox(self)
         header_box.setStyleSheet('border: none')
-        header_box.setFixedHeight(int(screen_geometry.height() * 0.075))
+        header_box.setFixedHeight(int(getHeight() * 0.075))
         header_layout = QHBoxLayout(header_box)
 
         home_label = QLabel('Beranda', self)
-        home_label.setStyleSheet('font-size: 72px; color: #F277AD; font-weight: 900;')
-        home_label.setFont(get_font("bold"))
+        home_label.setStyleSheet('color: #F277AD; font-weight: 900;')
+        home_label.setFont(set_font("bold",24))
         header_layout.addWidget(home_label)  
 
         add_pet_button = QPushButton('Tambah Hewan', self)
@@ -66,19 +67,17 @@ class MainView(QWidget):
                 background-color: #F277AD;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
-                font-size: 26px;
             }
 
             QPushButton:hover {
                 background-color: #F8B8D4;
             }
         """)
-        add_pet_button.setFont(get_font("regular"))
+        add_pet_button.setFont(set_font("regular",12))
         add_pet_button.setCursor(QCursor(Qt.PointingHandCursor))
         add_pet_button.clicked.connect(self.add_pet)
-        add_pet_button.setFixedSize(220, 70)
+        add_pet_button.setFixedSize(int(getWidth() * 0.12),int(getHeight() * 0.0625))
         header_layout.addWidget(add_pet_button)
 
         main_content_layout.addWidget(header_box)
@@ -87,17 +86,17 @@ class MainView(QWidget):
         line.setFrameShape(QFrame.HLine)
         line.setFrameShadow(QFrame.Sunken)
         line.setStyleSheet("QFrame { background-color: #F277AD; }")
-        line.setFixedWidth(int(screen_geometry.width() * 0.65))
+        line.setFixedWidth(int(getWidth() * 0.65))
         main_content_layout.addWidget(line)
 
         content_box = QWidget(self)
-        content_box.setStyleSheet('border: none;')
+        content_box.setStyleSheet('border: 1px solid red;')
         content_layout = QHBoxLayout(content_box)
         content_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         content_layout.setContentsMargins(0,0,0,0)
 
         pet_list_box = QWidget(self)
-        pet_list_box.setStyleSheet('border:none;')
+        pet_list_box.setStyleSheet('border:none')
         pet_list_layout = QVBoxLayout(pet_list_box)
         pet_list_layout.setAlignment(Qt.AlignTop)
         pet_list_layout.setContentsMargins(0,0,0,0)
@@ -105,15 +104,15 @@ class MainView(QWidget):
 
         pet_header_box = QGroupBox(self)
         pet_header_box.setStyleSheet('border:none;')
-        pet_header_box.setFixedHeight(100)
+        pet_header_box.setFixedHeight(int(getHeight() * 0.075))
         pet_header_layout = QHBoxLayout(pet_header_box)
         pet_header_layout.setContentsMargins(0,0,0,0)
         pet_header_layout.setAlignment(Qt.AlignLeft)
 
 
         pet_title_label = QLabel('Daftar Hewanmu', self)
-        pet_title_label.setStyleSheet('font-size: 48px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
-        pet_title_label.setFont(get_font("regular"))
+        pet_title_label.setStyleSheet('font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
+        pet_title_label.setFont(set_font("regular",16))
         pet_header_layout.addWidget(pet_title_label)
 
         self.filter_button = QPushButton('Filter', self)
@@ -124,22 +123,23 @@ class MainView(QWidget):
                 border-radius: 8px;
                 padding: 20px 5px;
                 color : white;
-                font-size : 24px;
-                
             }
 
             QPushButton:hover {
                 background-color: #6E9DA1;
             }
         """)
-        self.filter_button.setFont(get_font("regular"))
+        self.filter_button.setFont(set_font("regular",12))
         self.filter_button.setCursor(QCursor(Qt.PointingHandCursor))
-        self.filter_button.setFixedSize(150, 70)
+        if (getHeight() > 1080):
+            self.filter_button.setFixedSize(int(getWidth() * 0.05),int(getHeight() * 0.045))
+        else:
+            self.filter_button.setFixedSize(int(getWidth() * 0.05),int(getHeight() * 0.062))
         self.filter_button.clicked.connect(self.show_filter_menu)
         pet_header_layout.addWidget(self.filter_button)
 
         self.filter_combo_box = CheckableComboBox()
-        self.filter_combo_box.setStyleSheet("""QComboBox {font-size: 18px; color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 10px;}
+        self.filter_combo_box.setStyleSheet("""QComboBox { color: #1A646B; background-color: #F8F8F8; border: 2px solid #1A646B; border-radius: 5px; padding: 10px;}
                                             QComboBox::drop-down {
                                             border: 0px;
                                             }
@@ -154,8 +154,11 @@ class MainView(QWidget):
 
                                             }
                                             """)
-        
-        self.filter_combo_box.setFixedSize(400, 50)
+        if (getHeight() > 1080):
+            self.filter_combo_box.setFixedSize(int(getWidth() * 0.12), int(getHeight() * 0.05))
+        else:
+            self.filter_combo_box.setFixedSize(int(getWidth() * 0.12), int(getHeight() * 0.055))
+
         self.filter_combo_box.currentTextChanged.connect(self.filter_pet)
         self.filter_combo_box.hide()
         
@@ -168,10 +171,11 @@ class MainView(QWidget):
         scroll_area_pet = QScrollArea()
         scroll_area_pet.setWidgetResizable(True)
         scroll_area_pet.setContentsMargins(0,0,0,0)
-        scroll_area_pet.setFixedHeight(int(screen_geometry.width() * 0.45))
+        scroll_area_pet.setFixedHeight(int(getHeight() * 0.7))
+        # scroll_area_pet.setFixedWidth(int(getWidth() * 0.45))
 
         pet_content_list = QWidget()
-        pet_content_list.setFixedWidth(int(screen_geometry.width() * 0.4))
+        pet_content_list.setFixedWidth(int(getWidth() * 0.35))
         
 
         self.pet_content_list_layout = QGridLayout(pet_content_list)
@@ -238,19 +242,20 @@ class MainView(QWidget):
         # Container utama aktivitas
         activity_box = QWidget(self)
         activity_box.setStyleSheet('border: none;')
-        activity_box.setFixedWidth(int(screen_geometry.width() * 0.2))
+        activity_box.setFixedWidth(int(getWidth() * 0.25))
         activity_layout = QVBoxLayout(activity_box)
         activity_layout.setAlignment(Qt.AlignTop)
 
         # Container aktivitas hari ini text
         activity_header_box = QGroupBox(self)
         activity_header_box.setStyleSheet('border: none;')
-        activity_header_box.setFixedHeight(100)
+        activity_header_box.setFixedHeight(int(getHeight() * 0.085))
         activity_header_layout = QHBoxLayout(activity_header_box)
+        activity_header_layout.setAlignment(Qt.AlignTop)
 
         activity_title_label = QLabel('Aktivitas Hari Ini', self)
-        activity_title_label.setStyleSheet('font-size: 48px; font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
-        activity_title_label.setFont(get_font("regular"))
+        activity_title_label.setStyleSheet('font-weight: bold; color: #1A646B; margin: 10px; margin-left: 0px;')
+        activity_title_label.setFont(set_font("regular",16))
         activity_header_layout.addWidget(activity_title_label)
 
         activity_layout.addWidget(activity_header_box)
@@ -258,14 +263,14 @@ class MainView(QWidget):
         scroll_area_activity = QScrollArea()
         scroll_area_activity.setWidgetResizable(True)
         scroll_area_activity.setContentsMargins(0,0,0,0)
-        scroll_area_activity.setFixedHeight(int(screen_geometry.width() * 0.45))
+        scroll_area_activity.setFixedHeight(int(getWidth() * 0.375))
 
         # Container untuk tiap aktivitas
         activity_content_box = QWidget(self)
         activity_content_box.setStyleSheet('border: none; background: #FFD7E0; border-radius: 10px;')
         self.activity_content_layout = QVBoxLayout(activity_content_box)
         self.activity_content_layout.setAlignment(Qt.AlignTop)
-        self.activity_content_layout.setSpacing(20)
+        self.activity_content_layout.setSpacing(int(getHeight() * 0.01))
             
         activity_content_box.setLayout(self.activity_content_layout)
         scroll_area_activity.setWidget(activity_content_box)
@@ -350,9 +355,14 @@ class MainView(QWidget):
             card = AnimalCard(pet_id = data[0], name=data[1], age=data[3], species=data[2], riwayat_penyakit=data[4], image_path=data[5])  # Create a CardWidget instance with the provided data
             self.pet_content_list_layout.addWidget(card, row, col)
             col += 1
-            if col >= 3:  # After reaching the second column
-                col = 0  # Reset column index
-                row += 1  # Move to the next row//6
+            if (getHeight() > 1080):
+                if col >= 3:  # After reaching the second column
+                    col = 0  # Reset column index
+                    row += 1  # Move to the next row//6
+            else:
+                if col == 2:  # After reaching the second column
+                    col = 0  # Reset column index
+                    row += 1  # Move to the next row//6
            
             card.clicked.connect(self.onAnimalCardClicked)
 

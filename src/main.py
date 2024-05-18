@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 from PyQt5.QtGui import QFontDatabase, QFont
-
+from utils.screensize import *
+from PyQt5.QtCore import Qt
 
 
 ## Boundaries
@@ -38,8 +39,11 @@ from models.activityModel import ActivityModel
 ## Components
 from components.sidebar import Sidebar
 
+from utils.screensize import *
+
 # Main application with QStackedWidget to manage multiple views
 class PetManagementApp(QMainWindow):
+
     def __init__(self):
         super().__init__()
 
@@ -95,7 +99,7 @@ class PetManagementApp(QMainWindow):
         self.stacked_widget.currentChanged.connect(self.clear_input)
 
         # Create the sidebar and pass the stacked widget
-        self.sidebar = Sidebar(QApplication.desktop().availableGeometry().width() // 6)
+        self.sidebar = Sidebar(int(getWidth() * 0.2))
         self.sidebar.stacked_widget = self.stacked_widget
 
         # Add the sidebar and QStackedWidget to the main layout
@@ -129,7 +133,13 @@ class PetManagementApp(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)  # Create the QApplication instance
     pet_management_app = PetManagementApp()  # Create the main application instance
-    pet_management_app.showFullScreen()  # Show the main window
+    # pet_management_app.setFixedSize(getWidth(),getHeight())
+    # pet_management_app.show()
+    screen = QApplication.primaryScreen()
+    dpi = screen.logicalDotsPerInch()
+    print(dpi)
+    pet_management_app.showFullScreen()
+
     sys.exit(app.exec_())  # Start the event loop
 
 

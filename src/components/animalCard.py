@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy, QFrame, QGraphicsDropShadowEffect
 from PyQt5.QtGui import QPixmap, QCursor, QColor
 from PyQt5.QtCore import Qt, pyqtSignal
-from utils.font import get_font
+from utils.font import set_font
 
 class AnimalCard(QWidget):
     clicked = pyqtSignal(int)
@@ -26,7 +26,7 @@ class AnimalCard(QWidget):
         self.card_content_layout.setContentsMargins(0, 0, 0, 0)
         self.card_content_layout.setSpacing(0)
         self.card_content_layout.setAlignment(Qt.AlignTop)
-        self.card_content.setFixedSize(350, 415)
+        self.card_content.setFixedSize(325, 375)
         
         # Set style sheet for the card
         self.card_content.setStyleSheet('''
@@ -43,7 +43,7 @@ class AnimalCard(QWidget):
         pixmap = QPixmap()
         pixmap.loadFromData(self.image_path)
         if not pixmap.isNull():  # Check if pixmap is valid
-            pixmap = pixmap.scaledToWidth(350)  # Adjust the width to match the card content width
+            pixmap = pixmap.scaledToWidth(325)  # Adjust the width to match the card content width
             self.image_label.setPixmap(pixmap)
             self.image_label.setAlignment(Qt.AlignCenter)
             self.image_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -53,7 +53,7 @@ class AnimalCard(QWidget):
         
             # Create QLabel for name
             self.name_label = QLabel(f"{self.name}")
-            self.name_label.setFont(get_font("bold"))
+            self.name_label.setFont(set_font("bold",14))
             self.name_label.setStyleSheet("""
                 background-color: transparent; 
                 margin-left: 10px; 
@@ -82,11 +82,11 @@ class AnimalCard(QWidget):
 
             self.species_age_label = QLabel(f"{self.species} | {self.age}")
             self.species_age_label.setStyleSheet("background-color: transparent;margin-left: 10px;padding: 0px; margin-top:10px")
-            self.species_age_label.setFont(get_font("regular"))
+            self.species_age_label.setFont(set_font("regular",12))
             self.card_content_layout.addWidget(self.species_age_label)
 
             riwayat_title_label = QLabel("Riwayat Kesehatan")
-            riwayat_title_label.setFont(get_font("bold"))
+            riwayat_title_label.setFont(set_font("bold",12))
             riwayat_title_label.setStyleSheet("""
                 background-color: transparent;
                 margin-left: 10px;
@@ -102,7 +102,7 @@ class AnimalCard(QWidget):
 
             self.info = QLabel(f"{self.riwayat_penyakit}")
             self.info.setStyleSheet("background-color: transparent;margin-left: 10px; margin-bottom:20px;padding: 0px;") 
-            self.info.setFont(get_font("regular"))
+            self.info.setFont(set_font("regular",12))
 
             shadow = QGraphicsDropShadowEffect(self)
             shadow.setOffset(0, 4)

@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QStyledItemDelegate,
 )
-from utils.font import get_font
+from utils.font import set_font
 
 class CheckableComboBox(QComboBox):
 
@@ -40,7 +40,7 @@ class CheckableComboBox(QComboBox):
         self.lineEdit().setStyleSheet(
             " padding: 5px; height: 40px; font-size: 16px; color: black;"
         )
-        self.lineEdit().setFont(get_font("regular"))
+        self.lineEdit().setFont(set_font("regular",12))
         self.setItemDelegate(CheckableComboBox.Delegate())
     
         self.model().dataChanged.connect(self.updateText)

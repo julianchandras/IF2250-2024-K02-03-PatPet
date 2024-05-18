@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QLab
 from PyQt5.QtGui import QIcon
 from components.customCalendar import CustomCalendar
 from components.customQLine import CustomLineEdit
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class CalendarInput(QWidget):
     def __init__(self):
@@ -15,9 +16,7 @@ class CalendarInput(QWidget):
     def init_ui(self):
         # Create line edit
         self.line_edit = CustomLineEdit()
-        self.line_edit.setFixedHeight(50)
         self.line_edit.setPlaceholderText('Click to select date')
-        self.line_edit.setFont(get_font("regular"))
 
         # Create button
         self.button = QPushButton()
@@ -43,12 +42,22 @@ class CalendarInput(QWidget):
             }
         """)
         
-        self.button.setFixedSize(100, 50)
+
 
         # Create calendar widget
         self.calendar = CustomCalendar()
         self.calendar.setWindowFlags(self.calendar.windowFlags() | Qt.Popup)
         self.calendar.clicked.connect(self.update_date)
+
+        if (getHeight() > 1080):
+            self.line_edit.setFixedHeight(50)
+            self.line_edit.setFont(set_font("regular",12))
+            self.button.setFixedSize(100, 50)
+        else:
+            self.line_edit.setFixedHeight(int(getHeight() * 0.04))
+            self.line_edit.setFont(set_font("regular",10))
+            self.button.setFixedSize(100, int(getHeight() * 0.04))
+
 
         # Hide calendar initially
         self.calendar.hide()

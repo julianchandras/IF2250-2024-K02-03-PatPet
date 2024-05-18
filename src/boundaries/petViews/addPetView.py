@@ -1,8 +1,9 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QLabel, QGridLayout, QApplication, QTextEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QLabel, QGridLayout, QApplication, QTextEdit, QScrollArea
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPixmap, QCursor
 from components.checkableCombobox import CheckableComboBox
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 
 class AddPetView(QWidget):
@@ -30,14 +31,15 @@ class AddPetView(QWidget):
         # Title widget with fixed height and bottom pink border
         title_widget = QWidget()
         title_layout = QVBoxLayout(title_widget)
-
-        title_widget.setFixedHeight(int(1/6 * self.screen_geometry.height()))  # Adjust as needed
+        
+        title_widget.setFixedHeight(int(1/8 * self.screen_geometry.height()))  # Adjust as needed
+            
         title_widget.setStyleSheet("QWidget {background-color: white; border-bottom: 8px solid #F277AD;}")
 
         # Create the title label with specified styles
         title_label = QLabel("Tambah Hewan")
-        title_style = "border:none; color: #F277AD; font-size: 80px; font-weight: bold; padding-left: 30px"
-        title_label.setFont(get_font("bold"))
+        title_style = "border:none; color: #F277AD;font-weight: bold; padding-left: 30px"
+        title_label.setFont(set_font("bold",24))
         title_label.setStyleSheet(title_style)
         title_layout.addWidget(title_label)
 
@@ -48,60 +50,115 @@ class AddPetView(QWidget):
         form_widget = QWidget()
         form_widget.setStyleSheet("background-color: white;")
 
+        # Wrap the main content widget with a QScrollArea
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)  # Set scrollbar policy
+
+        # Set the main content widget as the scroll area's widget
+        scroll_area.setWidget(form_widget)
+        scroll_area.setStyleSheet('''
+            QScrollArea {
+                border: none;
+            }        
+            QScrollBar:vertical {
+                border: none;
+                background: #f0f0f0;
+                width: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #c0c0c0;
+                min-height: 20px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                border: none;
+                background: #f0f0f0;
+                height: 10px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #c0c0c0;
+                min-width: 20px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: #a0a0a0;
+            }
+            QScrollBar::sub-line:horizontal {
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-line:horizontal {
+                border: none;
+                background: none;
+            }
+        ''')
+
         # Form layout for arranging form elements
         form_layout = QGridLayout()
         form_layout.setAlignment(Qt.AlignTop)  # Align to the top
-        form_layout.setSpacing(30)  # Adjust spacing between elements
+        form_layout.setSpacing(int(getHeight() * 0.01))  # Adjust spacing between elements
         form_layout.setContentsMargins(80, 80, 80, 80)  # Adjust margins as needed
 
         # Define label and input styles
-        label_style = "font-size: 32px; font-weight: bold; color: black;"  # Label style
+        label_style = "font-weight: bold; color: black;"  # Label style
         input_style = "border: 2px solid gray; border-radius: 10px; padding: 10px;"  # LineEdit style
 
         # Apply label style to all QLabel instances
         nama_label = QLabel("Nama")
         nama_label.setStyleSheet(label_style)
-        nama_label.setFont(get_font("bold"))
+        nama_label.setFont(set_font("bold",12))
         form_layout.addWidget(nama_label, 0, 0, 1, 2)  # Span 2 columns
 
         # Apply input style to all QLineEdit instances
         self.name_input = QLineEdit()
         self.name_input.setPlaceholderText("Masukkan Nama")
         self.name_input.setStyleSheet(input_style)
-        self.name_input.setFont(get_font("regular"))
+        self.name_input.setFont(set_font("regular",12))
         form_layout.addWidget(self.name_input, 1, 0, 1, 2)
 
         species_label = QLabel("Jenis Hewan:")
         species_label.setStyleSheet(label_style)
-        species_label.setFont(get_font("bold"))
+        species_label.setFont(set_font("bold",12))
         form_layout.addWidget(species_label, 2, 0)
 
         self.species_input = QLineEdit()
         self.species_input.setPlaceholderText("Masukkan Jenis Hewan")
         self.species_input.setStyleSheet(input_style)  # Apply input style
-        self.species_input.setFont(get_font("reguler"))
+        self.species_input.setFont(set_font("reguler",12))
         form_layout.addWidget(self.species_input, 3, 0)
 
         # Similarly, apply the label style to other labels
         umur_label = QLabel("Umur:")
         umur_label.setStyleSheet(label_style)
-        umur_label.setFont(get_font("bold"))
+        umur_label.setFont(set_font("bold",12))
         form_layout.addWidget(umur_label, 2, 1, Qt.AlignTop)  # Align to top
 
         self.age_input = QLineEdit()
         self.age_input.setPlaceholderText("Masukkan Umur")
-        self.age_input.setFont(get_font("regular"))
+        self.age_input.setFont(set_font("regular",12))
         self.age_input.setStyleSheet(input_style)  # Apply input style
         form_layout.addWidget(self.age_input, 3, 1)
 
         riwayat_label = QLabel("Riwayat Penyakit:")
-        riwayat_label.setFont(get_font("bold"))
+        riwayat_label.setFont(set_font("bold",12))
         riwayat_label.setStyleSheet(label_style)
         form_layout.addWidget(riwayat_label, 4, 0)
 
         self.medical_record_input = QTextEdit()
         self.medical_record_input.setPlaceholderText("Masukkan Riwayat Penyakit")
-        self.medical_record_input.setFont(get_font("regular"))
+        self.medical_record_input.setFont(set_font("regular",12))
         self.medical_record_input.setStyleSheet(input_style)
         form_layout.addWidget(self.medical_record_input, 5, 0, 3, 1)
 
@@ -109,12 +166,12 @@ class AddPetView(QWidget):
         # Adding combo box and other elements with correct styling
         makanan_label = QLabel("Daftar Makanan:")
         makanan_label.setStyleSheet(label_style)
-        makanan_label.setFont(get_font("bold"))
+        makanan_label.setFont(set_font("bold",12))
         form_layout.addWidget(makanan_label, 4, 1)
 
         # Using the CheckableComboBox for multi-selection
         self.food_list_input = CheckableComboBox()
-        self.food_list_input.setFont(get_font("regular"))
+        self.food_list_input.setFont(set_font("regular",12))
        
         form_layout.addWidget(self.food_list_input, 5, 1)
 
@@ -122,12 +179,12 @@ class AddPetView(QWidget):
         # Add image label and upload button
         image_label = QLabel("Image:")
         image_label.setStyleSheet(label_style)
-        image_label.setFont(get_font("bold"))
+        image_label.setFont(set_font("bold",12))
         form_layout.addWidget(image_label, 9, 0, 1, 2)
 
         self.image_label = QLabel("No Image Selected")
         self.image_label.setStyleSheet(label_style)
-        self.image_label.setFont(get_font("regular"))
+        self.image_label.setFont(set_font("regular",12))
         form_layout.addWidget(self.image_label, 10, 0)
 
         self.upload_button = QPushButton("Upload Gambar")
@@ -136,9 +193,7 @@ class AddPetView(QWidget):
                 background-color: #1A646B;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
-                font-size : 24px;
                 
             }
 
@@ -146,7 +201,7 @@ class AddPetView(QWidget):
                 background-color: #6E9DA1;
             }
         """)
-        self.upload_button.setFont(get_font("regular"))
+        self.upload_button.setFont(set_font("regular",12))
         self.upload_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.upload_button.clicked.connect(self.upload_image)
 
@@ -159,25 +214,25 @@ class AddPetView(QWidget):
                 background-color: #F277AD;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
-                font-size: 26px;
             }
 
             QPushButton:hover {
                 background-color: #F8B8D4;
             }
         """)
-        self.save_pet_button.setFont(get_font("regular"))
+        self.save_pet_button.setFont(set_font("regular",12))
         self.save_pet_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.save_pet_button.clicked.connect(self.save_pet)
         form_layout.addWidget(self.save_pet_button, 11, 1, 1, 2)  # Adjusting column span
         
+        for button in [self.upload_button, self.save_pet_button]:
+            button.setFixedHeight(int(getHeight() * 0.05))
         # Add the form layout to the form widget
         form_widget.setLayout(form_layout)
 
         # Add form_widget to main_content_layout
-        main_content_layout.addWidget(form_widget)
+        main_content_layout.addWidget(scroll_area)
 
         # Add main_content_widget to main_layout
         main_layout.addWidget(main_content_widget)
