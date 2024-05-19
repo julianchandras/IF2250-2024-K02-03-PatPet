@@ -39,24 +39,34 @@ py src/main.py
 ## Daftar Modul
 
 ### Modul Pengolahan Hewan
-![](doc/detail_hewan.png)
-![](doc/tambah_hewan.png)
-![](doc/edit_hewan.png)
+Pengguna dapat melihat detail dari hewan yang dipeliharanya, termasuk menambah hewan peliharaan baru dan mengubah detail informasi dari hewan yang dipeliharanya.
+
+![detail_hewan](doc/detail_hewan.png)
+![tambah_hewan](doc/tambah_hewan.png)
+![edit_hewan](doc/edit_hewan.png)
 
 ### Modul Pengolahan Aktivitas
-![](doc/jadwal.png)
-![](doc/edit_jadwal.png)
+Pengguna dapat mencatat aktivitas hewan peliharaanya, termasuk jadwal kegiatan yang berulang. Pengguna dapat melihat catatan jadwalnya di dalam bentuk kalender, termasuk melihatnya di laman utama.
+
+![jadwal](doc/jadwal.png)
+![edit_jadwal](doc/edit_jadwal.png)
 
 ### Modul Pengolahan Makanan
-![](doc/daftar_makanan.png)
+Pengguna dapat mendaftarkan makanan baru yang dimakan oleh hewan peliharaannya. Pengguna juga dapat melihat hewan dengan makanan yang sama (pada tampilan filter).
+
+![daftar_makanan](doc/daftar_makanan.png)
 
 ### Modul Pengolahan Artikel
-![](doc/artikel.jpg)
-![](doc/detail_artikel.jpg)
+Pengguna dapat membaca artikel terkait dengan pemeliharaan hewan peliharaan.
+
+![artikel](doc/artikel.jpg)
+![detail_artikel](doc/detail_artikel.jpg)
 
 ### Modul Penampilan
-![](doc/beranda.png)
-![](doc/filter.png)
+Pengguna dapat melihat tampilan aplikasi secara umum terkait hewan peliharaan serta detail profil mereka, makanan, dan jadwal kegiatan hewan peliharaan.
+
+![beranda](doc/beranda.png)
+![filter](doc/filter.png)
 
 ## Struktur Database
 
@@ -122,9 +132,7 @@ py src/main.py
 
 | NIM      | Contributions                             |
 | -------- | ----------------------------------------- |
-| 13522042 | Home page, database, controller, unittest |
-| 13522048 | Recipe list, article list, CI/CD          |
-| 13522058 | Note editor (add/edit) page, testing      |
-| 13522080 | Recipe detail page, article detail page   |
-| 13522108 | Recipe editor (add/edit) page             |
-| 10023457 | Recipe editor (add/edit) page             |
+| 13522048 | Beranda, Aktivitas page, unittest        |
+| 13522058 | Hewan page, model, controller, unittest      |
+| 13522080 | Article page, unittest   |
+| 13522108 | Beranda, Food page, unittest           |
