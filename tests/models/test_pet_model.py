@@ -17,6 +17,7 @@ class TestActivityModel:
         yield model
 
         model.cursor.execute("DROP TABLE pet_food")
+        model.cursor.execute("DROP TABLE foods")
         model.cursor.execute("DROP TABLE pets")
         model.commit()
         model.close()
