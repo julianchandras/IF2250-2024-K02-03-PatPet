@@ -39,19 +39,24 @@ py src/main.py
 ## Daftar Modul
 
 ### Modul Pengolahan Hewan
-![](doc/beranda.png)
 ![](doc/detail_hewan.png)
 ![](doc/tambah_hewan.png)
 ![](doc/edit_hewan.png)
 
 ### Modul Pengolahan Aktivitas
-![](doc/jadwa)
+![](doc/jadwal.png)
+![](doc/edit_jadwal.png)
 
 ### Modul Pengolahan Makanan
+![](doc/daftar_makanan.png)
 
 ### Modul Pengolahan Artikel
+![](doc/artikel.jpg)
+![](doc/detail_artikel.jpg)
 
 ### Modul Penampilan
+![](doc/beranda.png)
+![](doc/filter.png)
 
 ## Struktur Database
 
