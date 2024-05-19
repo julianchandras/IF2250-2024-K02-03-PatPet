@@ -137,6 +137,7 @@ class EditPetView(QWidget):
         self.species_input.setPlaceholderText("Masukkan Jenis Hewan")
         self.species_input.setStyleSheet(input_style)  # Apply input style
         self.species_input.setFont(set_font("reguler",12))
+        self.species_input.setDisabled(True)
         form_layout.addWidget(self.species_input, 3, 0)
 
         # Similarly, apply the label style to other labels
