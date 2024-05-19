@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
+from PyQt5.QtWidgets import QApplication, QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout, QMessageBox
 from PyQt5.QtCore import Qt,pyqtSignal, QTime, QDate
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
@@ -268,6 +268,8 @@ class UpdateActivityView(QWidget):
         self.calendar.set_activities(temp)
 
     def set_activity_details(self,activity):
+
+
         self.activity_id = activity[0]
         self.jenis_aktivitas_input.setText(activity[1])
         date_parts = activity[2].split('-')
@@ -289,10 +291,12 @@ class UpdateActivityView(QWidget):
         self.jam_mulai_input.setTime(QTime(jam_mulai_hour, jam_mulai_minute))
 
         self.jam_akhir_input.setTime(QTime(jam_akhir_hour, jam_akhir_minute))
+        
+        self.pilihan_hewan.combo_box.setCurrentText(activity[6])
+        self.pilihan_hewan.combo_box.setCurrentIndex(self.pilihan_hewan.combo_box.findText(activity[6]))
 
     def navigate_to_update_activity(self, activity_id):
         self.navigate_to_update.emit(activity_id)
-
 
     def update_activity(self):
         activity_id = self.activity_id
@@ -301,6 +305,11 @@ class UpdateActivityView(QWidget):
         start_date = self.tanggal_mulai_input.calendar.selectedDate().toPyDate()
         start_time = self.jam_mulai_input.time().toString()
         end_time = self.jam_akhir_input.time().toString()
+        
+        ## Validate
+
+        if not self.validate_inputs():
+            return
        
         self.update_activity_signal.emit(activity_id, activity_name, start_date,start_time, end_time,pet_id)
 
@@ -309,3 +318,25 @@ class UpdateActivityView(QWidget):
         
     def cancel_update(self):
         self.cancel_signal.emit()
+    
+    def validate_inputs(self):
+        if self.pilihan_hewan.combo_box.currentIndex() == -1:
+            self.show_error_message("Please select an animal.")
+            return False
+
+        if not self.jenis_aktivitas_input.text().strip():
+            self.show_error_message("Activity name cannot be empty.")
+            return False
+
+        if self.tanggal_mulai_input.calendar.selectedDate().isNull():
+            self.show_error_message("Please select an activity date.")
+            return False
+
+        if self.jam_mulai_input.time() >= self.jam_akhir_input.time():
+            self.show_error_message("Start time must be earlier than end time.")
+            return False
+
+        return True
+    
+    def show_error_message(self, message):
+        QMessageBox.warning(self, "Input Error", message, QMessageBox.Ok)

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication,QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
+from PyQt5.QtWidgets import QApplication,QScrollArea,QFrame, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout, QMessageBox
 from PyQt5.QtCore import Qt,pyqtSignal, QTime, QDate
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
@@ -248,6 +248,11 @@ class AddActivityView(QWidget):
         self.navigate_to_update.emit(activity_id)
 
     def add_activity(self):
+
+        if not self.validate_inputs():
+            return
+        
+
         pet_id = self.pilihan_hewan.combo_box.currentData()
         activity_name = self.jenis_aktivitas_input.text()
         activity_date = self.tanggal_aktivitas.calendar.selectedDate().toPyDate()
@@ -263,9 +268,27 @@ class AddActivityView(QWidget):
         if repetition_hop_str:
             repetition_hop = int(repetition_hop_str)
         else:
-            repetition_hop = None
-
+            repetition_hop = -1
         self.add_activity_signal.emit(activity_name, activity_date,start_time, end_time, repetition_end, repetition_hop, pet_id)
+    
+    def validate_inputs(self):
+        if self.pilihan_hewan.combo_box.currentIndex() == -1:
+            self.show_error_message("Please select an animal.")
+            return False
+
+        if not self.jenis_aktivitas_input.text().strip():
+            self.show_error_message("Activity name cannot be empty.")
+            return False
+
+        if self.tanggal_aktivitas.calendar.selectedDate().isNull():
+            self.show_error_message("Please select an activity date.")
+            return False
+
+        if self.jam_mulai_input.time() >= self.jam_akhir_input.time():
+            self.show_error_message("Start time must be earlier than end time.")
+            return False
+
+        return True
 
     def clear_input(self):
         self.jenis_aktivitas_input.clear()
@@ -282,5 +305,7 @@ class AddActivityView(QWidget):
         self.pilihan_hewan.combo_box.setCurrentIndex(-1)
         self.pilihan_hewan.combo_box.setEditText('Pilih hewan')
 
+    def show_error_message(self, message):
+        QMessageBox.warning(self, "Input Error", message, QMessageBox.Ok)
 
     

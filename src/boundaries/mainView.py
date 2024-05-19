@@ -391,13 +391,6 @@ class MainView(QWidget):
         # Get the instance of the card that emitted the signal
         self.view_pet_signal.emit(pet_id)
 
-    def onActivityCardClicked(self):
-        clicked_card = self.sender()  # Get the instance of the card that emitted the signal
-        # Access the properties of the clicked card and print them
-        print("Activity Name:", clicked_card.activity_name)
-        print("Time:", clicked_card.time)
-        print("Pet:", clicked_card.pet)
-
     def clear_layout(self, layout):
         while layout.count():
             item = layout.takeAt(0)

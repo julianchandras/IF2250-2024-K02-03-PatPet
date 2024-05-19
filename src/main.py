@@ -118,6 +118,8 @@ class PetManagementApp(QMainWindow):
 
         # Show the main view initially
         self.stacked_widget.setCurrentIndex(0)  # Start with MainPetView
+
+        
     
     # Handle the window close event
     def clear_input(self, index):
@@ -135,9 +137,7 @@ if __name__ == "__main__":
     pet_management_app = PetManagementApp()  # Create the main application instance
     # pet_management_app.setFixedSize(getWidth(),getHeight())
     # pet_management_app.show()
-    screen = QApplication.primaryScreen()
-    dpi = screen.logicalDotsPerInch()
-    print(dpi)
+
     pet_management_app.showFullScreen()
 
     sys.exit(app.exec_())  # Start the event loop

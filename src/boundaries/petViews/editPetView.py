@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QFileDialog, QApplication,QGridLayout, QScrollArea, QTextEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QFileDialog, QApplication,QGridLayout, QScrollArea, QTextEdit, QMessageBox
 from PyQt5.QtCore import pyqtSignal,Qt
 from PyQt5.QtGui import QPixmap, QCursor
 from components.checkableCombobox import CheckableComboBox
@@ -273,14 +273,41 @@ class EditPetView(QWidget):
 
 
     def save_pet(self):
-        pet_name = self.name_input.text()
-        species = self.species_input.text()
-        age = int(self.age_input.text())
-        medical_record = self.medical_record_input.toPlainText()
-
+        pet_name = self.name_input.text().strip()
+        species = self.species_input.text().strip()
+        age = self.age_input.text().strip()
+        medical_record = self.medical_record_input.toPlainText().strip()
+        image = getattr(self, 'selected_image_data', None)
         selected_foods = self.food_list_input.currentData()
 
-    
+        # Validate the input fields
+        if not pet_name:
+            self.show_error_message("Nama hewan tidak boleh kosong")
+            return
+        
+        if not species:
+
+            self.show_error_message("Jenis hewan tidak boleh kosong")
+            return
+        
+        if not age or not age.isdigit():
+            self.show_error_message("Umur hewan tidak boleh kosong")
+            return
+        
+        age = int(age)
+
+        if (age < 0):
+            self.show_error_message("Umur hewan tidak boleh negatif")
+            return
+        
+        if not image:
+            self.show_error_message("Gambar hewan tidak boleh kosong")
+            return
+
+        if not selected_foods:
+            self.show_error_message("Pilih setidaknya satu makanan")
+            return
+        
         # Emit the signal to save the edited pet, including the image data if selected
         self.save_pet_signal.emit(
             self.pet_id,  # Pet ID passed to the view by the controller
@@ -288,7 +315,7 @@ class EditPetView(QWidget):
             species,
             age,
             medical_record,
-            self.selected_image_data,  # Include the selected image data, if any
+            image,  # Include the selected image data, if any
             selected_foods
         )
 
@@ -296,6 +323,14 @@ class EditPetView(QWidget):
         self.food_list_input.clear()
         # Set the food list in the combo box
         self.food_list_input.addItems(food_list)
+
+    def show_error_message(self, message):
+        error_dialog = QMessageBox()
+        error_dialog.setIcon(QMessageBox.Warning)
+        error_dialog.setWindowTitle("Input Error")
+        error_dialog.setText(message)
+        error_dialog.exec_()
+
 
     
    

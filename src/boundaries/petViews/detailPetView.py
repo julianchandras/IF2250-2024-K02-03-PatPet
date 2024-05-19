@@ -335,7 +335,6 @@ class DetailPetView(QWidget):
         self.pet_id = pet[0]
         # Set general information
         title_label = self.findChild(QLabel, 'Pet Name')
-        print (title_label)
         description_label = self.findChild(QLabel, 'Spesies | Umur: X Tahun')
 
         if title_label:
