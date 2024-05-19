@@ -287,6 +287,10 @@ class AddActivityView(QWidget):
         if self.jam_mulai_input.time() >= self.jam_akhir_input.time():
             self.show_error_message("Start time must be earlier than end time.")
             return False
+        
+        if not self.banyak_pengulangan_input.text() == "" and not self.banyak_pengulangan_input.text().isdigit():
+            self.show_error_message("Repetition must be a number")
+            return False
 
         return True
 
