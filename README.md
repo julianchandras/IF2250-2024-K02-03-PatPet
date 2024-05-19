@@ -36,6 +36,22 @@ pytest
 py src/main.py
 ```
 
+## Daftar Modul
+
+### Modul Pengolahan Hewan
+![](doc/beranda.png)
+![](doc/detail_hewan.png)
+![](doc/tambah_hewan.png)
+![](doc/edit_hewan.png)
+
+### Modul Pengolahan Aktivitas
+![](doc/jadwa)
+
+### Modul Pengolahan Makanan
+
+### Modul Pengolahan Artikel
+
+### Modul Penampilan
 
 ## Struktur Database
 
@@ -44,13 +60,13 @@ py src/main.py
 | Field        | Type    | Null | Key | Default | Extra          |
 | ------------ | ------- | ---- | --- | ------- | -------------- |
 | activity_id  | INT     | NO   | PRI | NULL    | auto_increment |
-| activity_name  | TEXT    | NO   |     | NULL    |
-| activity_date      | DATE    | NO   |     | NULL    |
-| start_time      | TIME    | NO   |     | NULL    |
-| end_time | TIME    | NO   |     | NULL    |
-| pet_id | INT    | NO   |     | NULL    | REFERENCES pets(pet_id) ON DELETE CASCADE
+| activity_name  | TEXT    | YES   |     | NULL    |
+| activity_date      | DATE    | YES   |     | NULL    |
+| start_time      | TIME    | YES  |     | NULL    |
+| end_time | TIME    | YES   |     | NULL    |
+| pet_id | INT    | YES   | MUL | NULL    | 
 
-### 2. Article
+### 2. Articles
 
 | Field         | Type    | Null | Key | Default | Extra          |
 | ------------- | ------- | ---- | --- | ------- | -------------- |
@@ -81,27 +97,29 @@ py src/main.py
 | Field     | Type    | Null | Key | Default | Extra                        |
 | --------- | ------- | ---- | --- | ------- | ---------------------------- |
 | pet_food_id | INT  | NO   | PRI | NULL    | auto_increment|
-| pet_id  | INT | NO   |  | NULL    | REFERENCES pets(pet_id) ON DELETE CASCADE  |
-| food_id  | INT | NO   |  | NULL    | REFERENCES foods(food_id) ON DELETE CASCADE  |
+| pet_id  | INT | YES   | MUL | NULL    |   |
+| food_id  | INT | YES   | MUL | NULL    |   |
 
 ## Authors & Contributions
 
 ### Authors
 
-| NIM      | Name                  | GitHub                                            |
-| -------- | --------------------- | ------------------------------------------------- |
-| 13521044 | Rachel Gabriela Chen  | [chaerla](https://github.com/chaerla)             |
-| 13521046 | Jeffrey Chow          | [JeffreyChow19](https://github.com/JeffreyChow19) |
-| 13521074 | Eugene Yap Jin Quan   | [yuujin-Q](https://github.com/yuujin-Q)           |
-| 13521094 | Angela Livia Arumsari | [liviaarumsari](https://github.com/liviaarumsari) |
-| 13521100 | Alexander Jason       | [AJason36](https://github.com/AJason36)           |
+| NIM      | Name                          | GitHub                                              |
+| -------- | ----------------------------- | --------------------------------------------------- |
+| 13522042 | Amalia Putri                  | [amaliap21](https://github.com/amaliap21)           |
+| 13522048 | Angelica Kierra Ninta Gurning | [angiekierra](https://github.com/angiekierra)       |
+| 13522058 | Imanuel Sebastian Girsang     | [ImanuelSG](https://github.com/ImanuelSG)           |
+| 13522080 | Julian Chandra Sutadi         | [julianchandras](https://github.com/julianchandras) |
+| 13522108 | Muhammad Neo Cicero Koda      | [neokoda](https://github.com/neokoda)               |
+| 10023457 | Habibi	Galang Trianda         |                                                     |
 
 ### Contributions
 
 | NIM      | Contributions                             |
 | -------- | ----------------------------------------- |
-| 13521044 | Home page, database, controller, unittest |
-| 13521046 | Recipe list, article list, CI/CD          |
-| 13521074 | Note editor (add/edit) page, testing      |
-| 13521094 | Recipe detail page, article detail page   |
-| 13521100 | Recipe editor (add/edit) page             |
+| 13522042 | Home page, database, controller, unittest |
+| 13522048 | Recipe list, article list, CI/CD          |
+| 13522058 | Note editor (add/edit) page, testing      |
+| 13522080 | Recipe detail page, article detail page   |
+| 13522108 | Recipe editor (add/edit) page             |
+| 10023457 | Recipe editor (add/edit) page             |
