@@ -18,12 +18,7 @@ class TestFoodModel:
         yield model
         model.cursor.execute("DROP TABLE pet_food")
         model.cursor.execute("DROP TABLE foods")
-
         model.cursor.execute("DROP TABLE pets")
-        
-        
-
-        
         model.commit()
         model.close()
 
@@ -78,10 +73,13 @@ class TestFoodModel:
         
         food_model.add_food('Kibble')
         food_model.add_food('Wet Food')
+
+        # Provide a dummy image for the pet
+        dummyImageData = open('img/meng.png', 'rb').read()
         
         food_model.cursor.execute(
             "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
-            ('Fido', 'Dog', 3, 'Healthy', None)
+            ('Fido', 'Dog', 3, 'Healthy', dummyImageData)
         )
         food_model.commit()
         
@@ -99,10 +97,13 @@ class TestFoodModel:
         
         food_model.add_food('Kibble')
         food_model.add_food('Wet Food')
+
+        # Provide a dummy image for the pet
+        dummyImageData = open('img/meng.png', 'rb').read()
         
         food_model.cursor.execute(
             "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
-            ('Fido', 'Dog', 3, 'Healthy', None)
+            ('Fido', 'Dog', 3, 'Healthy', dummyImageData)
         )
         food_model.commit()
         
@@ -119,9 +120,13 @@ class TestFoodModel:
         # and pets have been added
         
         food_model.add_food('Kibble')
+
+        # Provide a dummy image for the pet
+        dummyImageData = open('img/meng.png', 'rb').read()
+        
         food_model.cursor.execute(
             "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
-            ('Fido', 'Dog', 3, 'Healthy', None)
+            ('Fido', 'Dog', 3, 'Healthy', dummyImageData)
         )
         food_model.commit()
         
@@ -138,10 +143,13 @@ class TestFoodModel:
         
         food_model.add_food('Kibble')
         food_model.add_food('Wet Food')
+
+        # Provide a dummy image for the pet
+        dummyImageData = open('img/meng.png', 'rb').read()
         
         food_model.cursor.execute(
             "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
-            ('Fido', 'Dog', 3, 'Healthy', None)
+            ('Fido', 'Dog', 3, 'Healthy', dummyImageData)
         )
         food_model.commit()
         
@@ -154,5 +162,3 @@ class TestFoodModel:
         
         assert 'Wet Food' in pet_foods
         assert 'Kibble' not in pet_foods
-
-    
