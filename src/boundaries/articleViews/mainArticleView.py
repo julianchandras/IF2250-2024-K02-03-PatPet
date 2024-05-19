@@ -37,9 +37,9 @@ class MainArticleView(QWidget):
         main_content_layout.addWidget(line)
 
         self.article_cards_layout = QGridLayout()
-        self.article_cards_layout.setVerticalSpacing(int(getHeight()*0.02))
+        self.article_cards_layout.setVerticalSpacing(0)
         self.article_cards_layout.setAlignment(Qt.AlignLeft | Qt.AlignTop)
-        self.article_cards_layout.setHorizontalSpacing(int(getWidth() * 0.05))
+        self.article_cards_layout.setHorizontalSpacing(int(getWidth() * 0.02))
 
         cards_widget = QWidget(self)
         cards_widget.setLayout(self.article_cards_layout)
