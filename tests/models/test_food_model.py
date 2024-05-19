@@ -72,6 +72,87 @@ class TestFoodModel:
         assert rows[0][0] == 'Dry Kibble'
         assert rows[1][0] == 'Wet Food'
 
-    def test
+    def test_get_food_eater(self, food_model: FoodModel):
+        # Assuming the PetModel and FoodModel are working together
+        # and pets have been added with respective foods
+        
+        food_model.add_food('Kibble')
+        food_model.add_food('Wet Food')
+        
+        food_model.cursor.execute(
+            "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
+            ('Fido', 'Dog', 3, 'Healthy', None)
+        )
+        food_model.commit()
+        
+        pet_id = food_model.cursor.lastrowid
+        food_model.add_pet_food(pet_id, 1)
+        
+        food_eater = food_model.get_food_eater()
+        
+        assert 'Kibble' in food_eater
+        assert 'Fido' in food_eater['Kibble'][1]
+
+    def test_filter_pet_by_food(self, food_model: FoodModel):
+        # Assuming the PetModel and FoodModel are working together
+        # and pets have been added with respective foods
+        
+        food_model.add_food('Kibble')
+        food_model.add_food('Wet Food')
+        
+        food_model.cursor.execute(
+            "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
+            ('Fido', 'Dog', 3, 'Healthy', None)
+        )
+        food_model.commit()
+        
+        pet_id = food_model.cursor.lastrowid
+        food_model.add_pet_food(pet_id, 1)
+        
+        pets = food_model.filter_pet_by_food([1])
+        
+        assert len(pets) == 1
+        assert pets[0][1] == 'Fido'
+
+    def test_add_pet_food(self, food_model: FoodModel):
+        # Assuming the PetModel and FoodModel are working together
+        # and pets have been added
+        
+        food_model.add_food('Kibble')
+        food_model.cursor.execute(
+            "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
+            ('Fido', 'Dog', 3, 'Healthy', None)
+        )
+        food_model.commit()
+        
+        pet_id = food_model.cursor.lastrowid
+        food_model.add_pet_food(pet_id, 1)
+        
+        pet_foods = food_model.get_pet_foods(pet_id)
+        
+        assert 'Kibble' in pet_foods
+
+    def test_update_pet_food(self, food_model: FoodModel):
+        # Assuming the PetModel and FoodModel are working together
+        # and pets have been added
+        
+        food_model.add_food('Kibble')
+        food_model.add_food('Wet Food')
+        
+        food_model.cursor.execute(
+            "INSERT INTO pets (pet_name, species, age, medical_record, image) VALUES (?, ?, ?, ?, ?)",
+            ('Fido', 'Dog', 3, 'Healthy', None)
+        )
+        food_model.commit()
+        
+        pet_id = food_model.cursor.lastrowid
+        food_model.add_pet_food(pet_id, 1)
+        
+        food_model.update_pet_food(pet_id, [2])
+        
+        pet_foods = food_model.get_pet_foods(pet_id)
+        
+        assert 'Wet Food' in pet_foods
+        assert 'Kibble' not in pet_foods
 
     
