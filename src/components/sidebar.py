@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QCursor
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class Sidebar(QWidget):
     def __init__(self, width):
@@ -26,14 +27,14 @@ class Sidebar(QWidget):
         main_content_widget = QWidget(self)
         main_content_widget.setStyleSheet("background-color: #F99035;")
         main_content_layout = QVBoxLayout(main_content_widget)
-        main_content_layout.setSpacing(50)
-        main_content_widget.setContentsMargins(0,200,0,0)
+        main_content_layout.setSpacing(int(getHeight() * 0.030))
+        main_content_widget.setContentsMargins(0,int(getHeight() * 0.2),0,0)
 
         
         # Add a logo at the top
         logo_label = QLabel()  # Create a label to display the logo
         logo_pixmap = QPixmap("img/logo_patpet.svg")  # Load the logo image
-        logo_pixmap = logo_pixmap.scaled(250, 250, Qt.KeepAspectRatio)  
+        logo_pixmap = logo_pixmap.scaled(int(getHeight()*0.15),int(getHeight()*0.15), Qt.KeepAspectRatio)  
         logo_label.setPixmap(logo_pixmap)  # Set the pixmap to the label
         logo_label.setAlignment(Qt.AlignHCenter)
 
@@ -51,7 +52,6 @@ class Sidebar(QWidget):
                 font-weight: bold; 
                 border: none; 
                 color: white; 
-                font-size: 40px;
             }
 
             QPushButton:hover {
@@ -61,7 +61,7 @@ class Sidebar(QWidget):
         for button in (main_button, jadwal_button, article_button, food_button, exit_button):
             button.setStyleSheet(button_style)  # Apply style to all buttons
             button.setCursor(QCursor(Qt.PointingHandCursor))
-            button.setFont(get_font("bold"))
+            button.setFont(set_font("bold",16))
         
         # Connect buttons to change views in QStackedWidget
         main_button.clicked.connect(lambda: self.change_view(0))
@@ -73,7 +73,7 @@ class Sidebar(QWidget):
         # Add widgets to the layout
         main_content_layout.addWidget(logo_label)  # Add the logo at the top
         # Optional: add a bit of spacing after the logo
-        main_content_layout.addSpacing(200)
+        main_content_layout.addSpacing(int(getHeight() * 0.0125))
         # Add navigation buttons
         main_content_layout.addWidget(main_button)
         main_content_layout.addWidget(jadwal_button)

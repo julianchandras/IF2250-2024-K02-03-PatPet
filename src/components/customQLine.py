@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QLineEdit, QApplication, QVBoxLayout, QWidget
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class CustomLineEdit(QLineEdit):
     def __init__(self, parent=None):
@@ -10,23 +11,16 @@ class CustomLineEdit(QLineEdit):
                 border: 2px solid #D4D4D4;
                 border-radius: 10px;
                 padding: 6px;
-                font-size: 20px;
 
             }
         """)
-        self.setFont(get_font("regular"))
+        if (getHeight() > 1080):
+            self.setFont(set_font("regular",12))
+        else:
+            self.setFont(set_font("regular",10))
+
     def paintEvent(self, event):
         super().paintEvent(event)
 
-class TestWidget(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.init_ui()
-
-    def init_ui(self):
-        layout = QVBoxLayout()
-        self.custom_line_edit = CustomLineEdit()
-        layout.addWidget(self.custom_line_edit)
-        self.setLayout(layout)
 
 

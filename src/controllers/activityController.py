@@ -48,10 +48,10 @@ class ActivityController:
         self.stacked_widget.setCurrentIndex(8)
     
     def add_activity(self, activity_name,activity_date, start_time, end_time, repetition_end, repetition_hop, pet_id):
-       
         self.activity_model.add_activity(activity_name, activity_date, start_time, end_time, pet_id)
+
         ## Kalau user input repetition
-        if repetition_end and repetition_hop:
+        if repetition_end and repetition_hop >0:
             ## Add activities based on repetition
             activity_date += timedelta(repetition_hop)
 
@@ -60,6 +60,7 @@ class ActivityController:
                 activity_date += timedelta(repetition_hop)
                 
         self.load_activities()
+        self.add_activity_view.clear_input()
 
 
     def update_activity(self, activity_id, activity_name, activity_date, start_time, end_time, pet_id):

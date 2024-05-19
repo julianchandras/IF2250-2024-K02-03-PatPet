@@ -2,7 +2,8 @@ import sys
 
 from PyQt5.QtCore import pyqtSignal, QDate
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QCalendarWidget
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class CustomCalendar(QWidget):
 
@@ -19,15 +20,17 @@ class CustomCalendar(QWidget):
 
         # Create custom calendar widget
         self.calendar = QCalendarWidget()
-        self.calendar.setFont(get_font("regular"))
+        if (getHeight() > 1080):
+            self.calendar.setFont(set_font("regular",12))
+        else:
+            self.calendar.setFont(set_font("regular",10))
 
         # Apply stylesheets for customization
         self.calendar.setStyleSheet(""" 
             QCalendarWidget QToolButton {
-                height: 60px;
+                height: 55px;
                 width: 150px;
                 color: black;
-                font-size: 24px;
                 icon-size: 56px, 56px;
                 background-color:#D4D4D4;
             }

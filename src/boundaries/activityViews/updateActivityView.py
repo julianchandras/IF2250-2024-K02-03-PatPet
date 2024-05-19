@@ -1,11 +1,12 @@
-from PyQt5.QtWidgets import QApplication, QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout
+from PyQt5.QtWidgets import QApplication, QFrame, QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTimeEdit, QPushButton, QTableWidget,QGroupBox, QGridLayout, QMessageBox
 from PyQt5.QtCore import Qt,pyqtSignal, QTime, QDate
 from components.calendarInput import CalendarInput
 from components.customQLine import CustomLineEdit
 from components.customComboBox import CustomComboBox
 from components.customSchedule import CustomSchedule
 from datetime import date, datetime
-from utils.font import get_font
+from utils.font import *
+from utils.screensize import *
 
 class UpdateActivityView(QWidget):
 
@@ -34,8 +35,8 @@ class UpdateActivityView(QWidget):
         main_content_widget.setStyleSheet('background-color: #C0E9DF; border:none')
 
         title_label = QLabel('Edit Jadwal', self)
-        title_label.setStyleSheet('font-size: 72px; color: #1A646B; font-weight: 900;')
-        title_label.setFont(get_font("bold"))
+        title_label.setStyleSheet('color: #1A646B; font-weight: 900;')
+        title_label.setFont(set_font("bold",24))
         title_label.setFixedHeight(70)
         main_content_layout.addWidget(title_label)
         
@@ -51,7 +52,7 @@ class UpdateActivityView(QWidget):
 
         # Create a QGroupBox
         activity_entry_box = QGroupBox('', self)
-        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.215))
+        activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.25))
         activity_entry_box.setStyleSheet("background-color: white; border-radius: 8px;")
 
         # Create a QGridLayout for the QGroupBox
@@ -66,8 +67,11 @@ class UpdateActivityView(QWidget):
         jam_akhir_label = QLabel("Jam Selesai")
         
         for label in [pilihan_hewan_label,jenis_aktivitas_hewan_label,tanggal_mulai_label,jam_akhir_label,jam_mulai_label]:
-            label.setStyleSheet("font-weight:bold; font-size:28px; margin:0px;")
-            label.setFont(get_font("bold"))
+            label.setStyleSheet("font-weight:bold;margin:0px;")
+            if (getHeight() > 1080):
+                label.setFont(set_font("bold",12))
+            else:
+                label.setFont(set_font("bold",10))
 
         # Pilih hewan
         self.pilihan_hewan = CustomComboBox()
@@ -80,14 +84,19 @@ class UpdateActivityView(QWidget):
         # Jam Mulai
         self.jam_mulai_input = QTimeEdit()
         self.jam_mulai_input.setDisplayFormat("HH:mm")
-        self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
-        self.jam_mulai_input.setFont(get_font("regular"))
+        self.jam_mulai_input.setFont(set_font("regular",12))
 
         # Jam akhir
         self.jam_akhir_input = QTimeEdit()
         self.jam_akhir_input.setDisplayFormat("HH:mm")
-        self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
-        self.jam_akhir_input.setFont(get_font("regular"))
+        self.jam_akhir_input.setFont(set_font("regular",12))
+
+        if (getHeight() > 1080):
+            self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 8px;}")
+            self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:8px;}")
+        else:
+            self.jam_mulai_input.setStyleSheet("QTimeEdit { border-radius: 8px; border:2px solid #D4D4D4; padding: 5px;}")
+            self.jam_akhir_input.setStyleSheet("QTimeEdit { border-radius: 8px; border: 2px solid #D4D4D4; padding:5px;}")
 
         # Tanggal
         self.tanggal_mulai_input = CalendarInput()
@@ -99,7 +108,6 @@ class UpdateActivityView(QWidget):
                 background-color: #1A646B;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
                 
             }
@@ -115,7 +123,6 @@ class UpdateActivityView(QWidget):
                 background-color: #F277AD;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color : white;
                 
             }
@@ -131,7 +138,6 @@ class UpdateActivityView(QWidget):
                 background-color: #FF0000;
                 font-weight: bold;
                 border-radius: 8px;
-                padding: 20px 5px;
                 color: white;
             }
             QPushButton:hover {
@@ -140,8 +146,14 @@ class UpdateActivityView(QWidget):
         """)
 
         for button in [self.cancel_button,self.ubah_button,self.hapus_button]:
-            button.setFont(get_font("bold"))
+            button.setFont(set_font("bold",12))
+            button.setFixedHeight(int(getHeight() * 0.04))
 
+        if (getHeight() > 1080):
+            self.ubah_button.setFixedHeight(int(getHeight() * 0.05))
+            self.cancel_button.setFixedHeight(int(getHeight() * 0.05))
+            self.hapus_button.setFixedHeight(int(getHeight() * 0.05))
+            activity_entry_box.setFixedHeight(int(screen_geometry.height() * 0.25))
         # Create grid layout
         activity_entry_box_layout.addWidget(pilihan_hewan_label, 0, 0, 1, 2)
         activity_entry_box_layout.addWidget(jenis_aktivitas_hewan_label, 0, 2, 1, 2)
@@ -256,6 +268,8 @@ class UpdateActivityView(QWidget):
         self.calendar.set_activities(temp)
 
     def set_activity_details(self,activity):
+
+
         self.activity_id = activity[0]
         self.jenis_aktivitas_input.setText(activity[1])
         date_parts = activity[2].split('-')
@@ -277,10 +291,12 @@ class UpdateActivityView(QWidget):
         self.jam_mulai_input.setTime(QTime(jam_mulai_hour, jam_mulai_minute))
 
         self.jam_akhir_input.setTime(QTime(jam_akhir_hour, jam_akhir_minute))
+        
+        self.pilihan_hewan.combo_box.setCurrentText(activity[6])
+        self.pilihan_hewan.combo_box.setCurrentIndex(self.pilihan_hewan.combo_box.findText(activity[6]))
 
     def navigate_to_update_activity(self, activity_id):
         self.navigate_to_update.emit(activity_id)
-
 
     def update_activity(self):
         activity_id = self.activity_id
@@ -289,6 +305,11 @@ class UpdateActivityView(QWidget):
         start_date = self.tanggal_mulai_input.calendar.selectedDate().toPyDate()
         start_time = self.jam_mulai_input.time().toString()
         end_time = self.jam_akhir_input.time().toString()
+        
+        ## Validate
+
+        if not self.validate_inputs():
+            return
        
         self.update_activity_signal.emit(activity_id, activity_name, start_date,start_time, end_time,pet_id)
 
@@ -297,3 +318,25 @@ class UpdateActivityView(QWidget):
         
     def cancel_update(self):
         self.cancel_signal.emit()
+    
+    def validate_inputs(self):
+        if self.pilihan_hewan.combo_box.currentIndex() == -1:
+            self.show_error_message("Please select an animal.")
+            return False
+
+        if not self.jenis_aktivitas_input.text().strip():
+            self.show_error_message("Activity name cannot be empty.")
+            return False
+
+        if self.tanggal_mulai_input.calendar.selectedDate().isNull():
+            self.show_error_message("Please select an activity date.")
+            return False
+
+        if self.jam_mulai_input.time() >= self.jam_akhir_input.time():
+            self.show_error_message("Start time must be earlier than end time.")
+            return False
+
+        return True
+    
+    def show_error_message(self, message):
+        QMessageBox.warning(self, "Input Error", message, QMessageBox.Ok)

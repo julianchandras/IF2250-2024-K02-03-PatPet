@@ -79,7 +79,7 @@ class ActivityModel(BaseModel):
         
     def get_specific_activity(self, activity_id):
         try:
-            self.cursor.execute("SELECT * FROM activity WHERE activity_id = ?", (activity_id,))
+            self.cursor.execute("SELECT * FROM activity NATURAL JOIN pets WHERE activity_id = ?", (activity_id,))
             activity = self.cursor.fetchone()
             return activity
         except Exception as e:
