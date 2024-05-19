@@ -1,5 +1,5 @@
 
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox, QFrame
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox, QFrame, QMessageBox
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QCursor
 from utils.font import *
@@ -100,7 +100,7 @@ class MainFoodView(QWidget):
         food_list_label.setContentsMargins(0, 0, 0, 0)
         main_content_layout.addWidget(food_list_label)
 
-        note_label = QLabel("Tekan nama makanan untuk mengubah")
+        note_label = QLabel("Tekan nama makanan untuk mengubah,  lalu tekan tombol 'Simpan Update' untuk menyimpan perubahan. Tekan tombol 'Hapus' untuk menghapus makanan.")
         note_label.setStyleSheet('color: #1A646B;')
         note_label.setFont(set_font("regular",12))
         main_content_layout.addWidget(note_label)
@@ -237,7 +237,7 @@ class MainFoodView(QWidget):
             update_button.setFont(set_font("regular",10))
             update_button.setCursor(QCursor(Qt.PointingHandCursor))
             update_button.setFixedHeight(int(getHeight() * 0.05))
-            update_button.clicked.connect(lambda checked, row=i, id=food_id: self.update_food_signal.emit(id, self.food_table.item(row, 0).text()))
+            update_button.clicked.connect(lambda checked, row=i, id=food_id: self.update_food(id, row))
             option_layout.addWidget(update_button)
 
             delete_button = QPushButton("Hapus", self)
@@ -278,12 +278,29 @@ class MainFoodView(QWidget):
         self.set_food(self.original_food_data)
 
     def add_food(self):
+
         food_name = self.food_name_input.text()
+        if not self.validate_food_name(food_name):
+            return
         if food_name:
             self.add_food_signal.emit(food_name)
             self.food_name_input.clear()
     
     def clear_input(self):
         self.food_name_input.clear()
+
+    def validate_food_name(self, food_name):
+        if not food_name.strip():
+            QMessageBox.warning(self, "Invalid Input", "Nama makanan tidak boleh kosong.")
+            return False
+        if len(food_name) > 50:
+            QMessageBox.warning(self, "Invalid Input", "Nama makanan tidak boleh lebih dari 50 karakter.")
+            return False
+        return True
+    
+    def update_food(self, food_id, row):
+        food_name = self.food_table.item(row, 0).text()
+        if self.validate_food_name(food_name):
+            self.update_food_signal.emit(food_id, food_name)
 
 

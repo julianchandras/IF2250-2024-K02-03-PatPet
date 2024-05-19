@@ -1,10 +1,9 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QLabel, QGridLayout, QApplication, QTextEdit, QScrollArea
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QLabel, QGridLayout, QApplication, QTextEdit, QScrollArea, QMessageBox
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPixmap, QCursor
 from components.checkableCombobox import CheckableComboBox
 from utils.font import *
 from utils.screensize import *
-
 
 class AddPetView(QWidget):
     save_pet_signal = pyqtSignal(str, str, int, str, bytes, list)  # Signal to save a new pet
@@ -254,18 +253,48 @@ class AddPetView(QWidget):
                 self.selected_image_data = image_file.read()
 
     def save_pet(self):
-        pet_name = self.name_input.text()
-        species = self.species_input.text()
-        age = int(self.age_input.text())
-        medical_record = self.medical_record_input.toPlainText()
+        pet_name = self.name_input.text().strip()
+        species = self.species_input.text().strip()
+        age_text = self.age_input.text().strip()
+        medical_record = self.medical_record_input.toPlainText().strip()
         image = getattr(self, 'selected_image_data', None)
-
         selected_foods = self.food_list_input.currentData()
+
+        # Input validation
+        if not pet_name:
+            self.show_error_message("Nama harus diisi.")
+            return
+        if not species:
+            self.show_error_message("Jenis hewan harus diisi.")
+            return
+        if not age_text or not age_text.isdigit():
+            self.show_error_message("Umur harus berupa angka yang valid.")
+            return
+        age = int(age_text)
+        if (age < 0):
+            self.show_error_message("Umur harus lebih besar dari 0.")
+            return
+        if not image:
+            self.show_error_message("Gambar harus diunggah.")
+            return
+        if not selected_foods:
+            self.show_error_message("Daftar makanan harus dipilih.")
+            return
+        
+        
         self.save_pet_signal.emit(pet_name, species, age, medical_record, image, selected_foods)  # Emit signal to save pet
+
 
     def set_food(self, food_list):
         self.food_list_input.clear()
         self.food_list_input.addItems(food_list)
+
+    def show_error_message(self, message):
+        error_dialog = QMessageBox()
+        error_dialog.setIcon(QMessageBox.Warning)
+        error_dialog.setWindowTitle("Input Error")
+        error_dialog.setText(message)
+        error_dialog.exec_()
 
     def clear_input(self):
         self.name_input.clear()
