@@ -1,93 +1,138 @@
 # IF2250-2024-K02-03-PatPet
 
+## Overview
+
+![Beranda PatPet](doc/beranda.png "Selamat Datang di Patpet")
+PatPet merupakan aplikasi untuk manajemen dan pemeliharan hewan peliharaan. PatPet dapat menampilkan profil dan biodata setiap hewan peliharaan yang dimiliki. Tidak hanya itu, pengguna juga dapat mencatat seluruh aktivitas hewan peliharaan yang dimiliki dan disajikan dalam bentuk kalendar. Tersedia juga artikel-artikel mengenai hewan dan cara pemeliharaannya.
+
+## Prerequisites
+
+- `Python` 3.X installed
 
 
-## Getting started
+## Setup
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.informatika.org/julianchandras/if2250-2024-k02-03-patpet.git
-git branch -M main
-git push -uf origin main
+### Dependencies
+Untuk melakukan instalasi terhadap library yang digunakan, ketik pada terminal perintah berikut:
+```bash
+pip install -r requirements.txt
 ```
 
-## Integrate with your tools
+### PyTest (Optional)
 
-- [ ] [Set up project integrations](https://gitlab.informatika.org/julianchandras/if2250-2024-k02-03-patpet/-/settings/integrations)
+Untuk melakukan unit test, ketik pada terminal perintah berikut:
+```bash
+pytest
+```
 
-## Collaborate with your team
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## Menjalankan Aplikasi
 
-## Test and Deploy
 
-Use the built-in continuous integration in GitLab.
+1. Pastikan seluruh dependencies telah di-install dan berada pada directory 'IF2250-2024-K02-03-PatPet'
+2. Untuk menjalankan aplikasi, ketik pada terminal perintah berikut:
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```bash
+py src/main.py
+```
 
-***
+## Daftar Modul
 
-# Editing this README
+### Modul Pengolahan Hewan
+Pengguna dapat melihat detail dari hewan yang dipeliharanya, termasuk menambah hewan peliharaan baru dan mengubah detail informasi dari hewan yang dipeliharanya.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+![detail_hewan](doc/detail_hewan.png)
+![tambah_hewan](doc/tambah_hewan.png)
+![edit_hewan](doc/edit_hewan.png)
 
-## Suggestions for a good README
+### Modul Pengolahan Aktivitas
+Pengguna dapat mencatat aktivitas hewan peliharaanya, termasuk jadwal kegiatan yang berulang. Pengguna dapat melihat catatan jadwalnya di dalam bentuk kalender, termasuk melihatnya di laman utama.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+![jadwal](doc/jadwal.png)
+![edit_jadwal](doc/edit_jadwal.png)
 
-## Name
-Choose a self-explaining name for your project.
+### Modul Pengolahan Makanan
+Pengguna dapat mendaftarkan makanan baru yang dimakan oleh hewan peliharaannya. Pengguna juga dapat melihat hewan dengan makanan yang sama (pada tampilan filter).
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+![daftar_makanan](doc/daftar_makanan.png)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Modul Pengolahan Artikel
+Pengguna dapat membaca artikel terkait dengan pemeliharaan hewan peliharaan.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+![artikel](doc/artikel.jpg)
+![detail_artikel](doc/detail_artikel.jpg)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### Modul Penampilan
+Pengguna dapat melihat tampilan aplikasi secara umum terkait hewan peliharaan serta detail profil mereka, makanan, dan jadwal kegiatan hewan peliharaan.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+![beranda](doc/beranda.png)
+![filter](doc/filter.png)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Struktur Database
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### 1. Activity
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+| Field        | Type    | Null | Key | Default | Extra          |
+| ------------ | ------- | ---- | --- | ------- | -------------- |
+| activity_id  | INT     | NO   | PRI | NULL    | auto_increment |
+| activity_name  | TEXT    | YES   |     | NULL    |
+| activity_date      | DATE    | YES   |     | NULL    |
+| start_time      | TIME    | YES  |     | NULL    |
+| end_time | TIME    | YES   |     | NULL    |
+| pet_id | INT    | YES   | MUL | NULL    | 
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### 2. Articles
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+| Field         | Type    | Null | Key | Default | Extra          |
+| ------------- | ------- | ---- | --- | ------- | -------------- |
+| article_id    | INT | NO   | PRI | NULL    | auto_increment |
+| title         | TEXT    | NO   |     | NULL    |
+| content      | TEXT    | NO   |     | NULL    |
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### 3. Foods
 
-## License
-For open source projects, say how it is licensed.
+| Field        | Type    | Null | Key | Default | Extra                                               |
+| ------------ | ------- | ---- | --- | ------- | --------------------------------------------------- |
+| food_id      | INT | NO   | PRI | NULL    | auto_increment                                      |
+| food_name        | TEXT    | NO   |     | NULL    |
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### 4. Pet
+
+| Field    | Type    | Null | Key | Default | Extra          |
+| -------- | ------- | ---- | --- | ------- | -------------- |
+| pet_id | INT | NO   | PRI | NULL    | auto_increment |
+| pet_name     | TEXT    | NO   |     | NULL    |
+| species     | TEXT    | NO   |     | NULL    |
+| age     | INT    | NO   |     | NULL    |
+| medical_record     | TEXT    | NO   |     | NULL    |
+| image     | BLOB    | NO   |     | NULL    |
+
+### 5. Pet Food
+
+| Field     | Type    | Null | Key | Default | Extra                        |
+| --------- | ------- | ---- | --- | ------- | ---------------------------- |
+| pet_food_id | INT  | NO   | PRI | NULL    | auto_increment|
+| pet_id  | INT | YES   | MUL | NULL    |   |
+| food_id  | INT | YES   | MUL | NULL    |   |
+
+## Authors & Contributions
+
+### Authors
+
+| NIM      | Name                          | GitHub                                              |
+| -------- | ----------------------------- | --------------------------------------------------- |
+| 13522042 | Amalia Putri                  | [amaliap21](https://github.com/amaliap21)           |
+| 13522048 | Angelica Kierra Ninta Gurning | [angiekierra](https://github.com/angiekierra)       |
+| 13522058 | Imanuel Sebastian Girsang     | [ImanuelSG](https://github.com/ImanuelSG)           |
+| 13522080 | Julian Chandra Sutadi         | [julianchandras](https://github.com/julianchandras) |
+| 13522108 | Muhammad Neo Cicero Koda      | [neokoda](https://github.com/neokoda)               |
+| 10023457 | Habibi	Galang Trianda         |                                                     |
+
+### Contributions
+
+| NIM      | Contributions                             |
+| -------- | ----------------------------------------- |
+| 13522048 | Beranda, Aktivitas page, unittest        |
+| 13522058 | Hewan page, model, controller, unittest      |
+| 13522080 | Article page, unittest   |
+| 13522108 | Beranda, Food page, unittest           |
